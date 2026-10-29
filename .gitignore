@@ -1,0 +1,28 @@
+# Antigravity Runtime & Dynamic Sessions
+antigravity/brain/
+antigravity/conversations/
+antigravity/file-history/
+antigravity/tasks/
+antigravity/workspace-index/
+antigravity/shell-snapshots/
+scripts/logs/*.log
+config/skill-usage.json
+
+# Local MCP secrets & env
+config/mcp_config.json
+.env
+*.local
+
+# Backups
+*.backup*
+*.bak
+
+# Windows / OS metadata
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor directories
+.vscode/
+.idea/

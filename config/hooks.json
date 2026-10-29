@@ -1,0 +1,72 @@
+{
+  "autonomous-gate": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\mcp-auth-keeper-safe.js"
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\session-end-cleanup.js"
+      }
+    ]
+  },
+  "file-history": {
+    "PreToolUse": [
+      {
+        "matcher": "edit_file|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\file-history-hook.js",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "workspace-indexer": {
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\workspace-indexer-hook.js",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "skill-telemetry": {
+    "PreToolUse": [
+      {
+        "matcher": "read_file|invoke_subagent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\skill-telemetry-hook.js",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostic-watchdog": {
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\diagnostic-watchdog-hook.js",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
