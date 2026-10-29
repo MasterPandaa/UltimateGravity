@@ -41,6 +41,7 @@ timeline
 Generasi ke-4 menandai pembersihan total *bloatware* birokrasi subagent dan restrukturisasi sistem ke efisiensi puncak berstandar *Anthropic Applied AI (Effective Agents)*.
 
 #### ✨ Ditambahkan / Dirombak (Added & Refactored)
+- **Distribusi Resmi Repositori GitHub (UltimateGravity)**: Seluruh arsitektur, 3 role agen, 38 skills, 4 plugins, 14 CLI tools, dan skrip auto-installer dipaketkan dan dirilis ke repositori publik: [https://github.com/MasterPandaa/UltimateGravity](https://github.com/MasterPandaa/UltimateGravity).
 - **Tri-Role Spesialis Utama ([GEMINI.md](file:///C:/Users/Luthfi/.gemini/GEMINI.md#L9-L43))**:
   1. [`fullstack-developer`](file:///C:/Users/Luthfi/.gemini/config/agents/fullstack-developer.md): Menguasai frontend craft (React/Next.js/Tailwind), clean layered backend, ORM & query profiling (`sql-optimization`), dan bedah tipe presisi minimalis (`karpathy-guidelines`).
   2. [`qa-engineer`](file:///C:/Users/Luthfi/.gemini/config/agents/qa-engineer.md): Menangani heuristik BVA/EP/Decision Table (`qa-skills`), Playwright headless CLI automation (`playwright-cli`), investigasi akar masalah 4 langkah (`diagnosing-bugs`), dan audit keamanan OWASP (`security-audit`).
