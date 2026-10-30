@@ -7,11 +7,19 @@ antigravity/workspace-index/
 antigravity/shell-snapshots/
 scripts/logs/*.log
 config/skill-usage.json
+config/mad-rsi-failures.json
 
 # Local MCP secrets & env
 config/mcp_config.json
 .env
 *.local
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
 
 # Backups
 *.backup*

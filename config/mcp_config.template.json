@@ -55,27 +55,12 @@
         "https://mcp.firecrawl.dev/v2/mcp-oauth"
       ]
     },
-    "deepsource": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.deepsource.com/mcp"
-      ]
-    },
     "supabase": {
       "command": "npx",
       "args": [
         "-y",
         "mcp-remote",
         "https://mcp.supabase.com/mcp"
-      ]
-    },
-    "phoenix": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@arizeai/phoenix-mcp@latest"
       ]
     }
   }

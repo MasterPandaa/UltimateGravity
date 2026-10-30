@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viewport Tester</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f4f5f7; --panel:#fff; --fg:#1d2129; --muted:#66707f; --line:#d5d9e0; --accent:#1a73e8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14171c; --panel:#1d2128; --fg:#e8eaed; --muted:#9aa3b2; --line:#323945; --accent:#6aa8ff; } }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.4 system-ui,sans-serif; background:var(--bg); color:var(--fg); }
+  header { position:sticky; top:0; z-index:10; display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; padding:.6rem .8rem; background:var(--panel); border-bottom:1px solid var(--line); }
+  header label { display:flex; align-items:center; gap:.35rem; color:var(--muted); }
+  input, select, button { font:inherit; color:var(--fg); background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:.35rem .55rem; min-height:2rem; }
+  input[type=number] { width:5.2rem; }
+  input#url { flex:1 1 16rem; min-width:10rem; }
+  button { cursor:pointer; }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  button[aria-pressed="true"] { outline:2px solid var(--accent); }
+  .info { margin-left:auto; color:var(--muted); font-variant-numeric:tabular-nums; }
+  main { padding:1rem; }
+  #single { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+  .frame-wrap { position:relative; background:#fff; box-shadow:0 2px 14px rgb(0 0 0 / .25); border-radius:4px; overflow:hidden; }
+  .frame-wrap iframe { position:absolute; top:0; left:0; border:0; transform-origin:0 0; background:#fff; }
+  #matrix { display:none; flex-wrap:wrap; gap:1rem; align-items:flex-start; }
+  figure { margin:0; } figcaption { color:var(--muted); font-size:12px; margin-bottom:.25rem; }
+  .note { max-width:60rem; margin:.75rem auto 0; color:var(--muted); font-size:12px; }
+  .empty { display:grid; place-items:center; height:100%; color:#666; font-size:14px; background:#fafafa; text-align:center; padding:1rem; }
+</style>
+</head>
+<body>
+<header>
+  <input id="url" type="text" placeholder="URL atau path (mis. http://localhost:3000 atau ./index.html)" aria-label="URL">
+  <button id="load" class="primary">Muat</button>
+  <label>Preset <select id="preset" aria-label="Preset"></select></label>
+  <label>W <input id="w" type="number" min="200" max="8000" value="390"></label>
+  <label>H <input id="h" type="number" min="200" max="8000" value="844"></label>
+  <button id="rotate" title="Tukar lebar dan tinggi">Rotasi</button>
+  <button id="fit" aria-pressed="true" title="Skala agar muat di layar">Fit</button>
+  <button id="mode" aria-pressed="false" title="Tampilkan banyak ukuran sekaligus">Mode matriks</button>
+  <span class="info" id="info"></span>
+</header>
+<main>
+  <div id="single"><div class="frame-wrap" id="wrap"><div class="empty">Masukkan URL lalu klik <b>Muat</b>.</div></div></div>
+  <div id="matrix"></div>
+  <p class="note">
+    Catatan: ini hanya meniru <b>lebar dan tinggi</b> viewport (media query berbasis lebar, unit vw/dvh bereaksi benar);
+    tidak meniru DPR, sentuh, safe-area, atau perilaku toolbar browser mobile. Situs yang mengirim header
+    <code>X-Frame-Options</code>/<code>frame-ancestors</code> tidak bisa ditampilkan di sini. File lokal (<code>file://</code>)
+    biasanya bisa; jika diblokir, jalankan server lokal (mis. <code>python3 -m http.server</code>). Untuk uji lengkap
+    gunakan <code>scripts/screenshot_matrix.py</code> dan perangkat nyata.
+  </p>
+</main>
+<script>
+  const PRESETS = [
+    ["HP kecil 360x640", 360, 640], ["HP 390x844", 390, 844], ["HP besar 430x932", 430, 932],
+    ["HP landscape 844x390", 844, 390], ["Lipat terbuka 717x512", 717, 512],
+    ["Tablet 768x1024", 768, 1024], ["Tablet 820x1180", 820, 1180], ["Tablet landscape 1024x768", 1024, 768],
+    ["Laptop 1366x768", 1366, 768], ["Laptop 1440x900", 1440, 900], ["Desktop FHD 1920x1080", 1920, 1080],
+    ["TV 720p 1280x720", 1280, 720], ["TV 960x540 (@2x)", 960, 540], ["QHD 2560x1440", 2560, 1440],
+    ["Ultrawide 3440x1440", 3440, 1440], ["4K 3840x2160", 3840, 2160], ["Sempit 320x568", 320, 568]
+  ];
+  const MATRIX = [[360,640],[390,844],[844,390],[768,1024],[1024,768],[1366,768],[1920,1080],[3440,1440]];
+  const $ = id => document.getElementById(id);
+  const urlEl = $('url'), wEl = $('w'), hEl = $('h'), preset = $('preset');
+  let fit = true, matrixMode = false, currentUrl = '';
+
+  PRESETS.forEach(([n, w, h], i) => preset.add(new Option(n, i)));
+  preset.value = 1;
+
+  const normalize = v => {
+    v = v.trim(); if (!v) return '';
+    if (/^[a-z]+:\/\//i.test(v)) return v;
+    if (/^(localhost|127\.|\d+\.\d+\.\d+\.\d+)/.test(v)) return 'http://' + v;
+    if (/^[\w-]+(\.[\w-]+)+(\/|$)/.test(v) && !/\.(html?|php)$/i.test(v)) return 'https://' + v;
+    return v; // path relatif/file
+  };
+
+  function makeFrame(w, h, scale, url) {
+    const wrap = document.createElement('div');
+    wrap.className = 'frame-wrap';
+    wrap.style.width = Math.round(w * scale) + 'px';
+    wrap.style.height = Math.round(h * scale) + 'px';
+    if (!url) { wrap.innerHTML = '<div class="empty">Masukkan URL lalu klik <b>Muat</b>.</div>'; return wrap; }
+    const f = document.createElement('iframe');
+    f.src = url; f.width = w; f.height = h; f.title = `Pratinjau ${w}x${h}`;
+    f.style.width = w + 'px'; f.style.height = h + 'px';
+    f.style.transform = `scale(${scale})`;
+    wrap.appendChild(f);
+    return wrap;
+  }
+
+  function render() {
+    const w = Math.max(200, +wEl.value || 390), h = Math.max(200, +hEl.value || 844);
+    $('matrix').style.display = matrixMode ? 'flex' : 'none';
+    $('single').style.display = matrixMode ? 'none' : 'flex';
+    if (matrixMode) {
+      const box = $('matrix'); box.innerHTML = '';
+      const avail = Math.max(280, innerWidth - 40);
+      MATRIX.forEach(([mw, mh]) => {
+        const s = Math.min(1, Math.min(avail, 420) / mw, 300 / mh);
+        const fig = document.createElement('figure');
+        const cap = document.createElement('figcaption'); cap.textContent = `${mw}x${mh}`;
+        fig.append(cap, makeFrame(mw, mh, s, currentUrl));
+        box.appendChild(fig);
+      });
+      $('info').textContent = `${MATRIX.length} ukuran`;
+      return;
+    }
+    const availW = innerWidth - 40, availH = innerHeight - 140;
+    const s = fit ? Math.min(1, availW / w, availH / h) : 1;
+    const single = $('single'); single.innerHTML = '';
+    single.appendChild(makeFrame(w, h, s, currentUrl));
+    $('info').textContent = `${w}x${h} · skala ${Math.round(s * 100)}% · rasio ${(w / h).toFixed(2)}`;
+  }
+
+  preset.onchange = () => { const [, w, h] = PRESETS[+preset.value]; wEl.value = w; hEl.value = h; render(); };
+  [wEl, hEl].forEach(e => e.oninput = render);
+  $('rotate').onclick = () => { [wEl.value, hEl.value] = [hEl.value, wEl.value]; render(); };
+  $('fit').onclick = e => { fit = !fit; e.currentTarget.setAttribute('aria-pressed', fit); render(); };
+  $('mode').onclick = e => { matrixMode = !matrixMode; e.currentTarget.setAttribute('aria-pressed', matrixMode); render(); };
+  $('load').onclick = () => { currentUrl = normalize(urlEl.value); render(); };
+  urlEl.onkeydown = e => { if (e.key === 'Enter') $('load').click(); };
+  addEventListener('resize', render);
+
+  const qp = new URLSearchParams(location.search);
+  if (qp.get('url')) { urlEl.value = qp.get('url'); currentUrl = normalize(urlEl.value); }
+  render();
+</script>
+</body>
+</html>

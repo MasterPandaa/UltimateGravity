@@ -7,35 +7,119 @@ Dokumen ini merekam secara kronologis dan komprehensif seluruh rekayasa arsitekt
 ## 🧭 Ringkasan Garis Waktu Evolusi Sistem
 
 ```mermaid
-timeline
-    title Garis Waktu Rekayasa Arsitektur Antigravity
-    section Generasi 1 : v1.0
-        12 Bijuu Squad Swarm : 80 Master Skills
-        : 12 MCP Integrations : Context Bloat & Over-Engineering
-    section Generasi 2 : v2.0
-        Research & Papers : Google Research RRSI
-        : ZJU REAL PaperGym : Rederive Socratic Engine
-        : Social Media Formulas : @7thco.ui 7 Rules
-        : UX/UI Brainy 3-Pillar Error : Bloom Filter Cache Defense
-        : Multi-Agent Git Foremerge : Browser-Harness Hierarchy
-    section Generasi 3 : v3.0
-        Absorpsi Arsitektur Qoder : Continuous File History & Rewind
-        : Persistent PowerShell Shell (agy-exec) : Task DAG State Machine
-        : Incremental Workspace Indexer : Local Skill Telemetry Hook
-    section Generasi 3.5 : v3.5
-        Absorpsi Fitur Devin (Native) : Diagnostic Watchdog Hook
-        : Step Checkpointing Engine : Live Browser Dev Sentinel (Edge)
-        : Rust fd.exe Scanning : Low-RAM (<30 MB) Isolation
-    section Generasi 4 (Current) : v4.0
-        Tri-Role Autonomous System : Fullstack, QA, Data Engineer
-        : Solo Direct Mode Default : Progressive Disclosure
-        : Strict 3 Context Anchors : 4 Mandatory UI States
-        : EGM Swarm Audits : Lean Meta-Governance GEMINI.md
+flowchart TD
+    subgraph P1 ["Fase 1: Eksplorasi & Fondasi (23–26 Okt 2026)"]
+        direction LR
+        G1["<b>Gen 1 (v1.0.0)</b> - 23 Okt<br/>• 12 Bijuu Squad Swarm<br/>• 80 Master Skills & 12 MCP<br/>• <i>Issue: Context Bloat</i>"]
+        --> G15["<b>Gen 1.5 (v1.5.0)</b> - 24 Okt<br/>• 7 Design Rules & 8pt Grid<br/>• 3-Pilar Error Microcopy<br/>• Bloom Filter & Agent-Reach"]
+        --> G2["<b>Gen 2 (v2.0.0)</b> - 24–26 Okt<br/>• Google RRSI & PaperGym<br/>• Rederive Socratic Engine<br/>• Foremerge Intent & Escalation"]
+    end
+
+    subgraph P2 ["Fase 2: Adopsi Fitur Unggulan Platform Global (28–29 Okt 2026)"]
+        direction LR
+        G3["<b>Gen 3 (v3.0.0) — Qoder</b> - 28 Okt<br/>• Continuous File Rewind<br/>• agy-exec Persistent Shell<br/>• Task DAG & Workspace Indexer"]
+        --> G35["<b>Gen 3.5 (v3.5.0) — Devin</b> - 29 Okt<br/>• Diagnostic Watchdog Hook<br/>• Step Checkpoint Engine<br/>• Live Browser Sentinel (Edge)"]
+        --> G4["<b>Gen 4 (v4.0.0) — UltimateGravity</b> - 29 Okt<br/>• Kelahiran Tri-Role System<br/>• Anthropic Applied AI Folding<br/>• Solo Direct Mode Default"]
+    end
+
+    subgraph P3 ["Fase 3: Konsolidasi, Frontier Self-Evolution & Governance (30–31 Okt 2026)"]
+        direction LR
+        G45["<b>Gen 4.5 (v4.5.0) — Lean Pruning</b> - 30 Okt<br/>• System Prune (-356MB RAM / -25k Token)<br/>• Qoder Forensic Trio (The Iron Law)<br/>• Cognitive Inquiry Compass (5 Kuadran)<br/>• Responsive-Fixer Multi-Device"]
+        --> G5["<b>Gen 5 (v4.6.0) — Frontier & Canonical Governance</b> - 31 Okt<br/>• Harness-Zero Distiller (L0 &le; 60)<br/>• Google RRSI & MaD-RSI 5-Gate<br/>• EverMind-AI Raven DAG & Barrier<br/>• HELIX Modular Substrate<br/>• <b>Kanonikal SoC (Rules/Skills/Hooks)</b><br/>• <b>Cross-Session Supermemory Anchoring</b>"]
+    end
+
+    P1 --> P2 --> P3
 ```
 
 ---
 
-## [v4.0.0] - 2026-10-29 (Current Live Architecture)
+## [v4.6.0] - 2026-10-31 (Current Live Architecture)
+### ⚡ Siklus Penuh Frontier Self-Evolving Agent & Tata Kelola Kanonikal Antigravity 2.0: Harness-Zero, Google RRSI, MaD-RSI, EverMind-AI/Raven, Substrat HELIX, & Supermemory Anchoring
+
+Pembaruan kanonikal v4.6.0 (2026-10-31) menuntaskan integrasi komprehensif atas seluruh gugus riset arsitektur agen otonom terkini tahun 2026 ke dalam ekosistem Antigravity 2.0. Pembaruan ini menggabungkan penyulingan instruksi hemat token, regulasi matematis 5 gembok anti-overfitting, orkestrasi subagent paralel terisolasi, serta substrat ketertelusuran modular yang sepenuhnya bebas dari konsumsi memori daemon latar belakang.
+
+#### ✨ Modul & Kapabilitas yang Ditambahkan (Added)
+
+1. **Fase 1: Harness-Zero Distiller & Session Discovery Engine (arXiv:2609.24972)**:
+   - **Engine CLI Mandiri ([`scripts/harness-distiller.js`](file:///C:/Users/Luthfi/.gemini/scripts/harness-distiller.js))**:
+     - Subcommand `scan`: Memindai log percakapan aktif (`transcript.jsonl`), mengidentifikasi tingkat kegagalan tool, command exit code $\ne 0$, signature exception, serta mendeteksi berkas dengan frekuensi sentuhan tinggi (*high-churn files* $\ge 4$) untuk mendiagnosis titik friksi kerja.
+     - Subcommand `distill`: Menyusun draf skill berformat Antigravity `.agents` / `SKILL.md` dengan penegakan anggaran baris ketat $L_0 \le 60$ baris serta memisahkan logika deterministik ke skrip eksternal (*Code-as-Agent-Harness*).
+     - Subcommand `verify`: Memvalidasi integritas YAML frontmatter (mencegah bug unquoted bracket parser) dan memindai kamus kata terlarang *AI slop*.
+   - **Skill Global Baru ([`config/skills/harness-distiller/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/harness-distiller/SKILL.md))**: Spesifikasi skill 45 baris, 100% lolos verifikasi format dan anggaran baris $L_0$.
+
+2. **Fase 2: Google RRSI & MaD-RSI 5-Gate Regularizer (Google Research & arXiv:2610.28201)**:
+   - **Engine Evaluator Mandiri ([`scripts/rrsi-evaluator.js`](file:///C:/Users/Luthfi/.gemini/scripts/rrsi-evaluator.js))**:
+     - **Gate 1 ($L_0$ Budget Gate)**: Membatasi panjang teks instruksi ($\le 60$ baris baru, $\le 20$ baris diferensial) guna mencegah refaktor liar.
+     - **Gate 2 (Pre-Eval Leakage Critic)**: Memindai dan memblokir tiruan pengujian (*test mocks*), jalan pintas semu (`return true; // bypass`), dan fungsi kosong (*inert machinery*).
+     - **Gate 3 (Noise Safety Floor Gate)**: Memastikan skor kandidat $S'$ tidak jatuh di bawah ambang batas toleransi stochastic noise baseline: $S' \ge S^* - \delta$ ($\delta = 0.05$).
+     - **Gate 4 (Token-ROI Cost Gate)**: Menolak mutasi yang membengkakkan token tanpa peningkatan skor nyata ($\Delta C \le \beta_0 + \beta_1 \Delta S$).
+     - **Gate 5 (Cross-Model Invariant Filter)**: Memindai draf instruksi terhadap tag hak milik model tertentu (`<|im_start|>`, `<|thought|>`, `[INST]`) dan kalimat kondisional ("as Claude", "if you are Gemini") untuk menjamin netralitas dan portabilitas penuh saat pengguna berganti model (Gemini 3.8 Flash, Claude Sonnet Thinking, DeepSeek, Qwen).
+   - **MaD-RSI Multi-Model Failure Matrix**:
+     - Subcommand `record-failure` & `failure-matrix` dengan persistensi [`config/mad-rsi-failures.json`](file:///C:/Users/Luthfi/.gemini/config/mad-rsi-failures.json) untuk mengklasifikasikan secara empiris antara *Universal Harness Defect* ($\ge 2$ model mengalami error sama) vs *Model-Specific Quirk*.
+   - **Skill Global Baru ([`config/skills/rrsi-evaluator/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/rrsi-evaluator/SKILL.md))**: Spesifikasi skill 44 baris yang memuat protokol 5-Gate dan audit kegagalan multi-LLM.
+
+3. **Fase 3: EverMind-AI / Raven Multi-Agent Execution Plane & Context-Bleed Barrier**:
+   - **Engine Dispatcher Mandiri ([`scripts/raven-dispatcher.js`](file:///C:/Users/Luthfi/.gemini/scripts/raven-dispatcher.js))**:
+     - Subcommand `plan`: Memecah tugas rekayasa kompleks ke dalam Directed Acyclic Graph (DAG) bebas tabrakan (*collision-free*), memetakan domain ke tiga spesialis inti Antigravity (`fullstack-developer`, `qa-engineer`, `data-engineer`) dengan partisi berkas eksklusif (*disjoint file ownership*), isolasi workspace (`Workspace: 'branch'`), dan injeksi otomatis blok `[MANDATORY STEP 0 - COMPLEMENTARY SKILLS INGESTION GATE]`.
+     - Subcommand `synthesize`: Mengonsolidasikan laporan dan artefak dari subagent branch menjadi satu rangkuman tingkat tinggi tanpa membocorkan ratusan baris log terminal mentah ke *context window* agen utama (*Context-Bleed Barrier*).
+   - **Skill Global Baru ([`config/skills/raven-dispatcher/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/raven-dispatcher/SKILL.md))**: Spesifikasi skill 39 baris yang lolos audit 5 Gembok RRSI.
+
+4. **Substrat Modular & Silsilah Lacak HELIX (Fan & Huang, HKU - Agustus 2026)**:
+   - Mengadopsi prinsip *Reusable Atoms* (katalog skill mandiri), *Typed Ports* (kontrak masukan-keluaran deterministik), dan *Recipes* (tata kelola [`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md) serta ketertelusuran silsilah di [`CHANGELOG.md`](file:///C:/Users/Luthfi/.gemini/CHANGELOG.md)).
+   - Memastikan bahwa setiap komponen dapat dipangkas secara presisi tanpa menimbulkan regresi fungsi pada bagian lain.
+
+5. **Pembaruan Tata Kelola ([`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md))**:
+   - Menambahkan `harness-distiller`, `rrsi-evaluator`, dan `raven-dispatcher` ke dalam *Shared Platform & Resilience Layer* (Bagian 1).
+   - Memperbarui Bagian 2.C (*Subagent Squad Mode*) dengan protokol partisi file eksklusif dan isolasi branch Raven.
+   - Mengesahkan *Prinsip Satu Tanggal Satu Versi* pada Bagian 7.
+
+6. **Standardisasi Kanonikal Arsitektur Antigravity 2.0 (Audit Dokumen Web Claude Sonnet & Gemini Argon)**:
+   - **Pemisahan Tanggung Jawab (SoC) Tiga Pilar**: Menetapkan batas tegas antara Rules (invarian/keamanan), Skills (SOP on-demand/semantic routing via frontmatter YAML $\le 400$ karakter), dan Hooks (`hooks.json` untuk linter/formatter deterministik).
+   - **Klarifikasi Batas Sistem vs Heuristik**: Mengoreksi mitos hard limit 150 baris menjadi *soft attention heuristic* ($60-120$ baris ideal, max 150-200 baris), serta mengonfirmasi batas teknis resmi Antigravity (24 KB per file rule dan aggregate rules budget 20.000 token).
+   - **Pencegahan Double Enforcement Deadlock & Anti-Sprawl**: Sinkronisasi perintah wajib rules ke dalam allowlist harness, pembatasan katalog skill aktif ke 10–25 unit, serta larangan rantai referensi mendalam (*no deep chaining* $> 1$ hop).
+   - **Sinkronisasi Memori Jangka Panjang**: Pengesahan kanonikal ke persistent memory (`supermemory` document ID `o1n8mWKKTRzsMENwCyBNpL`) dan pengukuhan Bagian 2.E pada [`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md).
+
+---
+
+## [v4.5.0] - 2026-10-30
+### 🏛️ Total System Pruning, Forensik Qoder, Repo Wiki, Standardisasi Guidelines, & Tata Kelola Tri-Role System
+
+Pembaruan kanonikal v4.5.0 (2026-10-30) merangkum seluruh konsolidasi arsitektural yang dieksekusi sepanjang hari, mencakup pembersihan total (*extreme pruning*) atas tumpukan MCP dan subagent yang tidak terpakai, penyerapan instrumen forensik Qoder, pembangunan Repo Wiki, standardisasi dokumen panduan pengguna, perbaikan tata letak multi-perangkat, serta perumusan Kompas Kognitif 5 Kuadran.
+
+#### ✨ Rangkuman Modul & Peningkatan Sepanjang Hari (Consolidated Modules)
+
+1. **Total System Pruning: Deflasi Token (~25.000 Token) & Pembebasan RAM (~356 MB)**:
+   - **Eliminasi 4 Server MCP Mati**: Menghentikan proses idle dan mengarsipkan `rea` (82 tools), `phoenix` (17 tools), `deepsource` (32 tools), dan `openbrowser` (Python runner), memulihkan ~356 MB RAM fisik dan menutup celah keamanan eksekusi kode arbitrer.
+   - **Pengarsipan Plugin EGM**: Memindahkan plugin Elephant-Goldfish-Model ke arsip, mengeliminasi 9 subagent birokrasi waterfall dan 7 skills EGM untuk mengembalikan sistem murni ke **Tri-Role Inti (`fullstack-developer`, `qa-engineer`, `data-engineer`)**.
+   - **Pembersihan 18 Skill Redundan**: Mengarsipkan skill mati dan merestorasi secara selektif 6 skill berdaya guna tinggi (`typescript-pro`, `anti-slop`, `karpathy-guidelines`, `powershell-windows-patterns`, `api-contract-design`, `tdd`) menghasilkan katalog ramping **31 skills esensial**.
+
+2. **Penyerapan Trio Skills Forensik Qoder & Penegakan Etika Integritas Tes**:
+   - **The Iron Law of Verification ([`verification-before-completion/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/verification-before-completion/SKILL.md))**: Larangan mutlak menyatakan selesai sebelum membuktikan hasil dengan fresh command exit code 0.
+   - **Windows Native Memory Leak Detector ([`memory-leak-detector/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/memory-leak-detector/SKILL.md))**: Profiler kebocoran GDI/USER handles, VirtualAlloc bloat via VMMap, UMDH, dan Electron/Node heap snapshot.
+   - **Pembersihan Anti-Pattern Pengujian ([`test-antipatterns/SKILL.md`](file:///C:/Users/Luthfi/.gemini/config/skills/test-antipatterns/SKILL.md))**: Purger tes rapuh, flaky tests, assertion roulette, dan overmocking.
+   - **Etika QA Engineer**: Penegakan larangan mutlak melemahkan test suite hanya agar terlihat hijau.
+
+3. **Repo Wiki Architecture Engine & Sanitasi Kredensial ([`repo-wiki.js`](file:///C:/Users/Luthfi/.gemini/scripts/repo-wiki.js))**:
+   - Pemindai topologi repositori bertenaga Rust `fd.exe` (< 300ms) yang menghasilkan ringkasan arsitektur terstruktur di `.agents/REPO_WIKI.md` dengan penghematan 15.000–35.000 token per orientasi proyek.
+   - Menghapus 13 blok perintah raksasa di `config.json` yang memuat referensi token plaintext GitHub, menutup celah kebocoran token 100%.
+
+4. **Universal Cognitive Inquiry Compass ([`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md#L130-L153))**:
+   - Kerangka kerja 5 kuadran (Harus Tanya, Butuh Pendapat, Tanya Preferensi, Tanya Selera, Dilarang Tanya/Eksekusi Mandiri) berbasis widget interaktif 1-klik native `ask_question` untuk menangani *lazy prompts* tanpa tebakan buta.
+
+5. **Standardisasi Output Dokumen Panduan Pengguna (Guidelines Mandiri)**:
+   - Penegakan guardrail pada [`.agents/rules/qa-inspector.md`](file:///d:/laragon/www/Project-Mazda/.agents/rules/qa-inspector.md) dan [`.agents/skills/qa-inspection/SKILL.md`](file:///d:/laragon/www/Project-Mazda/.agents/skills/qa-inspection/SKILL.md) §8.10: setiap panduan pengguna wajib berformat Markdown `.md` mandiri di `qa/Doc/Guideline/Markdown/` dan 100% bebas dari kode program teknis.
+   - Perilisan panduan operasional Modul Stock Yard Versi 2 ([`GUIDELINE_STOCK_YARD_V2.md`](file:///d:/laragon/www/Project-Mazda/qa/Doc/Guideline/Markdown/GUIDELINE_STOCK_YARD_V2.md)).
+
+6. **Integrasi Skill 'responsive-fixer' Multi-Perangkat ([`config/skills/responsive-fixer`](file:///C:/Users/Luthfi/.gemini/config/skills/responsive-fixer/SKILL.md))**:
+   - Dilengkapi pemindai statis `scripts/audit_responsive.py` (26 aturan anti-pattern layout), otomasi Playwright `scripts/screenshot_matrix.py` lintas 8–16 viewport dengan deteksi overflow layout, dan resep layout CSS modern anti-band-aid.
+
+7. **Standar Pelipatan Subagent Anthropic & Watermarks-Remover Sanitizer**:
+   - Penegakan *Anthropic Applied AI Folding Principle* di `GEMINI.md` (Solo Direct Mode sebagai default utama; pelipatan subagent).
+   - Script launcher [`clean-file.ps1`](file:///C:/Users/Luthfi/.gemini/scripts/clean-file.ps1) dan hook otomatis [`auto-watermark-sanitizer-hook.js`](file:///C:/Users/Luthfi/.gemini/scripts/auto-watermark-sanitizer-hook.js) untuk membersihkan metadata C2PA, EXIF, dan steganografi Unicode dari artefak secara transparan.
+
+---
+
+## [v4.0.0] - 2026-10-29
 ### 🏛️ Rekonstruksi Tri-Role Autonomous Engineering & Anthropic Applied AI Standard
 
 Generasi ke-4 menandai pembersihan total *bloatware* birokrasi subagent dan restrukturisasi sistem ke efisiensi puncak berstandar *Anthropic Applied AI (Effective Agents)*.
@@ -205,3 +289,8 @@ Fase inisiasi arsitektur otonom terdistribusi dengan standarisasi kontrak dan MC
 | **Social Media UI** | @7thco.ui & UX/UI Brainy | [`shadcn-ui`](file:///C:/Users/Luthfi/.gemini/config/skills/shadcn-ui/SKILL.md) & [`clean-code-fullstack`](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/SKILL.md) | 8pt rhythm, off-black palette, 4 UI states, dan 3-pilar actionable error microcopy. |
 | **Social Scraping** | Reddit/X/YT Jina | [`agent-reach`](file:///C:/Users/Luthfi/.gemini/config/skills/agent-reach/SKILL.md) | Ekstraksi terstruktur multi-platform media sosial tanpa kebutuhan kredensial API berbayar. |
 | **Core Architecture** | Anthropic Applied AI | [`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md) & Tri-Role Agents | Solo Direct Mode utama; subagent terlipat (*folded*) untuk efisiensi token & kecepatan. |
+| **System Lean Pruning** | Extreme Token/RAM Deflation | [`mcp_config.json`](file:///C:/Users/Luthfi/.gemini/config/mcp_config.json) & [`config/archive`](file:///C:/Users/Luthfi/.gemini/config/archive) | -25.000 token leak, -356 MB RAM recovery, 9 subagent bloat removed, 18 dead skills archived. |
+| **Harness Distillation** | Harness-Zero (PKU/Google) | [`harness-distiller.js`](file:///C:/Users/Luthfi/.gemini/scripts/harness-distiller.js) & [`harness-distiller`](file:///C:/Users/Luthfi/.gemini/config/skills/harness-distiller/SKILL.md) | Deteksi friction log `transcript.jsonl`, penyulingan skill ramping beranggaran $L_0 \le 60$ baris, zero-slop verification. |
+| **RRSI & MaD-RSI Control** | Google RRSI + MaD-RSI | [`rrsi-evaluator.js`](file:///C:/Users/Luthfi/.gemini/scripts/rrsi-evaluator.js) & [`rrsi-evaluator`](file:///C:/Users/Luthfi/.gemini/config/skills/rrsi-evaluator/SKILL.md) | 5-Gate filter: batasan baris $L_0 \le 60$, deteksi kebocoran/mock, safety floor, token-ROI, multi-model invariant, dan matriks kegagalan multi-LLM. |
+| **Execution Plane** | EverMind-AI Raven | [`raven-dispatcher.js`](file:///C:/Users/Luthfi/.gemini/scripts/raven-dispatcher.js) & [`raven-dispatcher`](file:///C:/Users/Luthfi/.gemini/config/skills/raven-dispatcher/SKILL.md) | Partisi Tri-Role DAG bebas tabrakan (*disjoint ownership*), isolasi branch, injeksi Step 0, dan context-bleed barrier. |
+| **Canonical Governance** | Web Audit (Claude/Argon) & Antigravity 2.0 | [`GEMINI.md`](file:///C:/Users/Luthfi/.gemini/GEMINI.md) (§2.E) & Supermemory | Standarisasi Tri-Komponen SoC (Rules/Skills/Hooks), anti-deadlock harness, penegakan SSoT `@[label](path)`, dan memory anchoring. |

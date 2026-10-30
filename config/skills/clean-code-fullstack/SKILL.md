@@ -130,3 +130,4 @@ Enforce strict parity between frontend and backend contracts:
 - `references/frontend.md`: Components, state management, UI states, accessibility, performance, and design tokens.
 - `references/backend.md`: Layering, API design, persistence, security, error handling, logging, and concurrency.
 - `references/review-checklist.md`: Review rubrics and verification gates prior to code submission.
+- `references/animejs-motion.md`: Anime.js v4 integration standards, SSR-safe custom hooks (`useAnime`), memory leak cleanup, and 4 UI states motion.

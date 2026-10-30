@@ -68,5 +68,19 @@
         ]
       }
     ]
+  },
+  "watermark-sanitizer": {
+    "PostToolUse": [
+      {
+        "matcher": "edit_file|write_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node C:\\Users\\Luthfi\\.gemini\\scripts\\auto-watermark-sanitizer-hook.js",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }

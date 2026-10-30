@@ -63,7 +63,7 @@ Tambahan: keadaan **parsial** (sebagian gagal), **offline**, dan **optimistic up
 ## 7. Performa
 - Ukur sebelum mengoptimasi. Optimasi default: kode dibelah per rute, gambar berukuran sesuai dan malas dimuat, daftar panjang divirtualisasi.
 - Hindari render ulang mahal: kunci stabil pada daftar, `memo`/`useMemo` hanya setelah terbukti perlu.
-- Animasikan `transform` dan `opacity`.
+- Animasikan `transform` dan `opacity` (lihat [animejs-motion.md](animejs-motion.md) untuk integrasi Anime.js v4 aman-SSR).
 - Debounce input pencarian; batalkan request yang sudah usang.
 
 ## 8. Token desain

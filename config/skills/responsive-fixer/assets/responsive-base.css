@@ -1,0 +1,166 @@
+/* ==========================================================================
+   responsive-base.css  -  fondasi responsif drop-in
+   --------------------------------------------------------------------------
+   Pakai: muat file ini PERTAMA, lalu CSS proyek. Pastikan di <head>:
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+   (tambah ", viewport-fit=cover" bila memakai safe-area).
+   Aman untuk ditambahkan ke proyek lama: hanya menyentuh hal-hal fundamental.
+   Ubah nilai di :root agar cocok dengan desain; bagian bertanda [OPSIONAL]
+   baru aktif bila Anda menambahkan class/atribut yang disebut.
+   ========================================================================== */
+
+/* 1. Token ---------------------------------------------------------------- */
+:root {
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --container: 80rem;            /* ~1280px, lebar konten normal */
+  --container-wide: 100rem;      /* ~1600px, dashboard/halaman padat */
+  --gap: clamp(1rem, 2vw, 2rem);
+
+  /* Skala tipografi fluid: interpolasi 320px -> 1440px, rasio 1.25 */
+  --step--1: clamp(0.8rem,   0.771rem + 0.143vw, 0.9rem);
+  --step-0:  clamp(1rem,     0.964rem + 0.179vw, 1.125rem);
+  --step-1:  clamp(1.25rem,  1.205rem + 0.223vw, 1.406rem);
+  --step-2:  clamp(1.563rem, 1.507rem + 0.279vw, 1.758rem);
+  --step-3:  clamp(1.953rem, 1.883rem + 0.349vw, 2.197rem);
+  --step-4:  clamp(2.441rem, 2.354rem + 0.436vw, 2.747rem);
+
+  --space-s: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --space-m: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-l: clamp(2rem, 1.4rem + 3vw, 4rem);
+}
+
+/* 2. Reset yang relevan untuk responsif ---------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;   /* cegah browser mobile mengubah ukuran teks sendiri saat rotasi */
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;                /* fallback */
+  min-height: 100dvh;               /* ikut toolbar browser mobile */
+  font-size: var(--step-0);
+  line-height: 1.5;
+  overflow-wrap: break-word;        /* teks panjang tidak mendorong layout */
+}
+
+/* 3. Media ---------------------------------------------------------------- */
+img, video { max-width: 100%; height: auto; }
+picture, canvas, svg, iframe, embed, object { max-width: 100%; }
+img { display: block; }             /* hilangkan celah baseline di bawah gambar */
+
+/* 4. Form: cegah zoom otomatis iOS dan lebar yang meluber ----------------- */
+input, select, textarea, button { font: inherit; max-width: 100%; }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+select, textarea {
+  font-size: max(1rem, 16px);
+}
+
+/* 5. Blok kode dan tabel tidak boleh melebarkan halaman ------------------- */
+pre, code, kbd, samp { max-width: 100%; }
+pre { overflow-x: auto; }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+.table-scroll > table { min-width: 36rem; width: 100%; }
+
+/* 6. Layout primitif ------------------------------------------------------ */
+/* Container: fluid di layar kecil, berhenti melebar di layar besar */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+.container--wide { width: min(100% - 2 * var(--gutter), var(--container-wide)); }
+
+/* Grid otomatis: kolom menyesuaikan lebar tanpa media query */
+.grid-auto {
+  --min: 16rem;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+}
+
+/* Sidebar yang turun sendiri bila ruang sempit */
+.with-sidebar { display: flex; flex-wrap: wrap; gap: var(--gap); }
+.with-sidebar > :first-child { flex: 1 1 16rem; }
+.with-sidebar > :last-child  { flex: 999 1 0; min-inline-size: 60%; }
+
+/* Tumpukan vertikal dan barisan yang membungkus */
+.stack > * + * { margin-block-start: var(--space-m); }
+.cluster { display: flex; flex-wrap: wrap; gap: var(--space-s); align-items: center; }
+
+/* Anak flex/grid yang boleh mengecil (cegah overflow oleh teks/tabel/pre) */
+.min-w-0 { min-width: 0; }
+
+/* Elemen layar penuh */
+.full-height { min-height: 100vh; min-height: 100dvh; }
+
+/* Aspek rasio untuk media/embed */
+.ratio-16x9 { aspect-ratio: 16 / 9; width: 100%; }
+.ratio-16x9 > iframe,
+.ratio-16x9 > video,
+.ratio-16x9 > img { width: 100%; height: 100%; object-fit: cover; border: 0; }
+
+/* Safe-area (notch/home bar). Butuh viewport-fit=cover */
+.safe-padding {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+/* Teks panjang */
+.prose { max-width: 65ch; }
+.break-anywhere { overflow-wrap: anywhere; }
+
+/* 7. Tipografi fluid (opt-in lewat class agar tidak mengubah gaya lama) ---- */
+.t-sm  { font-size: var(--step--1); }
+.t-md  { font-size: var(--step-0); }
+.t-lg  { font-size: var(--step-1); }
+.t-xl  { font-size: var(--step-2); }
+.t-2xl { font-size: var(--step-3); }
+.t-3xl { font-size: var(--step-4); }
+
+/* 8. Interaksi: sentuh vs mouse ------------------------------------------- */
+@media (pointer: coarse) {
+  button, [role="button"], select, summary,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]) {
+    min-height: 44px;
+  }
+  .icon-btn { min-width: 44px; min-height: 44px; }
+}
+/* Tulis efek hover proyek di dalam blok ini agar tidak "menempel" di layar sentuh:
+@media (hover: hover) and (pointer: fine) { .card:hover { ... } }
+*/
+
+/* 9. Landscape HP / layar pendek ------------------------------------------ */
+@media (max-height: 30rem) and (orientation: landscape) {
+  .full-height { min-height: 0; }
+  .sticky-header { position: static; }
+}
+
+/* 10. Aksesibilitas gerak -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 11. [OPSIONAL] Skala untuk layar besar / TV -----------------------------
+   Aktifkan dengan <html data-scale="auto"> SETELAH memastikan UI memakai rem
+   (nilai px tetap tidak ikut membesar). Ukur dulu viewport target (lihat
+   references/large-screens-tv.md); hindari menumpuk dengan skala lain.      */
+@media (min-width: 160rem) { html[data-scale="auto"] { font-size: 112.5%; } }  /* >= 2560px */
+@media (min-width: 200rem) { html[data-scale="auto"] { font-size: 137.5%; } }  /* >= 3200px */
+
+/* [OPSIONAL] Mode TV 10-foot: <html data-ui="tv">. 1rem = 1/80 lebar layar
+   (24px @1920, 16px @1280). Semua ukuran harus dalam rem/%/fr.              */
+html[data-ui="tv"] { font-size: clamp(8px, 1.25vw, 64px); }
+html[data-ui="tv"] body { font-size: 1rem; line-height: 1.4; }
+html[data-ui="tv"] .tv-safe { padding: max(3vh, 1rem) max(3.5vw, 1rem); }  /* margin aman overscan */
+html[data-ui="tv"] :focus-visible {
+  outline: 0.2rem solid #fff; outline-offset: 0.2rem; box-shadow: 0 0 0 0.35rem #1a73e8;
+}
