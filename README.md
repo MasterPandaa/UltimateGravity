@@ -1,13 +1,14 @@
 <div align="center">
   <img src="assets/banner.jpg" alt="UltimateGravity Banner" width="100%" />
   <br /><br />
-  <h1>🌌 UltimateGravity</h1>
-  <p><strong>Tri-Role Autonomous Engineering System for Google Antigravity</strong></p>
+  <h1>UltimateGravity</h1>
+  <p><strong>Tri-Role Autonomous Engineering & Frontier Self-Evolving Agent System for Google Antigravity</strong></p>
+  <p><em>Anti-AI Slop Humanization, Modern Web & Stageshow Craft, DeepSec Adversarial Auditing, 5-Pillar Harness, & 3-Tier LSM Context Pruning</em></p>
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
   [![Platform: Google Antigravity](https://img.shields.io/badge/Platform-Google%20Antigravity-4285F4.svg?style=flat-square)](https://deepmind.google)
   [![Architecture: Tri--Role](https://img.shields.io/badge/Architecture-Tri--Role%20Autonomous-00C853.svg?style=flat-square)](GEMINI.md)
-  [![Release: v4.6.0](https://img.shields.io/badge/Release-v4.6.0%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
+  [![Release: v4.7.0](https://img.shields.io/badge/Release-v4.7.0%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
   [![Environment: Windows Native](https://img.shields.io/badge/OS-Windows%2010%2F11-0078D6.svg?style=flat-square)](install.ps1)
 </div>
 
@@ -15,18 +16,19 @@
 
 ## ⚡ The Pain vs. The Fix
 
-| Without UltimateGravity (Standard AI Assistants) | With UltimateGravity v4.6.0 |
+| Without UltimateGravity (Standard AI Assistants) | With UltimateGravity v4.7.0 |
 |---|---|
-| **Telephone Game Bloat**: Spawns dozens of disconnected subagents, degrading context, wasting tokens, and causing hallucinated sync. | **Solo Direct Primary Loop**: Anthropic Applied AI standard folds 95% of workflows into a single high-speed agent loop with progressive skill disclosure. |
-| **Assumed Fixes & Fake Green Tests**: Agents declare *"Done!"* without running compilers or live browsers, leaving broken builds. | **The Iron Law of Verification**: Fresh terminal command execution with verified `exit code 0` and live Edge sentinel browser probe required. |
-| **Irreversible Destructive Edits**: Faulty code overwrites files irreversibly without version history or snapshot rollback. | **Continuous Shadow-Copy & Time-Travel**: Automatic background versioning (`file-rewind`) and differential milestone revert (`step-checkpoint`). |
-| **Generic AI Slop & Watermarks**: Cluttered boilerplate, decorative non-functional gradients, and embedded C2PA/EXIF metadata. | **Zero AI Slop & Auto-Sanitization**: Strict 4 UI states enforcement, 8pt spatial rhythm, and automated `PostToolUse` watermark sanitizer. |
+| **AI Slop & Generic Tropes**: Verbose boilerplate, empty adjectives (*"blazing fast"*, *"game-changing"*), decorative non-functional gradients, and robotic copy. | **Anti-AI Slop & 9-Pass Refactoring**: 3 absolute diagnostic tests (*Topic-Swap*, *"So What?"*, *Real Reader*) and sequential UI refactoring (*Spacing ➔ Color ➔ Icons ➔ Copy ➔ Type ➔ Layout ➔ Details ➔ Visuals ➔ Motion*). |
+| **Context Rot & Quadratic Degradation**: Unbounded raw token accumulation in long sessions degrades model attention and skyrockets billing costs. | **3-Tier LSM Active Context Pruning**: Bounded active context (50k–150k tokens) via Tier 0 Working Set, Tier 1 Milestone Diff Digests, and Tier 2 Semantic Anchors, slashing latency by $3\times$ with up to $80\%$ KV-cache discounts. |
+| **False-Positive Security Hallucinations**: Single-pass AI audits generate 40–60% false alarms, flagging unreachable vulnerabilities without working PoCs. | **DeepSec Two-Pass Adversarial Audit**: Pass 1 Taint Source-to-Sink investigation coupled with Pass 2 Adversarial Critic Falsifier disproving unexploitable findings. |
+| **Telephone Game Bloat & Subagent Drift**: Fragmenting tasks across dozens of uncoordinated subagents causes context bleed, sync drift, and token exhaustion. | **Solo Direct Primary Loop**: Anthropic Applied AI standard folds 95% of workflows into a single high-speed agent loop with progressive skill disclosure. |
+| **Assumed Fixes & Irreversible Edits**: Declaring completion without running code; faulty edits overwrite source files permanently. | **The Iron Law & Time-Travel Safety**: Mandatory terminal exit code 0, live Edge sentinel browser probe, continuous shadow copies (`file-rewind`), and milestone snapshots (`step-checkpoint`). |
 
 ---
 
 ## 🚀 Quickstart (1-Click Setup)
 
-Copy and run in PowerShell to provision the complete architecture into `~/.gemini`:
+Copy and run in PowerShell to provision the complete v4.7.0 canonical architecture into `~/.gemini`:
 
 ```powershell
 # 1. Clone the master repository
@@ -51,24 +53,30 @@ workspace-index scan
 ```text
 UltimateGravity/
 ├── assets/
-│   └── banner.jpg               # Ultra-wide 21:9 official repository banner
+│   ├── banner.jpg               # Ultra-wide 21:9 official repository banner
+│   └── banner.png               # Lossless high-fidelity visual asset
 ├── bin/                         # 18 cross-directory Windows CLI executables
 │   ├── agy-exec.bat             # Persistent PowerShell session engine
 │   ├── browser-sentinel.bat     # Edge headless hydration & runtime crash probe
 │   ├── file-rewind.bat          # Shadow-copy rollback engine
+│   ├── harness-distiller.bat    # Friction log scanner & L0 <= 60 instruction distiller
 │   ├── step-checkpoint.bat      # Atomic milestone snapshot engine
 │   ├── task-dag.bat             # Dependency-aware state machine
 │   └── workspace-index.bat      # Sub-350ms Rust-powered topology scanner
 ├── config/
 │   ├── agents/                  # 3 Core Specialist autonomous roles
-│   │   ├── fullstack-developer  # React, Next.js, API design, SQL profiling
-│   │   ├── qa-engineer          # Playwright E2E, BVA heuristics, bug diagnosis
-│   │   └── data-engineer        # Scrapling, Firecrawl, ETL pipelines, ERDs
-│   ├── hooks/                   # Lifecycle automation hooks (syntax, watermark)
+│   │   ├── fullstack-developer  # Modern Web, GSAP motion, Vercel guidelines, SQL
+│   │   ├── qa-engineer          # DeepSec 2-pass audit, Playwright E2E, BVA heuristics
+│   │   └── data-engineer        # Scrapling, Firecrawl, ETL pipelines, ERD models
+│   ├── hooks/                   # Deterministic lifecycle hooks (syntax, watermark)
 │   └── skills/                  # 35+ curated Tier 1 engineering SOPs
-├── scripts/                     # Node.js & PowerShell background engines
+├── scripts/                     # Node.js & PowerShell background automation engines
+│   ├── harness2.js              # Google Harness2 8-component open-world engine
+│   ├── harness-distiller.js     # L0 prompt distillation & session discovery
+│   └── workspace-indexer.js     # Incremental project topology mapper
 ├── tools/watermarks-remover/    # Native C2PA, EXIF, and AI watermark stripper
-├── GEMINI.md                    # Canonical governance rules & inquiry compass
+├── GEMINI.md                    # Canonical governance rules, token budgets & inquiry compass
+├── CHANGELOG.md                 # Master canonical evolution record (v1.0 -> v4.7.0)
 └── install.ps1                  # Idempotent 1-click Windows installer (~160 lines)
 ```
 
@@ -88,8 +96,11 @@ flowchart TD
     Barrier --> Watchdog
     
     Watchdog --> Verify{"Iron Law Verification<br/>Exit Code 0?"}
-    Verify -->|Failed| SelfHeal["🔁 Scientific Diagnosis Loop<br/>Hypothesis testing & seam regression fix"]
+    Verify -->|Failed| CircuitBreaker{"Failure Count &le; 3?"}
+    CircuitBreaker -->|Yes| SelfHeal["🔁 Scientific Diagnosis Loop<br/>Hypothesis testing & seam regression fix"]
     SelfHeal --> Watchdog
+    CircuitBreaker -->|No| Escalate["🛑 Circuit Breaker Halt<br/>Escalate via ask_question (No token burn)"]
+    
     Verify -->|Passed| Deliver["💾 Clean Delivery<br/>Auto-Sanitizer C2PA/EXIF & Master Changelog Entry"]
 ```
 
@@ -100,21 +111,22 @@ flowchart TD
 The system operates across **3 Core Specialist Roles** with zero bureaucratic overhead:
 
 ### 1. Full Stack Developer (`fullstack-developer`)
-- **Frontend Craft**: React, Next.js, Vite, TypeScript, Tailwind CSS, `shadcn-ui`, micro-interactions, responsive multi-device layout audits (`responsive-fixer`), and 4 UI states enforcement (`anti-slop`, `impeccable`).
-- **Backend & Systems**: High-performance REST, GraphQL, gRPC design (`api-contract-design`), clean layered architecture, structured error envelopes, and runtime validation (Zod/Pydantic).
+- **Frontend Craft & Vercel Standards**: React, Next.js SSR hydration safety, high-contrast `:focus-visible` rings, $44 \times 44\text{px}$ touch targets, hardware notch safe-area insets (`env(safe-area-inset-bottom)`), and `font-variant-numeric: tabular-nums` to eliminate layout jitter.
+- **Stageshow & Motion Architecture**: Asymmetric Bento grids (1 dominant Hero Card + 2–3 compact supporting cards), realistic macOS/device window shells, and `@gsap/react` `useGSAP()` lifecycle-safe tweens (zero memory leaks, strict GPU transform compositing).
+- **Backend & Systems**: High-performance REST, GraphQL, and gRPC design (`api-contract-design`), clean layered architecture, structured error envelopes, and strict runtime validation (Zod/Pydantic).
 - **Data Layer & ORM**: Relational schema design, safe migrations, composite indexes, query profiling via `EXPLAIN ANALYZE` (`sql-optimization`), and ACID transactions.
-- **Surgical Precision**: Advanced type contracts (`typescript-pro`), minimal complexity (`karpathy-guidelines`), and native Windows automation (`powershell-windows-patterns`).
+- **Surgical Precision**: Advanced type contracts (`typescript-pro`), anti-complexity guidelines (`karpathy-guidelines`), and native Windows automation (`powershell-windows-patterns`).
 
 ### 2. Quality Assurance & SDET (`qa-engineer`)
-- **Testing Strategy**: Boundary Value Analysis (BVA), Equivalence Partitioning, Decision Tables, and test matrices (`qa-skills`).
+- **DeepSec Two-Pass Adversarial Audit**: Pass 1 Taint Source-to-Sink vulnerability tracing paired with Pass 2 Adversarial Falsifier review to eliminate false alarms.
+- **Testing Strategy**: Boundary Value Analysis (BVA), Equivalence Partitioning, Decision Tables, and comprehensive test matrices (`qa-skills`).
 - **Browser Automation & E2E**: Playwright headless browser suites (`playwright-cli`), layout overflow detection, network request tracing, and visual regression testing.
-- **Scientific Diagnosis & TDD**: 4-step hypothesis testing loop (`diagnosing-bugs`) and test-first interface seam cycles (`tdd`).
-- **Security Audits & Reviews**: OWASP Top 10 security audits (`security-audit`) and dual-axis diff reviews (`code-review`).
+- **Scientific Diagnosis & TDD**: 4-step hypothesis testing loop (`diagnosing-bugs`) with $\le 3$ attempt circuit breaker (`TokenEconomizer`), and test-first interface seam cycles (`tdd`).
 - **Testing Integrity**: Absolute proof enforcement (`verification-before-completion`), flaky test purging (`test-antipatterns`), and desktop memory leak profiler (`memory-leak-detector`).
 
 ### 3. Data Engineer (`data-engineer`)
 - **Multi-Tier Web Scraping**: Scrapling (stealth browser, anti-bot bypass, headless) and Firecrawl for block-free structured extraction (`agent-reach`).
-- **Data Modeling & Warehousing**: Entity-Relationship Diagrams (ERD), OLTP and OLAP analytical schemas, normalization/denormalization.
+- **Data Modeling & Warehousing**: Entity-Relationship Diagrams (ERD), OLTP transactional and OLAP analytical schemas, normalization/denormalization.
 - **SQL Profiling & Tuning**: Deep composite indexing, analytical query tuning, I/O bottleneck elimination, and query planning (`sql-optimization`).
 - **ETL Pipelines & Automation**: Ingestion scripts, data transformation, deduplication, runtime schema validation, and Windows pipeline automation (`powershell-windows-patterns`).
 
@@ -132,6 +144,7 @@ After installation, these commands can be called directly from any terminal or P
 | `workspace-index` | Rust Scanner | Sub-350ms incremental pre-prompt topology scanner | `workspace-index scan` |
 | `browser-sentinel` | Devin Sentinel | Edge engine dev-server probe & React hydration crash detector | `browser-sentinel probe http://localhost:3000` |
 | `harness-distiller` | Harness-Zero | Friction log scanner & instruction distiller ($L_0 \le 60$ lines) | `harness-distiller scan`<br>`harness-distiller distill` |
+| `harness2` | Google Harness² | 8-component open-world tree audit & Persistent Improvement Library | `harness2 tree`<br>`harness2 status` |
 | `rrsi-eval` | Google RRSI | 5-Gate mathematical safety floor & cross-model invariant audit | `rrsi-eval gate-check` |
 | `raven-dispatch` | Raven DAG | Collision-free subagent DAG partitioning & context barrier | `raven-dispatch plan` |
 | `repo-wiki` | Fast Topology | Rust-powered `fd.exe` repository architecture summarizer | `repo-wiki generate` |
@@ -145,11 +158,14 @@ After installation, these commands can be called directly from any terminal or P
 
 ## 🔬 Benchmark & Frontier Research Integration
 
-- **Harness-Zero Distiller (arXiv:2609.24972)**: Dynamic session discovery that prunes prompt bloat into lean $L_0 \le 60$ line specifications.
+- **Google Research Harness² (arXiv:2610.14224)**: 8-component modular tree (`c1` Prompt, `c2` Rules, `c3` Memory, `c4` Skills, `c5` Tools, `c6` Scripts, `c7` Agents, `c8` Hooks), Propose-Probe-Compose (PPC) cycle for open-world tasks without ground-truth verifiers, and cross-task Persistent Improvement Library.
 - **Google Research RRSI & MaD-RSI (arXiv:2610.28201)**: Mathematical safety gates ($S' \ge S^* - \delta$) and cross-model failure matrices ensuring invariant stability across Gemini, Claude, and DeepSeek.
-- **EverMind-AI / Raven Execution Plane**: Disjoint file ownership prevents race conditions during concurrent subagent execution.
-- **Modular HELIX Substrate (Fan & Huang, HKU - Aug 2026)**: Atomic decomposition allowing dead skills to be archived with zero regression side effects.
-- **Universal Cognitive Inquiry Compass**: Evaluates epistemic properties across 5 cognitive quadrants (Must Ask, Seek Opinion, Ask Preference, Ask Taste, Do Not Ask) using 1-click interactive widgets instead of open-ended conversational guessing.
+- **Harness-Zero Distiller (arXiv:2609.24972)**: Dynamic session discovery that prunes prompt bloat into lean $L_0 \le 60$ line specifications.
+- **Vercel DeepSec (`vercel-labs/deepsec`)**: Two-pass adversarial security revalidation slashing single-pass false positives by 40–60%.
+- **3-Tier LSM Active Context Pruning (`ranxianglei/billion-context`)**: Log-Structured Merge context compaction bounding active token volume to 50,000–150,000 tokens for $3\times$ latency reduction and up to 80% KV-cache cost savings.
+- **Microsoft TokenEconomizer (`microsoft/TokenEconomizer`)**: $\le 3$ attempt circuit breaker halting runaway speculative edit loops before token exhaustion.
+- **Damir Sokolovsky Unslop (`heydamir/unslop`)**: 9-pass sequential UI refactoring pipeline eliminating multi-variable CSS churn.
+- **Benji Taylor Stageshow (`benjitaylor/skills`)**: Asymmetric bento grids, window/device shells, and `@gsap/react` `useGSAP()` zero-leak motion choreography.
 
 ---
 
