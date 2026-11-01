@@ -86,22 +86,22 @@ UltimateGravity/
 
 ```mermaid
 flowchart TD
-    User["📥 User Task Request"] --> Gate{"Workload Blast Radius"}
+    User["User Task Request"] --> Gate{"Workload Blast Radius"}
     
-    Gate -->|Light / Medium < 100 lines| Solo["⚡ SOLO DIRECT MODE (Main Agent)<br/>Surgical Edits, Bugfixes, UI Craft, Query Tuning<br/>Sub-second latency, zero token waste"]
-    Gate -->|Greenfield / Pentest / Massive Scraping| Squad["👥 SUBAGENT SQUAD DELEGATION<br/>Raven Execution Plane & Disjoint Ownership<br/>Mandatory Step 0 Fail-Closed Skill Ingestion"]
+    Gate -->|"Light or Medium (under 100 lines)"| Solo["SOLO DIRECT MODE (Main Agent)<br/>Surgical Edits, Bugfixes, UI Craft, Query Tuning<br/>Sub-second latency, zero token waste"]
+    Gate -->|"Greenfield or Massive Scope"| Squad["SUBAGENT SQUAD DELEGATION<br/>Raven Execution Plane & Disjoint Ownership<br/>Mandatory Step 0 Fail-Closed Skill Ingestion"]
     
-    Solo --> Watchdog["🛡️ Pre-Emptive Watchdog<br/>PostToolUse Syntax Linter & Edge Sentinel Probe"]
-    Squad --> Barrier["🧱 Context-Bleed Barrier<br/>Distilled summaries, zero context pollution"]
+    Solo --> Watchdog["Pre-Emptive Watchdog<br/>PostToolUse Syntax Linter & Edge Sentinel Probe"]
+    Squad --> Barrier["Context-Bleed Barrier<br/>Distilled summaries, zero context pollution"]
     Barrier --> Watchdog
     
-    Watchdog --> Verify{"Iron Law Verification<br/>Exit Code 0?"}
-    Verify -->|Failed| CircuitBreaker{"Failure Count &le; 3?"}
-    CircuitBreaker -->|Yes| SelfHeal["🔁 Scientific Diagnosis Loop<br/>Hypothesis testing & seam regression fix"]
+    Watchdog --> Verify{"Iron Law: Exit Code 0?"}
+    Verify -->|"Failed"| CircuitBreaker{"Failure Count Under Limit?"}
+    CircuitBreaker -->|"Retry"| SelfHeal["Scientific Diagnosis Loop<br/>Hypothesis testing & seam regression fix"]
     SelfHeal --> Watchdog
-    CircuitBreaker -->|No| Escalate["🛑 Circuit Breaker Halt<br/>Escalate via ask_question (No token burn)"]
+    CircuitBreaker -->|"Exceeded"| Escalate["Circuit Breaker Halt<br/>Escalate via ask_question"]
     
-    Verify -->|Passed| Deliver["💾 Clean Delivery<br/>Auto-Sanitizer C2PA/EXIF & Master Changelog Entry"]
+    Verify -->|"Passed"| Deliver["Clean Delivery<br/>Auto-Sanitizer C2PA/EXIF & Master Changelog Entry"]
 ```
 
 ---
