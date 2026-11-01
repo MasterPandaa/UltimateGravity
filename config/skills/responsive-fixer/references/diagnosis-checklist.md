@@ -1,82 +1,82 @@
-# Checklist Diagnosis Responsif
+# Responsive Diagnosis Checklist
 
-Gunakan setelah menjalankan `scripts/audit_responsive.py`. Centang per lapisan; tiap "tidak" adalah kandidat akar masalah.
+Use after running `scripts/audit_responsive.py`. Audit each layer systematically; every unchecked item indicates a probable root cause.
 
-## Daftar isi
-1. Dokumen
-2. Layout
-3. Tipografi dan spasi
-4. Media
-5. Komponen
-6. Interaksi dan perangkat
-7. Layar besar / TV
-8. Pelaku overflow (cara berburu)
+## Table of Contents
+1. Document Foundation
+2. Layout Shell
+3. Typography & Spacing
+4. Media & Assets
+5. Components
+6. Interaction & Device Capabilities
+7. Large Displays & Connected TV
+8. Overflow Hunt (DevTools Snippet)
 
-## 1. Dokumen
-- [ ] `<meta name="viewport" content="width=device-width, initial-scale=1">` ada di setiap template/halaman root (juga halaman error, login, dan embed).
-- [ ] Tidak ada `user-scalable=no`, `maximum-scale=1`, atau `width=1024`/angka tetap di viewport.
-- [ ] `<!doctype html>` ada (tanpa itu browser masuk quirks mode dan perhitungan box berubah).
-- [ ] `box-sizing: border-box` global.
-- [ ] `html`/`body` tidak memaksa `width: NNNpx` atau `min-width` besar.
-- [ ] Root font-size tidak dikunci di px kecil (hack `html { font-size: 10px }`) tanpa kompensasi; biarkan 100% (16px) atau `62.5%` yang disadari.
+## 1. Document Foundation
+- [ ] `<meta name="viewport" content="width=device-width, initial-scale=1">` present across all templates/root pages (including error, login, and embed pages).
+- [ ] No `user-scalable=no`, `maximum-scale=1`, or rigid `width=1024` viewport locks.
+- [ ] Valid `<!doctype html>` present (omission triggers browser quirks mode and distorts box sizing).
+- [ ] Global `box-sizing: border-box` applied.
+- [ ] `html`/`body` does not force rigid `width: NNNpx` or oversized `min-width`.
+- [ ] Root font size is not locked to small px values (e.g. `html { font-size: 10px }`) without compensation; preserve 100% (16px) or deliberate `62.5%`.
 
-## 2. Layout
-- [ ] Container punya `max-width` + gutter fluid; tidak ada `width: 1200px` tetap.
-- [ ] Grid/kolom memakai `fr`, `minmax()`, `auto-fit/auto-fill`, atau flex dengan `flex-wrap`, bukan persen yang dijumlah manual.
-- [ ] Anak flex/grid yang berisi teks panjang/tabel/`pre` punya `min-width: 0` (default `min-width: auto` membuatnya menolak mengecil).
-- [ ] Sidebar/aside: di layar kecil jadi drawer/stack, bukan menjepit konten.
-- [ ] Ada penanganan layar menengah (600-1100px) dan landscape HP (tinggi < 500px).
-- [ ] Tinggi tidak dikunci (`height: 600px`); gunakan `min-height`, padding, atau `aspect-ratio`.
-- [ ] `position: fixed/sticky` (header, bottom bar, FAB, toast) tidak menutupi konten penting dan memperhitungkan safe-area.
-- [ ] `overflow: hidden` pada kontainer tidak memotong dropdown/tooltip di layar sempit.
+## 2. Layout Shell
+- [ ] Containers declare fluid `max-width` + gutters; no fixed `width: 1200px`.
+- [ ] Grid/columns utilize `fr`, `minmax()`, `auto-fit/auto-fill`, or flex with `flex-wrap` rather than manually summed percentages.
+- [ ] Flex/grid children holding long text, tables, or `pre` blocks declare `min-width: 0` (default `min-width: auto` prevents shrinking).
+- [ ] Sidebar/aside transforms to a drawer or vertical stack on small screens rather than crushing main content.
+- [ ] Intermediate viewports (600–1100px) and landscape mobile (height < 500px) are explicitly handled.
+- [ ] Heights are not rigidly locked (`height: 600px`); use `min-height`, padding, or `aspect-ratio`.
+- [ ] `position: fixed/sticky` elements (headers, bottom bars, FABs, toasts) do not obscure interactive content and respect safe areas.
+- [ ] `overflow: hidden` on layout containers does not clip critical dropdowns or tooltips on narrow viewports.
 
-## 3. Tipografi dan spasi
-- [ ] Ukuran dasar teks >= 16px di HP; skala heading fluid (`clamp()`), tidak melonjak drastis antar breakpoint.
-- [ ] Tidak ada `font-size: Nvw` murni; jika ada, dibungkus `clamp(min, calc, max)` dan menyertakan `rem`.
-- [ ] Line-height tanpa satuan (mis. `1.5`), bukan px.
-- [ ] Teks panjang aman: `overflow-wrap: anywhere`/`break-word` untuk URL, kode, nama panjang.
-- [ ] Panjang baris prosa dibatasi (`max-width: 60-75ch`) di layar lebar.
-- [ ] Padding/margin memakai `rem`/`clamp()`/`gap`, bukan px besar yang sama di semua layar (padding 64px di HP memakan separuh lebar).
+## 3. Typography & Spacing
+- [ ] Base copy font size >= 16px on mobile; headings scale fluidly via `clamp()` without abrupt breakpoint jumps.
+- [ ] Raw unbounded `font-size: Nvw` is prohibited; enclose within `clamp(min, calc, max)` incorporating `rem`.
+- [ ] Line heights are unitless (e.g. `1.5`) rather than fixed px values.
+- [ ] Long strings are protected: `overflow-wrap: anywhere` or `break-word` for URLs, code snippets, and long identifiers.
+- [ ] Prose line length is constrained (`max-width: 60-75ch`) on wide viewports.
+- [ ] Padding and margins rely on `rem`, `clamp()`, or `gap`, avoiding rigid pixel offsets that consume viewport space on mobile.
 
-## 4. Media
-- [ ] `img, video` -> `max-width: 100%; height: auto`.
-- [ ] Gambar punya atribut `width`/`height` (untuk rasio, mencegah layout shift) **dan** CSS `height: auto`.
-- [ ] `srcset`/`sizes` untuk gambar besar; `object-fit` untuk thumbnail/hero.
-- [ ] `iframe`, peta, embed video dibungkus `aspect-ratio` + `width: 100%`.
-- [ ] `canvas`/chart (Chart.js, ECharts, D3) di-resize saat container berubah (`responsive: true`, `ResizeObserver`), bukan ukuran awal tetap.
-- [ ] SVG punya `viewBox` dan tidak memakai `width/height` tetap berukuran besar.
-- [ ] Background hero memakai `background-size: cover` + `min-height`, bukan `height` px.
+## 4. Media & Assets
+- [ ] `img, video` rules enforce `max-width: 100%; height: auto`.
+- [ ] Images retain `width`/`height` attributes (aspect ratio hinting to prevent CLS) paired with CSS `height: auto`.
+- [ ] `srcset`/`sizes` utilized for responsive imagery; `object-fit` applied to thumbnails/hero banners.
+- [ ] `iframe`, map embeds, and video players are wrapped in responsive containers (`aspect-ratio` + `width: 100%`).
+- [ ] Charts and canvas elements (Chart.js, ECharts, D3) re-render on container resize via `ResizeObserver` or `responsive: true`.
+- [ ] Vector SVGs declare `viewBox` and omit oversized hardcoded `width/height` attributes.
+- [ ] Hero backgrounds utilize `background-size: cover` paired with `min-height`.
 
-## 5. Komponen
-- [ ] Tabel: wrapper scroll, atau transformasi kartu; kolom prioritas.
-- [ ] Form: label di atas input di layar kecil; input `width: 100%`; grup input tidak `white-space: nowrap`.
-- [ ] Modal/dialog: `max-width: min(100% - 2rem, 40rem)`, `max-height: 100dvh`, konten scroll internal.
-- [ ] Navbar: ada pola kolaps (hamburger/drawer); item tidak tumpang tindih di 768px.
-- [ ] Dropdown/popover: tidak keluar viewport (flip/shift, atau sheet penuh di HP).
-- [ ] Tabs: bisa di-scroll horizontal atau jadi select di HP.
-- [ ] Carousel/slider: lebar slide relatif, bukan px; mendukung swipe.
-- [ ] Dashboard: kartu stack di HP; chart tidak diberi tinggi tetap kaku.
+## 5. Components
+- [ ] Data tables: scrollable wrapper provided, or transformed to card layouts on mobile; priority columns established.
+- [ ] Forms: stacked labels above inputs on narrow screens; inputs set to `width: 100%`; form groups avoid `white-space: nowrap`.
+- [ ] Modals/dialogs: `max-width: min(100% - 2rem, 40rem)`, `max-height: 100dvh`, internal scrolling enabled.
+- [ ] Navigation: collapsible menu pattern (hamburger/drawer) implemented; nav items do not collide at 768px.
+- [ ] Dropdowns/popovers: viewport collision detection enabled (flip/shift, or full-width sheet on mobile).
+- [ ] Tabs: horizontal scroll or select-dropdown fallback on mobile viewports.
+- [ ] Carousels/sliders: relative slide widths, touch swipe support enabled.
+- [ ] Dashboards: metric cards stack cleanly; charts avoid rigid pixel heights.
 
-## 6. Interaksi dan perangkat
-- [ ] Target sentuh >= 44x44 (Apple) / 48dp (Material); batas minimal WCAG 2.2 adalah 24x24 dengan jarak.
-- [ ] Hover bukan satu-satunya cara membuka fungsi; efek hover dibungkus `@media (hover: hover)`.
-- [ ] Input `font-size >= 16px` (cegah zoom otomatis iOS), `inputmode`/`type` sesuai.
-- [ ] `100vh` diganti `100dvh`/`svh` (dengan fallback) untuk elemen layar penuh.
-- [ ] `env(safe-area-inset-*)` untuk bar fixed (butuh `viewport-fit=cover`).
-- [ ] Orientasi tidak dikunci tanpa alasan; landscape diuji.
-- [ ] Zoom 200% dan ukuran teks besar dari OS tidak merusak layout (reflow di lebar 320px).
-- [ ] `prefers-reduced-motion` dihormati bila ada animasi besar.
+## 6. Interaction & Device Capabilities
+- [ ] Tap targets meet or exceed 44x44px (Apple) / 48dp (Material); minimum WCAG 2.2 threshold is 24x24px with spacing.
+- [ ] Hover is never the exclusive trigger for core workflows; hover styles wrapped in `@media (hover: hover)`.
+- [ ] Input font size >= 16px (prevents iOS Safari auto-zoom), with appropriate `inputmode` and `type` attributes.
+- [ ] `100vh` replaced with `100dvh` / `svh` (with fallback) for full-screen sections.
+- [ ] `env(safe-area-inset-*)` incorporated for fixed chrome (requires `viewport-fit=cover`).
+- [ ] Orientation locks avoided; landscape mobile thoroughly validated.
+- [ ] 200% browser zoom and OS-level text scaling maintain usable layouts (reflow down to 320px).
+- [ ] `prefers-reduced-motion` honored for large motion and parallax effects.
 
-## 7. Layar besar / TV
-- [ ] Container dibatasi; konten tidak mepet kiri di 2560/3840px.
-- [ ] Ada skala untuk layar besar (root font atau token) bila UI dimaksudkan dilihat dari jauh.
-- [ ] Tidak ada elemen berbasis `vw`/`vh` tanpa batas atas.
-- [ ] Margin aman 3-5% di sekeliling (TV lama punya overscan).
-- [ ] Fokus terlihat jelas (`:focus-visible`) dan urutan fokus logis untuk remote/D-pad.
-- [ ] Sudah diukur `innerWidth x innerHeight @ devicePixelRatio` pada perangkat/emulator target.
+## 7. Large Displays & Connected TV
+- [ ] Content containers constrained; layouts do not hug left margin at 2560px or 3840px.
+- [ ] Scale factor applied to root tokens for 10-foot viewing distances.
+- [ ] No unbounded `vw`/`vh` font or dimension declarations.
+- [ ] Safe-action margins (3–5% overscan buffer) preserved for TV displays.
+- [ ] High-contrast `:focus-visible` states and logical spatial navigation order for remote D-pads.
+- [ ] Empirical `innerWidth x innerHeight @ devicePixelRatio` verified on target hardware/emulators.
 
-## 8. Berburu pelaku overflow
-Tempel di console DevTools pada lebar bermasalah; elemen yang melewati tepi viewport diberi garis merah:
+## 8. Overflow Hunt (DevTools Console Snippet)
+Execute in DevTools console on problematic viewports; overflowing elements are highlighted with red outlines:
 
 ```js
 (() => {
@@ -94,4 +94,4 @@ Tempel di console DevTools pada lebar bermasalah; elemen yang melewati tepi view
 })();
 ```
 
-Pelaku yang paling sering: tabel, `pre`, gambar dengan atribut `width` besar, input dengan `size`, elemen `100vw`, `transform: translateX` dari animasi, dropdown `position: absolute` yang keluar kanan, flex item tanpa `min-width: 0`, dan string panjang tanpa spasi.
+Common culprits: unwrapped tables, `pre` code blocks, images with oversized inline `width`, inputs with large `size` attributes, `100vw` elements, unconstrained CSS animations (`translateX`), right-aligned absolute dropdowns, flex items lacking `min-width: 0`, and unbreakable alphanumeric strings.

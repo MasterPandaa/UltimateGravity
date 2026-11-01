@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Pemindai statis masalah responsif (tanpa dependensi, hanya stdlib).
+"""Static analyzer for responsive layout issues (zero external dependencies, standard library only).
 
-Memindai HTML/CSS/SCSS/JSX/TSX/Vue/Svelte/Astro/PHP/Blade/dll. dan melaporkan pola yang
-sering menjadi akar masalah tampilan tidak responsif. Hasilnya PETUNJUK, bukan vonis:
-verifikasi setiap temuan dengan membaca konteksnya.
+Scans HTML/CSS/SCSS/JSX/TSX/Vue/Svelte/Astro/PHP/Blade/etc. and detects patterns that
+frequently cause non-responsive UI defects. Results are diagnostic HINTS, not verdicts:
+verify each finding within its surrounding source context.
 
-Contoh:
+Examples:
   python3 audit_responsive.py ./my-project
   python3 audit_responsive.py ./my-project --json --max-per-rule 5
   python3 audit_responsive.py ./src/styles.css ./index.html --fail-on high
@@ -35,34 +35,34 @@ MAX_FILE_BYTES = 2_000_000
 MIN_FILE_SKIP_SUFFIX = (".min.css", ".min.js", ".bundle.js", ".chunk.js")
 
 TEXT_ADVICE = {
-    "no-viewport-meta": "Tambahkan <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> di <head>.",
-    "viewport-fixed-width": "Ganti width tetap dengan width=device-width, initial-scale=1.",
-    "viewport-blocks-zoom": "Hapus user-scalable=no / maximum-scale=1; memblokir zoom (aksesibilitas) dan bukan solusi responsif.",
-    "fixed-width-px": "Ganti dengan width: 100% + max-width, atau min(100%, Nrem), atau grid/flex fluid.",
-    "fixed-min-width-px": "min-width besar memaksa overflow di HP; pakai min(100%, N) atau pindah ke wrapper scroll.",
-    "fixed-height-px": "Gunakan min-height / padding / aspect-ratio agar konten tidak terpotong.",
-    "100vh": "Pakai min-height: 100dvh dengan fallback 100vh (bar alamat browser HP memengaruhi vh).",
-    "100vw": "100vw termasuk scrollbar sehingga memicu scroll horizontal; pakai 100% atau inset: 0.",
-    "vw-font-no-clamp": "Bungkus clamp(min, calc(rem + vw), max) agar zoom tetap bekerja dan tidak raksasa di TV.",
-    "root-font-px": "Biarkan root 100% atau gunakan rem/clamp; font root px kaku menghambat skala dan preferensi pengguna.",
-    "page-zoom-or-scale": "Hindari zoom/scale global sebagai solusi; perbaiki unit dan layout (kanvas tetap hanya untuk signage).",
-    "overflow-x-hidden": "Biasanya menutupi gejala; cari elemen penyebab overflow (lihat references/diagnosis-checklist.md bagian 8).",
-    "small-font": "Teks <12px sulit dibaca di HP; naikkan kecuali legal/caption.",
-    "device-specific-breakpoint": "Breakpoint per device cepat usang; tentukan dari titik rusak konten, bukan nama device.",
-    "tailwind-arbitrary-width": "Ganti w-[NNNpx] dengan w-full max-w-* atau kelas responsif (sm:/md:/lg:).",
-    "tailwind-h-screen": "Ganti h-screen dengan min-h-dvh (Tailwind 3.4+) atau min-h-[100dvh].",
-    "tailwind-unprefixed-grid": "grid-cols-N tanpa prefix berlaku di HP; mulai dari grid-cols-1 lalu sm:/md:/lg:grid-cols-N.",
-    "inline-style-width": "Lebar piksel kaku di style/JS; gunakan nilai relatif atau CSS class responsif.",
-    "table-no-wrapper": "Bungkus <table> dengan div overflow-x: auto atau ubah jadi kartu di layar kecil.",
-    "img-fixed-width-attr": "Atribut width besar tanpa CSS max-width:100%; tambahkan img { max-width:100%; height:auto }.",
-    "no-media-queries": "Tidak ada @media sama sekali; pastikan layout memang fluid sepenuhnya atau tambahkan breakpoint struktural.",
-    "desktop-first-only": "Hanya max-width media query (desktop-first); pertimbangkan mobile-first dengan min-width.",
-    "no-tablet-breakpoint": "Tidak ada breakpoint di rentang 600-1100px; periksa tampilan tablet/landscape.",
-    "no-large-screen-handling": "Tidak ada penanganan layar >=1600px; periksa max-width container dan skala di TV/4K/ultrawide.",
-    "no-box-sizing": "Tambahkan *, *::before, *::after { box-sizing: border-box } agar padding tidak membuat elemen melebar.",
-    "no-img-max-width": "Tidak ditemukan img { max-width: 100% }; gambar besar bisa meluber.",
-    "hover-only": "Ada :hover tapi tidak ada @media (hover: hover); pastikan fungsi tidak hanya bisa lewat hover.",
-    "no-dvh-with-vh": "Tidak ada unit dvh/svh sementara 100vh dipakai.",
+    "no-viewport-meta": "Add <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> inside <head>.",
+    "viewport-fixed-width": "Replace fixed pixel width with width=device-width, initial-scale=1.",
+    "viewport-blocks-zoom": "Remove user-scalable=no / maximum-scale=1; blocks accessibility zooming without fixing responsive layout.",
+    "fixed-width-px": "Replace with width: 100% + max-width, or min(100%, Nrem), or fluid grid/flexbox.",
+    "fixed-min-width-px": "Large min-width forces overflow on mobile; use min(100%, N) or wrap in a scroll container.",
+    "fixed-height-px": "Use min-height / padding / aspect-ratio to prevent content clipping.",
+    "100vh": "Use min-height: 100dvh with 100vh fallback (mobile address bar resize affects vh).",
+    "100vw": "100vw includes scrollbar width triggering horizontal overflow; use 100% or inset: 0.",
+    "vw-font-no-clamp": "Wrap in clamp(min, calc(rem + vw), max) to preserve user zoom and prevent ballooning on large displays.",
+    "root-font-px": "Leave root at 100% or use rem/clamp; rigid root px inhibits user browser accessibility preferences.",
+    "page-zoom-or-scale": "Avoid global zoom/scale hacks; fix relative units and fluid layout primitives.",
+    "overflow-x-hidden": "Often masks root causes; locate offending overflowing elements (see references/diagnosis-checklist.md #8).",
+    "small-font": "Text <12px is illegible on mobile; increase size unless legal fine print or micro-captions.",
+    "device-specific-breakpoint": "Device-specific breakpoints rot quickly; derive breakpoints from content breakdown points, not device model names.",
+    "tailwind-arbitrary-width": "Replace w-[NNNpx] with w-full max-w-* or responsive utility variants (sm:/md:/lg:).",
+    "tailwind-h-screen": "Replace h-screen with min-h-dvh (Tailwind 3.4+) or min-h-[100dvh].",
+    "tailwind-unprefixed-grid": "Unprefixed grid-cols-N applies to mobile viewports; start mobile-first with grid-cols-1 then sm:/md:grid-cols-N.",
+    "inline-style-width": "Rigid pixel width in inline styles or JS; use relative percentages or responsive CSS classes.",
+    "table-no-wrapper": "Wrap <table> in overflow-x: auto container or collapse into cards on narrow screens.",
+    "img-fixed-width-attr": "Large width attribute without CSS max-width: 100%; ensure img { max-width: 100%; height: auto } is defined.",
+    "no-media-queries": "No @media queries found; verify if layout is purely intrinsic fluid or add structural breakpoints.",
+    "desktop-first-only": "Only max-width media queries detected; consider mobile-first architecture using min-width.",
+    "no-tablet-breakpoint": "No breakpoints found between 600-1100px; verify tablet portrait/landscape layouts.",
+    "no-large-screen-handling": "No handling for >=1600px screens; inspect container max-width and TV/4K/ultrawide scaling.",
+    "no-box-sizing": "Add *, *::before, *::after { box-sizing: border-box } so padding does not inflate box dimensions.",
+    "no-img-max-width": "Missing img { max-width: 100% }; unconstrained images will overflow containers.",
+    "hover-only": ":hover present without @media (hover: hover); ensure touch interfaces can access interactive features.",
+    "no-dvh-with-vh": "No dvh/svh dynamic viewport units found while 100vh is active.",
 }
 
 
@@ -90,7 +90,7 @@ def iter_files(paths):
             yield p
             continue
         if not p.is_dir():
-            print(f"[peringatan] path tidak ditemukan: {p}", file=sys.stderr)
+            print(f"[warning] path not found: {p}", file=sys.stderr)
             continue
         stack = [p]
         while stack:
@@ -101,50 +101,47 @@ def iter_files(paths):
                 continue
             for e in entries:
                 if e.is_dir():
-                    if e.name in SKIP_DIRS or e.name.startswith(".") and e.name not in {".storybook"}:
+                    if e.name in SKIP_DIRS or e.name.startswith("."):
                         continue
                     stack.append(e)
                 elif e.is_file():
                     yield e
 
 
-def suffix_of(path: Path) -> str:
-    name = path.name.lower()
+def suffix_of(p: Path) -> str:
+    name = p.name.lower()
     if name.endswith(".blade.php"):
         return ".blade.php"
-    return path.suffix.lower()
+    return p.suffix.lower()
 
 
-def read_text(path: Path):
+def read_text(p: Path) -> str | None:
     try:
-        if path.stat().st_size > MAX_FILE_BYTES:
+        if p.stat().st_size > MAX_FILE_BYTES:
             return None
-        return path.read_text(encoding="utf-8", errors="ignore")
+        return p.read_text(encoding="utf-8", errors="ignore")
     except OSError:
         return None
 
 
 def strip_css_comments(text: str) -> str:
-    """Hapus komentar /* */ tetapi pertahankan jumlah baris agar nomor baris tetap akurat."""
-    return re.sub(r"/\*.*?\*/", lambda m: "\n" * m.group(0).count("\n"), text, flags=re.S)
+    return re.sub(r"/\*.*?\*/", "", text, flags=re.S)
 
 
-def snippet_of(line: str, width: int = 140) -> str:
-    s = line.strip()
-    return s if len(s) <= width else s[: width - 3] + "..."
+def snippet_of(line: str, maxlen: int = 120) -> str:
+    s = re.sub(r"\s+", " ", line).strip()
+    return (s[: maxlen - 3] + "...") if len(s) > maxlen else s
 
 
-# ---------- aturan regex per baris ----------
-RE_WIDTH_PX = re.compile(r"(?<![-\w])(width)\s*:\s*(\d{3,5})(?:\.\d+)?px", re.I)
-RE_MINWIDTH_PX = re.compile(r"(?<![\w])(min-width)\s*:\s*(\d{3,5})(?:\.\d+)?px", re.I)
-RE_HEIGHT_PX = re.compile(r"(?<![-\w])(height)\s*:\s*(\d{3,5})(?:\.\d+)?px", re.I)
-RE_100VH = re.compile(r"(?<![\w-])(?:min-|max-)?height\s*:\s*100vh|\b100vh\b", re.I)
-RE_100VW = re.compile(r"(?<![\w.])100vw\b", re.I)
-RE_VW_FONT = re.compile(r"font-size\s*:\s*[\d.]+vw\b", re.I)
-RE_ZOOM = re.compile(r"(?<![-\w])zoom\s*:\s*(?!1\b|1\.0\b|normal|reset|inherit|initial|unset)[\d.]+", re.I)
-RE_OVERFLOWX = re.compile(r"overflow(?:-x)?\s*:\s*hidden", re.I)
-RE_SMALL_FONT = re.compile(r"font-size\s*:\s*(?:[0-9]|1[01])(?:\.\d+)?px", re.I)
-RE_MEDIA_PX = re.compile(r"@media[^{]*?\((?:max|min)-width\s*:\s*(\d+(?:\.\d+)?)(px|em|rem)\s*\)", re.I)
+RE_WIDTH_PX = re.compile(r"(?<![-\w])(?<!min-)(?<!max-)(width|inline-size)\s*:\s*(\d+)(?:\.\d+)?px\b", re.I)
+RE_MINWIDTH_PX = re.compile(r"(?<![-\w])(min-width|min-inline-size)\s*:\s*(\d+)(?:\.\d+)?px\b", re.I)
+RE_HEIGHT_PX = re.compile(r"(?<![-\w])(?<!min-)(?<!max-)(height|block-size)\s*:\s*(\d+)(?:\.\d+)?px\b", re.I)
+RE_100VH = re.compile(r"(?<![-\w])(height|min-height)\s*:\s*100vh\b", re.I)
+RE_VW_FONT = re.compile(r"font-size\s*:\s*[^;}]*?\d+(?:\.\d+)?vw\b", re.I)
+RE_ZOOM = re.compile(r"(?<![-\w])zoom\s*:\s*[^;}\s]+", re.I)
+RE_OVERFLOWX = re.compile(r"overflow-x\s*:\s*hidden\b", re.I)
+RE_SMALL_FONT = re.compile(r"font-size\s*:\s*([1-9]|1[01])(?:\.\d+)?px\b", re.I)
+RE_MEDIA_PX = re.compile(r"@media[^{]*\(\s*(?:min-|max-)?(?:width|inline-size)\s*:\s*(\d+(?:\.\d+)?)(px|em|rem)\b", re.I)
 RE_MEDIA_ANY = re.compile(r"@media\b", re.I)
 RE_MEDIA_MAX = re.compile(r"\(\s*max-width\s*:", re.I)
 RE_MEDIA_MIN = re.compile(r"\(\s*min-width\s*:", re.I)
@@ -187,30 +184,30 @@ def scan_file(path: Path, text: str, ext: str, ctx: dict, findings: list):
     clean = strip_css_comments(text) if (is_style or is_markup) else text
     lines = clean.splitlines()
 
-    # --- viewport meta (hanya file dokumen penuh) ---
+    # --- viewport meta (full document files only) ---
     if is_markup and re.search(r"<head[\s>]", text, re.I) and re.search(r"<html[\s>]|<!doctype", text, re.I):
         ctx["full_documents"] += 1
         vp = RE_VIEWPORT.search(text) or RE_VIEWPORT_ALT.search(text)
         if not vp:
-            findings.append(Finding("no-viewport-meta", "high", rel, 1, "<head> tanpa <meta name=viewport>",
-                                    "Dokumen tidak memiliki meta viewport"))
+            findings.append(Finding("no-viewport-meta", "high", rel, 1, "<head> without <meta name=viewport>",
+                                    "Document is missing viewport meta tag"))
         else:
             tag = vp.group(0)
             line_no = text[: vp.start()].count("\n") + 1
             if re.search(r"width\s*=\s*\d+", tag) and "device-width" not in tag:
                 findings.append(Finding("viewport-fixed-width", "high", rel, line_no, snippet_of(tag),
-                                        "Viewport memakai lebar piksel tetap"))
+                                        "Viewport declares fixed pixel width"))
             if re.search(r"user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*1(\.0)?\b", tag, re.I):
                 findings.append(Finding("viewport-blocks-zoom", "medium", rel, line_no, snippet_of(tag),
-                                        "Viewport memblokir zoom pengguna"))
+                                        "Viewport blocks user zoom"))
             if "initial-scale" not in tag:
                 findings.append(Finding("viewport-fixed-width", "low", rel, line_no, snippet_of(tag),
-                                        "Viewport tanpa initial-scale=1"))
+                                        "Viewport without initial-scale=1"))
 
     if RE_TAILWIND_MARK.search(text[:3000]) or "tailwind" in path.name.lower():
         ctx["tailwind"] = True
 
-    # --- konteks proyek ---
+    # --- project context ---
     if is_style or is_markup:
         ctx["css_text_parts"].append(clean)
         mv = media_values_px(clean)
@@ -233,11 +230,10 @@ def scan_file(path: Path, text: str, ext: str, ctx: dict, findings: list):
         if RE_DVH.search(text):
             ctx["has_dvh"] = True
 
-    # --- aturan per baris ---
-    in_media_header = False
+    # --- line by line rules ---
     for i, raw in enumerate(lines, start=1):
         line = raw
-        if len(line) > 600:  # kemungkinan minified; potong agar tidak berat
+        if len(line) > 600:
             line = line[:600]
         stripped = line.strip()
         if not stripped:
@@ -251,61 +247,61 @@ def scan_file(path: Path, text: str, ext: str, ctx: dict, findings: list):
                     if val >= 481:
                         sev = "high" if val >= 700 else "medium"
                         findings.append(Finding("fixed-width-px", sev, rel, i, snippet_of(line),
-                                                f"width tetap {val}px (lebih lebar dari banyak layar HP)"))
+                                                f"fixed width {val}px (exceeds many mobile viewports)"))
                 for m in RE_MINWIDTH_PX.finditer(line):
                     val = int(m.group(2))
                     if val >= 481:
                         findings.append(Finding("fixed-min-width-px", "medium", rel, i, snippet_of(line),
-                                                f"min-width {val}px dapat memaksa overflow di layar kecil"))
+                                                f"min-width {val}px forces overflow on small screens"))
                 for m in RE_HEIGHT_PX.finditer(line):
                     val = int(m.group(2))
                     if val >= 400:
                         findings.append(Finding("fixed-height-px", "low", rel, i, snippet_of(line),
-                                                f"height tetap {val}px dapat memotong konten"))
+                                                f"fixed height {val}px may clip dynamic content"))
                 if RE_VW_FONT.search(line) and "clamp(" not in line and "min(" not in line and "max(" not in line:
                     findings.append(Finding("vw-font-no-clamp", "medium", rel, i, snippet_of(line),
-                                            "font-size berbasis vw tanpa clamp()"))
+                                            "vw-based font-size without clamp()"))
                 if RE_ZOOM.search(line):
                     findings.append(Finding("page-zoom-or-scale", "medium", rel, i, snippet_of(line),
-                                            "Properti zoom terdeteksi"))
+                                            "zoom property detected"))
                 if RE_OVERFLOWX.search(line):
                     findings.append(Finding("overflow-x-hidden", "info", rel, i, snippet_of(line),
-                                            "overflow hidden; periksa apakah menutupi gejala"))
+                                            "overflow-x: hidden; verify whether masking layout root cause"))
                 if RE_SMALL_FONT.search(line):
                     findings.append(Finding("small-font", "low", rel, i, snippet_of(line),
-                                            "font-size di bawah 12px"))
+                                            "font-size under 12px"))
                 if RE_100VH.search(line):
                     ctx["vh_lines"].append((rel, i, snippet_of(line)))
                 if re.search(r"(?<![-\w])(?:min-)?width\s*:\s*100vw\b|(?<![-\w])(?:left|right)\s*:\s*[^;]*100vw", line, re.I):
                     findings.append(Finding("100vw", "medium", rel, i, snippet_of(line),
-                                            "100vw memicu overflow bila ada scrollbar vertikal"))
+                                            "100vw triggers overflow when vertical scrollbar is present"))
             else:
                 for m in RE_MEDIA_PX.finditer(line):
                     raw_v = m.group(1)
                     if m.group(2).lower() == "px" and raw_v.split(".")[0] in DEVICE_BP:
                         findings.append(Finding("device-specific-breakpoint", "low", rel, i, snippet_of(line),
-                                                f"breakpoint {raw_v}px menyerupai ukuran device tertentu"))
+                                                f"breakpoint {raw_v}px resembles a specific device model"))
 
-        # Tailwind / utility classes dan inline style (markup + script)
+        # Tailwind / utility classes and inline styles (markup + script)
         if is_markup or is_script:
             for m in RE_TW_ARB_W.finditer(line):
                 val = int(m.group(1))
                 if val >= 481:
                     findings.append(Finding("tailwind-arbitrary-width", "medium", rel, i, snippet_of(line),
-                                            f"kelas lebar piksel tetap {val}px"))
+                                            f"fixed pixel width class {val}px"))
             if RE_TW_H_SCREEN.search(line):
                 findings.append(Finding("tailwind-h-screen", "low", rel, i, snippet_of(line),
-                                        "h-screen = 100vh; di HP bisa terpotong"))
+                                        "h-screen = 100vh; clips on mobile viewports with browser address bars"))
             if RE_TW_GRID.search(line) and not RE_TW_GRID_RESP.search(line):
                 findings.append(Finding("tailwind-unprefixed-grid", "low", rel, i, snippet_of(line),
-                                        "grid-cols-N (>=3) tanpa varian responsif"))
+                                        "grid-cols-N (>=3) without responsive prefix"))
             if "style" in line.lower() or "sx=" in line or "css`" in line or "styled" in line:
                 mm = RE_STYLE_ATTR_W.search(line) or RE_INLINE_W.search(line)
                 if mm:
                     val = int(mm.group(1))
                     if val >= 481 and ("style" in line.lower() or "sx=" in line):
                         findings.append(Finding("inline-style-width", "medium", rel, i, snippet_of(line),
-                                                f"lebar inline {val}px"))
+                                                f"inline width {val}px"))
             if is_markup:
                 mi = RE_IMG_W_ATTR.search(line)
                 if mi and int(mi.group(1)) >= 481:
@@ -313,26 +309,24 @@ def scan_file(path: Path, text: str, ext: str, ctx: dict, findings: list):
                 if re.search(r"<table\b", line, re.I):
                     ctx["tables"].append((rel, i, snippet_of(line)))
 
-    # root font px (multi-baris)
+    # root font px (multiline)
     if is_style or is_markup:
         for m in RE_ROOT_FONT_PX.finditer(clean):
             size = float(m.group(1))
             if size < 16 or size > 18:
                 ln = clean[: m.start()].count("\n") + 1
                 findings.append(Finding("root-font-px", "low", rel, ln, snippet_of(m.group(0).strip().replace("\n", " ")),
-                                        f"font-size root {size:g}px"))
+                                        f"root font-size {size:g}px"))
 
 
 def finalize(ctx: dict, findings: list, scanned_any: bool):
-    # 100vh: naikkan ke medium hanya bila proyek tidak memakai dvh/svh sama sekali
     for rel, ln, snip in ctx["vh_lines"]:
         sev = "low" if ctx["has_dvh"] else "medium"
         findings.append(Finding("100vh", sev, rel, ln, snip,
-                                "100vh pada layar HP termasuk area bar alamat" +
-                                (" (proyek sudah memakai dvh/svh di tempat lain)" if ctx["has_dvh"] else "")))
+                                "100vh on mobile viewports includes address bar area" +
+                                (" (project uses dvh/svh elsewhere)" if ctx["has_dvh"] else "")))
 
     for rel, ln, snip in ctx["tables"]:
-        # dianggap berpembungkus jika beberapa baris sebelumnya ada overflow / table-responsive / scroll
         try:
             lines = Path(rel).read_text(encoding="utf-8", errors="ignore").splitlines()
         except OSError:
@@ -340,45 +334,45 @@ def finalize(ctx: dict, findings: list, scanned_any: bool):
         window = "\n".join(lines[max(0, ln - 4): ln]).lower()
         if not re.search(r"overflow|table-responsive|table-scroll|scroll|overflow-x-auto|responsive", window):
             findings.append(Finding("table-no-wrapper", "low", rel, ln, snip,
-                                    "<table> tanpa pembungkus scroll terlihat di dekatnya"))
+                                    "<table> without visible scroll wrapper nearby"))
 
     css_all = "\n".join(ctx["css_text_parts"])
-    css_no_media = re.sub(r"@media[^{]*\{", "{", css_all)  # max-width di dalam @media bukan batas container
+    css_no_media = re.sub(r"@media[^{]*\{", "{", css_all)
     has_css = ctx["files_scanned_css"] > 0
 
     if ctx["img_fixed_attrs"] and not ctx["img_maxw"]:
         for rel, ln, snip in ctx["img_fixed_attrs"][:20]:
             findings.append(Finding("img-fixed-width-attr", "medium", rel, ln, snip,
-                                    "gambar dengan atribut width besar dan tidak ada img{max-width:100%} di proyek"))
+                                    "image with large width attribute without project-wide img{max-width:100%}"))
 
     if has_css:
         vals = ctx["media_values"]
         if ctx["media_count"] == 0 and not ctx["tailwind"]:
-            findings.append(Finding("no-media-queries", "medium", "(proyek)", 0, "",
-                                    "Tidak ada @media di CSS yang dipindai"))
+            findings.append(Finding("no-media-queries", "medium", "(project)", 0, "",
+                                    "No @media queries found in scanned CSS"))
         if ctx["media_max"] > 0 and ctx["media_min"] == 0:
-            findings.append(Finding("desktop-first-only", "low", "(proyek)", 0,
-                                    f"{ctx['media_max']} query max-width, 0 query min-width",
-                                    "Pendekatan desktop-first"))
+            findings.append(Finding("desktop-first-only", "low", "(project)", 0,
+                                    f"{ctx['media_max']} max-width queries, 0 min-width queries",
+                                    "Desktop-first approach"))
         if vals:
             if not any(600 <= v <= 1100 for v in vals):
-                findings.append(Finding("no-tablet-breakpoint", "medium", "(proyek)", 0,
-                                        f"breakpoint ditemukan: {sorted(set(int(v) for v in vals))}",
-                                        "Tidak ada breakpoint antara 600-1100px"))
+                findings.append(Finding("no-tablet-breakpoint", "medium", "(project)", 0,
+                                        f"breakpoints detected: {sorted(set(int(v) for v in vals))}",
+                                        "No breakpoints found between 600-1100px"))
             if not any(v >= 1600 for v in vals) and not _has_container_cap(css_no_media):
-                findings.append(Finding("no-large-screen-handling", "medium", "(proyek)", 0,
-                                        f"breakpoint terbesar: {int(max(vals))}px",
-                                        "Tidak ada breakpoint >=1600px dan tidak terdeteksi max-width container"))
+                findings.append(Finding("no-large-screen-handling", "medium", "(project)", 0,
+                                        f"largest breakpoint: {int(max(vals))}px",
+                                        "No breakpoint >=1600px and no container max-width detected"))
         elif has_css and not ctx["tailwind"] and not _has_container_cap(css_no_media):
-            findings.append(Finding("no-large-screen-handling", "medium", "(proyek)", 0, "",
-                                    "Tidak ada breakpoint/max-width container yang terdeteksi untuk layar besar"))
+            findings.append(Finding("no-large-screen-handling", "medium", "(project)", 0, "",
+                                    "No breakpoint or container max-width detected for large displays"))
         if not ctx["box_sizing"] and not ctx["tailwind"]:
-            findings.append(Finding("no-box-sizing", "low", "(proyek)", 0, "", "box-sizing: border-box tidak ditemukan"))
+            findings.append(Finding("no-box-sizing", "low", "(project)", 0, "", "box-sizing: border-box not found"))
         if not ctx["img_maxw"] and not ctx["tailwind"]:
-            findings.append(Finding("no-img-max-width", "low", "(proyek)", 0, "", "img{max-width:100%} tidak ditemukan"))
+            findings.append(Finding("no-img-max-width", "low", "(project)", 0, "", "img{max-width:100%} not found"))
         if ctx["hover_count"] >= 3 and not ctx["hover_guard"]:
-            findings.append(Finding("hover-only", "low", "(proyek)", 0, f"{ctx['hover_count']} aturan :hover",
-                                    "Tidak ada @media (hover: hover)"))
+            findings.append(Finding("hover-only", "low", "(project)", 0, f"{ctx['hover_count']} :hover rules",
+                                    "Missing @media (hover: hover)"))
 
 
 def _has_container_cap(css: str) -> bool:
@@ -421,46 +415,46 @@ def group_and_limit(findings, max_per_rule):
 
 
 def print_report(findings, scanned, max_per_rule):
-    print("# Laporan audit responsif\n")
-    print(f"File dipindai: {scanned}  |  Temuan: {len(findings)}")
+    print("# Responsive Audit Report\n")
+    print(f"Scanned files: {scanned}  |  Findings: {len(findings)}")
     counts = defaultdict(int)
     for f in findings:
         counts[f.severity] += 1
-    print("Ringkasan: " + ", ".join(f"{k}={counts[k]}" for k in ("high", "medium", "low", "info")) + "\n")
+    print("Summary: " + ", ".join(f"{k}={counts[k]}" for k in ("high", "medium", "low", "info")) + "\n")
     if not findings:
-        print("Tidak ada pola bermasalah yang terdeteksi secara statis. Ini BUKAN bukti responsif; "
-              "verifikasi di browser (scripts/screenshot_matrix.py).")
+        print("No problematic patterns detected statically. This is NOT dynamic proof; "
+              "verify in live browsers (scripts/screenshot_matrix.py).")
         return
     for rule, items, hidden in group_and_limit(findings, max_per_rule):
         sev = min((i.severity for i in items), key=lambda s: SEVERITY_ORDER[s])
-        print(f"## [{sev.upper()}] {rule}  ({len(items)} temuan)")
+        print(f"## [{sev.upper()}] {rule}  ({len(items)} findings)")
         advice = TEXT_ADVICE.get(rule)
         if advice:
-            print(f"Saran: {advice}")
+            print(f"Advice: {advice}")
         for it in items[:max_per_rule]:
             loc = f"{it.file}:{it.line}" if it.line else it.file
             print(f"- {loc}  {it.message}")
             if it.snippet:
                 print(f"    {it.snippet}")
         if hidden:
-            print(f"- ... dan {hidden} lagi (naikkan --max-per-rule untuk melihat semua)")
+            print(f"- ... and {hidden} more (increase --max-per-rule to display all)")
         print()
-    print("Catatan: pemindai ini heuristik (regex). Verifikasi tiap temuan dengan membaca konteksnya, "
-          "lalu uji di berbagai ukuran layar.")
+    print("Note: This scanner is heuristic (regex). Inspect findings within surrounding code context, "
+          "then verify on multiple viewports.")
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Audit statis masalah responsif.")
-    ap.add_argument("paths", nargs="+", help="folder atau file untuk dipindai")
-    ap.add_argument("--json", action="store_true", help="keluarkan JSON, bukan teks")
-    ap.add_argument("--max-per-rule", type=int, default=8, help="maksimum contoh per aturan di laporan teks")
+    ap = argparse.ArgumentParser(description="Static audit for responsive layout defects.")
+    ap.add_argument("paths", nargs="+", help="directories or files to audit")
+    ap.add_argument("--json", action="store_true", help="output JSON instead of human-readable text")
+    ap.add_argument("--max-per-rule", type=int, default=8, help="maximum examples per rule in text report")
     ap.add_argument("--fail-on", choices=["high", "medium", "low"], default=None,
-                    help="exit code 1 jika ada temuan pada tingkat ini atau lebih tinggi")
+                    help="exit with code 1 if findings meet or exceed this severity")
     args = ap.parse_args(argv)
 
     findings, scanned = run(args.paths, args.max_per_rule)
     if scanned == 0:
-        print("Tidak ada file yang bisa dipindai (ekstensi didukung: html, css, scss, jsx, tsx, vue, svelte, php, dll.).",
+        print("No scannable files found (supported extensions: html, css, scss, jsx, tsx, vue, svelte, php, etc.).",
               file=sys.stderr)
     if args.json:
         payload = {"scanned_files": scanned, "count": len(findings),

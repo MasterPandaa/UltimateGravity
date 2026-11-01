@@ -1,44 +1,38 @@
 ---
 name: anti-slop
-description: "[UI Cliche Purger] & Editorial Quality Gate] Subtractive quality gate that strips repetitive AI tropes, boilerplate, and generic templates from UI designs, code comments, and copy. Use as a final pass before delivering frontend interfaces. DO NOT USE for component library implementations (use shadcn-ui)."
+description: "[UI & Content Anti-Slop Gatekeeper] Ruthlessly eliminates generic AI tropes, empty boilerplate, and cliched templates across UI designs, code comments, and copy. Consults references/anti-ai-slop-guide.md for deep humanization."
 ---
 
 # Anti-Slop: Subtractive Quality Filter
 
-Acts as a ruthless filter to catch and eliminate lazy, predictable patterns typical of raw AI generation. Pairs as a complementary audit layer with aesthetic design skills like `taste-skill` and `shadcn-ui`.
+Acts as a ruthless filter to eliminate lazy, predictable patterns typical of raw AI generation. For deep editorial writing, humanization workflows, and visual asset audits, read: **[references/anti-ai-slop-guide.md](references/anti-ai-slop-guide.md)**.
 
 ## Hard Gates: What Is Strictly Banned
 
-### 1. UI Anti-Patterns
-- **Multiple Hero Buttons (Twinning CTAs)**: Ban multiple solid filled primary buttons competing for visual attention on the same screen (Rule: Max 1 hero primary button per viewport; others must be outline/ghost).
-- **Pure Black on Pure White Cliché**: Ban harsh `#000000` text directly on `#FFFFFF` surfaces (causes optical vibration; enforce off-black `#0F172A`/`#18181B` and off-white `#F8FAFC`).
-- **Missing Interaction States (Rage-Click Inducers)**: Ban interactive buttons without distinct `:active` (pressed scale) and loading spinner states.
-- **Arbitrary Odd Spacing**: Ban unaligned, guessing-game spacing values (e.g. 13px, 17px, 21px). Enforce strict 8pt grid tokens (`4px`, `8px`, `16px`, `24px`, `32px`).
-- **The AI Purple/Pink Gradient**: Ban `#8B5CF6` to `#EC4899` gradient hero backgrounds or text clips unless explicitly branded.
-- **The "Bento Grid" Default**: Ban 3-column equal-height bento grids with arbitrary floating cards that have no informational hierarchy.
-- **Sparkle Clichés**: Ban decorative sparkle icons (`✨`, `SparklesIcon`) on buttons, headers, or feature lists to indicate "AI power".
-- **Uniform Rounded Corners**: Ban mindless `rounded-2xl` on every nested element. Vary radius with intent (`rounded-sm` for tags, `rounded-lg` for cards, `rounded-none` for crisp editorial layouts).
-- **Generic Beta Badges**: Ban "v1.0 is live!" or "Now in Public Beta" pills that serve no real functional purpose.
+### 1. UI & Visual Anti-Patterns
+- **Multiple Hero Buttons**: Max 1 solid primary button per viewport; others must be outline/ghost (*One Hero, One Action*).
+- **Pure Black on White & AI Purple**: Ban `#000000` on `#FFFFFF` (use `#0F172A`/`#18181B`) and generic `#8B5CF6` purple/pink glow.
+- **Box-in-a-Box & Divider Clutter**: Ban cards inside cards with borders/shadows (use whitespace). Ban gratuitous `<hr>` borders.
+- **Grayscale Hierarchy Failure**: Structure and data hierarchy must be 100% decipherable in monochrome before adding color.
+- **Literal Visual Metaphors**: Ban brains with circuits for AI, lightbulbs for ideas, and fake bento-grids.
+- **9-Pass UI Refactoring Pipeline**: When refactoring AI-generated screens, execute in strict sequential order: Spacing &rarr; Color &rarr; Icons &rarr; Copy &rarr; Type &rarr; Layout &rarr; Details &rarr; Visuals &rarr; Motion ([`references/anti-ai-slop-guide.md`](references/anti-ai-slop-guide.md)).
 
-### 2. Copywriting Clichés
-- **AI Hype Verbs**: Ban "Unleash", "Elevate", "Supercharge", "Transform", "Revolutionize", "Seamless", "Delve", "Game-changer".
-- **Forced Triads**: Ban groups of three adjective bullet points structured as "X, Y, and Z" when two or four are more accurate.
-- **Stock AI Contrast Openers**: Ban "In today's fast-paced digital world..." or "Whether you are an X or a Y...".
-- **The Hollow Closer**: Ban "The future is here, and it starts with you."
+### 2. Copywriting & Text Slop
+- **3 Core Diagnostic Tests**:
+  - *Topic-Swap Test*: If a paragraph fits another topic by changing 2 words, it is empty fluff—cut it.
+  - *So What? Test*: Every claim must carry a tangible consequence or metric for the reader.
+  - *Anti-Fence-Sitting*: Ban diplomatic cop-outs (*"depends on individual preference"*); take a firm conditional stance.
+- **Banned AI-isms**: Ban "navigate the landscape", "tapestry", "digital era", "not just X but also Y", "delve", "beacon", "elevate", "in today's fast-paced world", and "it is important to note that".
+- **Anti-Hallucinated Experience**: Never fabricate personal stories, quotes, or fake data. Use honest facts or `[FILL: verified project data]`.
 
 ### 3. Code Anti-Patterns
-- **Narrative Commenting**: Ban comments that merely restate the code:
-  ```typescript
-  // BAD: Increment counter by 1
-  count += 1;
-  ```
-- **Premature Abstraction**: Ban wrapping a simple 5-line utility into an `AbstractFactoryManagerProvider` class.
-- **Placeholder Hand-waving**: Ban `// TODO: Add error handling here` in production deliverables.
+- **Narrative Commenting**: Ban comments merely restating code (`// increment count by 1`). Explain *why*, never *what*.
+- **Premature Abstraction & TODO Stubs**: Ban `AbstractFactoryManagerProvider` and `// TODO: implement later` stubs.
 
 ## Delivery Verification Gate
-Before claiming a frontend or written deliverable complete, run the Anti-Slop Check:
-- [ ] No banned verbs in headlines
-- [ ] No generic purple hero gradient
-- [ ] Typography uses high-contrast weights, not default Inter medium
-- [ ] Layout matches the specific content shape, not a template wireframe
-- [ ] Code comments explain *why*, never *what*
+Before claiming a deliverable complete, run the Anti-Slop Check:
+- [ ] Passed Topic-Swap and "So What?" tests (no generic fluff or fence-sitting)
+- [ ] No invented personal anecdotes or unverified metrics
+- [ ] Single Focus: Exactly one dominant hero element and one primary action per viewport
+- [ ] Visual Subtraction: No nested box-in-a-box or divider clutter
+- [ ] Code comments explain *why*, never *what* (no fake TODO stubs)

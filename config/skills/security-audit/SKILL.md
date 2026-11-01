@@ -5,13 +5,14 @@ description: "[Application & API Security Pentest Audit] Rigorous security audit
 
 # Security Audit: Vulnerability & Compliance Playbook
 
-Guides Security Auditor (Isobu) and QA (Gyuki) in conducting rigorous, evidence-based security audits and penetration verification across application codebases, APIs, and AI agent skills.
+Guides Security Auditor and QA Engineer in conducting rigorous, evidence-based security audits and penetration verification across application codebases, APIs, and AI agent skills.
 
 ## Table of Contents
 
 - [Cloudflare 6-Phase Vulnerability Discovery Harness](#cloudflare-6-phase-vulnerability-discovery-harness)
 - [Core Vulnerability Vectors to Audit](#core-vulnerability-vectors-to-audit)
-- [5. Vibe-Coding Pre-Launch Safety Gate (Pencegahan Kebocoran Data & Runaway Billing)](#5-vibe-coding-pre-launch-safety-gate-pencegahan-kebocoran-data-runaway-billing)
+- [5. Vibe-Coding Pre-Launch Safety Gate (Data Leakage & Runaway Billing Prevention)](#5-vibe-coding-pre-launch-safety-gate-data-leakage--runaway-billing-prevention)
+- [6. DeepSec Two-Pass Adversarial Audit Protocol (Vercel Labs)](#6-deepsec-two-pass-adversarial-audit-protocol-vercel-labs)
 - [Security Audit Report Format](#security-audit-report-format)
 
 ---
@@ -96,6 +97,15 @@ AI-generated applications (*vibe coding* via Lovable, Bolt, Cursor, Claude Code)
 4. **Cloud Runaway Billing & Hard Limits Gate ($72k Milkie Way Pattern)**:
    - **Critical Warning**: Cloud provider budget alerts **DO NOT STOP** billing when breached; they only send notification emails.
    - Enforce **Hard Limits**: Set `max_instances` on serverless/Cloud Run, configure hard monthly spending caps on AI providers, and enforce strict execution timeouts (10–15s) to prevent runaway billing loops.
+
+---
+
+## 6. DeepSec Two-Pass Adversarial Audit Protocol (Vercel Labs)
+
+To eliminate the ~40–60% false-positive rate inherent to single-pass AI audits, execute the **Two-Pass Adversarial Revalidation Pattern** ([`references/deepsec-audit-workflow.md`](references/deepsec-audit-workflow.md)):
+1. **Pass 1 (Taint Investigation)**: Map untrusted sources to sensitive sinks (SQL, RCE, HTML, File, Network). Formulate a preliminary vulnerability hypothesis.
+2. **Pass 2 (Adversarial Critic / Falsifier)**: Switch perspective to actively *disprove* the finding. Check: (a) Upstream middleware guards, (b) Framework auto-sanitization, (c) Path unreachability, and (d) PoC reproducibility.
+3. **Decision Gate**: If falsified, discard silently. If verified with reproducible PoC, enrich with git blame context and minimal surgical diff.
 
 ---
 

@@ -36,6 +36,12 @@ node C:\Users\Luthfi\.gemini\scripts\rrsi-evaluator.js record-failure --model <m
 node C:\Users\Luthfi\.gemini\scripts\rrsi-evaluator.js failure-matrix
 ```
 
+### D. Recuris Failure Attribution & Memory Status
+```bash
+node C:\Users\Luthfi\.gemini\scripts\rrsi-evaluator.js localize-failure --error "<sig>" [--task <name>]
+node C:\Users\Luthfi\.gemini\scripts\rrsi-evaluator.js recuris-status
+```
+
 ---
 
 ## 3. Evidence & Acceptance Gate

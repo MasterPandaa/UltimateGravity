@@ -1,6 +1,6 @@
 ---
 name: clean-user-facing-text
-description: Clean and finalize authorized natural-language text intended for readers by auditing suspicious invisible Unicode and rewriting prose while preserving facts, meaning, and the writer's voice. Use when the user asks to clean, humanize, polish, or finalize articles, manuscripts, reports, documentation, emails, product copy, UI text, Markdown, or HTML prose, or when a project rule or instruction file explicitly requires this workflow. Don't use for code-only tasks or undisclosed authorship evasion; leave code, commands, identifiers, paths, APIs, formulas, citations, required disclosures, and verbatim quotations unchanged.
+description: "[Text Hygiene & Humanizer] Cleans invisible Unicode, sanitizes steganography, and polishes prose (articles, reports, docs, UI text) while strictly preserving facts, code, and intent. Triggers on requests to clean, humanize, or polish user-facing text."
 ---
 
 # Clean user-facing text
@@ -188,4 +188,4 @@ When the user asks for an audit, distinguish:
 - **Best-effort:** prose rewritten to alter token and syntax patterns.
 - **Not established:** official detector evasion, human authorship, or removal of a vendor's secret-key watermark.
 
-For technical background, read `references/watermark-notes.md`. For misuse or disclosure questions, read `references/responsible-use.md`.
+For technical background, read `references/watermark-notes.md`. For misuse or disclosure questions, read `references/responsible-use.md`. For editorial quality control, bilingual AI-isms, and substantive humanization guidelines, read [`anti-slop/references/anti-ai-slop-guide.md`](file:///C:/Users/Luthfi/.gemini/config/skills/anti-slop/references/anti-ai-slop-guide.md).

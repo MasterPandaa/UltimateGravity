@@ -1,21 +1,21 @@
 # 19 Micro-Interaction & Design Engineering Rules (Interfaces.dev / Jakub Krehel)
 
-Kompilasi prinsip rekayasa desain antarmuka mikro (*design engineering*) yang membedakan UI standar dari kerajinan tingkat tinggi (*exceptional craft*). Diadaptasi langsung dari `jakubkrehel/make-interfaces-feel-better`.
+Compilation of micro-interaction and design engineering principles that separate ordinary UI from exceptional craft. Adapted from `jakubkrehel/make-interfaces-feel-better`.
 
 ---
 
 ## 1. Concentric Border Radius
-Sudut melengkung bersarang (*nested rounded corners*) yang tidak proporsional membuat UI terasa canggung.
-- **Formula Mutlak**:
+Disproportionate nested rounded corners cause visual dissonance.
+- **Formula**:
   $$\text{outerRadius} = \text{innerRadius} + \text{padding}$$
-- **Contoh Tailwind**:
-  Jika container luar memiliki padding `p-3` (12px) dan elemen dalam `rounded-md` (6px), maka container luar **wajib** menggunakan `rounded-[18px]` ($6 + 12 = 18\text{px}$).
+- **Tailwind Example**:
+  If an outer container specifies padding `p-3` (12px) and an inner element declares `rounded-md` (6px), the outer container **must** declare `rounded-[18px]` ($6 + 12 = 18\text{px}$).
   ```html
-  <!-- Container Luar: p-3 (12px), radius 18px -->
+  <!-- Outer Container: p-3 (12px), radius 18px -->
   <div class="rounded-[18px] p-3 bg-card border">
-    <!-- Elemen Dalam: radius 6px (rounded-md) -->
+    <!-- Inner Element: radius 6px (rounded-md) -->
     <div class="rounded-md bg-muted p-2">
-      Konten Selaras
+      Harmonious Content
     </div>
   </div>
   ```
@@ -23,17 +23,17 @@ Sudut melengkung bersarang (*nested rounded corners*) yang tidak proporsional me
 ---
 
 ## 2. Optical Over Geometric Alignment
-Pusat matematis/geometris sering kali terlihat salah di mata manusia karena distribusi bobot visual yang asimetris.
-- **Play Button**: Ikon segitiga selalu terlihat terlalu ke kiri jika diletakkan di tengah geometris. Geser segitiga secara manual $1\text{–}2\text{px}$ ke kanan (`translate-x-0.5`).
-- **Icon + Text Pairing**: Ikon dengan aksen tinggi/rendah (misal panah miring atau tanda seru) butuh penyesuaian sumbu Y manual `translate-y-[1px]` agar selaras dengan cap-height font.
-- **Badges**: Teks badge status sering terlihat terlalu rendah; beri sedikit padding atas atau kompensasi `leading-none`.
+Mathematical or geometric centers frequently appear off-center to the human eye due to asymmetrical visual weight distribution.
+- **Play Buttons**: Triangle glyphs appear left-heavy when geometrically centered. Shift triangles $1\text{–}2\text{px}$ to the right (`translate-x-0.5`).
+- **Icon + Text Pairing**: Glyphs with ascenders/descenders (e.g. diagonal arrows or exclamation marks) require a manual Y-axis nudge (`translate-y-[1px]`) to align with font cap-height.
+- **Badges**: Badge status copy often looks vertically low; add minor top padding or apply `leading-none`.
 
 ---
 
 ## 3. Layered Shadows for Elevation, Borders for Structure
-Jangan gunakan border tebal untuk memberikan kesan timbul (*elevation*), dan jangan gunakan satu shadow pekat tunggal.
-- **Borders**: Khusus digunakan untuk pembagi struktural, garis kisi (*layout divider*), dan active/focus state.
-- **Layered Shadows**: Gunakan 2–3 lapisan shadow transparan bertingkat (ambient light + directional light) untuk kedalaman alami:
+Never rely on thick borders for elevation, and avoid single dense, opaque shadows.
+- **Borders**: Strictly reserved for structural delimiters, layout grids, and active/focus states.
+- **Layered Shadows**: Deploy 2–3 stepped transparent shadow tiers (ambient lighting + directional lighting) for natural depth:
   ```css
   /* Layered Elevation Shadow */
   box-shadow: 
@@ -45,11 +45,11 @@ Jangan gunakan border tebal untuk memberikan kesan timbul (*elevation*), dan jan
 ---
 
 ## 4. Interruptible CSS Transitions
-Hindari `@keyframes` untuk transisi state interaktif yang dipicu user (seperti hover, expand, atau dropdown).
-- **Alasan**: `@keyframes` tidak bisa diinterupsi dengan mulus. Jika kursor keluar sebelum animasi selesai, elemen akan tersentak (*snap*) kembali ke awal.
-- **Solusi**: Gunakan CSS `transition` atau Spring physics (`motion/react`). Jika kursor keluar di tengah jalan, transisi akan berbalik secara organik dari posisi saat itu.
+Avoid `@keyframes` for interactive user-triggered state transitions (hover, accordion expansion, dropdown toggles).
+- **Rationale**: `@keyframes` cannot be interrupted smoothly. If the cursor exits before completion, elements snap abruptly back to start.
+- **Remedy**: Use CSS `transition` or spring physics (`motion/react`). When reversed mid-flight, transitions interpolate fluidly from their instantaneous coordinates.
   ```css
-  /* Good: Interruptible */
+  /* Interruptible Transition */
   .interactive-pill {
     transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
   }
@@ -58,16 +58,16 @@ Hindari `@keyframes` untuk transisi state interaktif yang dipicu user (seperti h
 ---
 
 ## 5. Split & Stagger Enter Animations
-Animasi masuk elemen dalam kontainer jangan digerakkan sekaligus sebagai satu blok masif, tetapi pisah menjadi potongan semantik (*chunks*).
-- Berikan jeda bertingkat (*stagger*) sekitar $60\text{–}100\text{ms}$ antar-potongan semantik (Heading $\to$ Deskripsi $\to$ Aksi $\to$ Visual).
-- **Batasan**: **JANGAN PERNAH** menganimasikan/men-stagger elemen pada interaksi rutin frekuensi tinggi (misal dropdown menu, tombol submit, autocomplete). Stagger hanya untuk halaman awal (*initial load*) atau kartu hero.
+Avoid animating elements inside a container as a single massive block; split them into semantic chunks.
+- Apply stepped staggers ($60\text{–}100\text{ms}$) across semantic blocks (Heading $\to$ Description $\to$ Primary Action $\to$ Media).
+- **Constraint**: **NEVER** animate or stagger routine, high-frequency actions (dropdown menus, submit buttons, autocomplete lists). Reserve staggers for initial page loads or hero cards.
 
 ---
 
 ## 6. Subtle Contextual Exit Animations
-Elemen yang keluar dari layar (*exit state*) harus lebih halus dan lebih cepat daripada saat masuk.
-- Gunakan pergeseran vertikal kecil (`translateY` $4\text{–}8\text{px}$) ke arah logis keluarannya.
-- Terapkan durasi $60\text{–}70\%$ lebih cepat dari enter, dengan `ease-out` untuk kedua arah:
+Exit states must animate faster and more subtly than entrance animations.
+- Use small directional vertical shifts (`translateY` $4\text{–}8\text{px}$) towards the logical exit path.
+- Configure exit durations $60\text{–}70\%$ faster than enter durations, applying `ease-out` in both directions:
   ```tsx
   <motion.div
     initial={{ opacity: 0, y: 8 }}
@@ -79,12 +79,12 @@ Elemen yang keluar dari layar (*exit state*) harus lebih halus dan lebih cepat d
 ---
 
 ## 7. Contextual Icon Animations (Pop & Settle)
-Saat mengganti ikon status (misal: Copy $\to$ Copied checkmark, Play $\to$ Pause, Bookmark $\to$ Bookmarked):
-- Kombinasikan 3 properti:
+When swapping status icons (Copy $\to$ Copied checkmark, Play $\to$ Pause, Bookmark $\to$ Bookmarked):
+- Combine 3 properties:
   1. **Scale**: $0.25 \to 1$
   2. **Opacity**: $0 \to 1$
   3. **Blur**: $4\text{px} \to 0\text{px}$
-- Gunakan spring tanpa pantulan liar (*zero bounce*):
+- Apply a zero-bounce spring curve:
   ```tsx
   <motion.div
     initial={{ scale: 0.25, opacity: 0, filter: "blur(4px)" }}
@@ -99,7 +99,7 @@ Saat mengganti ikon status (misal: Copy $\to$ Copied checkmark, Play $\to$ Pause
 ---
 
 ## 8. Native Font Smoothing
-Pastikan rendering font di browser webkit/macOS setajam di Figma:
+Ensure browser rendering matches Figma clarity across WebKit and macOS:
 ```css
 body, html {
   -webkit-font-smoothing: antialiased;
@@ -110,47 +110,47 @@ body, html {
 ---
 
 ## 9. Tabular Numbers (Anti-Layout Shift)
-Untuk angka dinamis, counter, jam, harga, statistik, atau stopwatch, angka proporsional standar menyebabkan getaran horizontal (*jitter*) saat angka berubah.
-- Wajib gunakan:
+For dynamic counters, timestamps, pricing tables, metrics, or timers, proportional figures trigger horizontal jitter upon updates.
+- Enforce:
   ```css
   font-variant-numeric: tabular-nums;
   /* Tailwind utility: */
-  className="tabular-nums font-mono" /* atau cukup tabular-nums */
+  className="tabular-nums font-mono" /* or tabular-nums alone */
   ```
 
 ---
 
 ## 10. Modern Text Wrapping (Balance & Pretty)
-Hindari kata tunggal yang jatuh sendirian di baris baru (*widows / orphans*).
-- **Headings (Judul)**: Wajib gunakan `text-wrap: balance` (`balance` di Tailwind).
-- **Body Copy (Paragraf)**: Gunakan `text-wrap: pretty` (`pretty` di Tailwind) untuk membagi tipografi secara proporsional.
+Eliminate typographic widows and orphan words on trailing lines.
+- **Headings**: Declare `text-wrap: balance` (Tailwind: `text-balance`).
+- **Body Copy**: Declare `text-wrap: pretty` (Tailwind: `text-pretty`) to distribute characters harmoniously.
   ```html
-  <h2 class="text-2xl font-bold tracking-tight text-balance">Peluncuran Fitur Mutakhir Tanpa Kendala</h2>
-  <p class="text-muted-foreground text-pretty max-w-prose">Dapatkan kemudahan otomatisasi sistem kami.</p>
+  <h2 class="text-2xl font-bold tracking-tight text-balance">Enterprise System Deployments Made Effortless</h2>
+  <p class="text-muted-foreground text-pretty max-w-prose">Automate production workloads with verifiable reliability.</p>
   ```
 
 ---
 
 ## 11. Subtle Image Outlines (Light & Dark Mode)
-Gambar di atas latar belakang sering kali kehilangan batas tepi jika warnanya mirip (misal foto putih di background putih, atau screenshot gelap di dark mode).
-- Berikan outline 1px tipis dengan opacity rendah:
-  - **Light Mode**: `oklch(0 0 0 / 0.08)` atau `border-black/10` (hitam murni dengan transparansi rendah).
-  - **Dark Mode**: `oklch(1 0 0 / 0.12)` atau `border-white/10` (putih murni dengan transparansi rendah).
-- **DILARANG**: Menggunakan border abu-abu flat (`#CCCCCC` atau `#333333`) karena akan terlihat kusam dan murahan.
+Graphics placed on backgrounds lose boundary definition when tones align (white photo on white card, dark screenshot in dark mode).
+- Apply a 1px low-opacity outline:
+  - **Light Mode**: `oklch(0 0 0 / 0.08)` or `border-black/10` (pure black with low opacity).
+  - **Dark Mode**: `oklch(1 0 0 / 0.12)` or `border-white/10` (pure white with low opacity).
+- **Prohibited**: Flat gray borders (`#CCCCCC` or `#333333`) which appear muddy and unpolished.
 
 ---
 
 ## 12. Precise Scale on Press (Tactile Micro-Feedback)
-Beri respons fisik saat tombol ditekan (*press/active state*):
-- Gunakan skala tepat: `active:scale-[0.96]`.
-- **Batas Kritis**: Jangan pernah lebih kecil dari `0.95` (akan terasa seperti tombol menciut rusak atau tenggelam).
-- Tambahkan transisi lembut: `transition-transform duration-100 ease-out`.
+Provide immediate tactile feedback on interactive controls during press states:
+- Scale target: `active:scale-[0.96]`.
+- **Ceiling**: Never scale below `0.95` (feels broken or collapsed).
+- Add gentle transitions: `transition-transform duration-100 ease-out`.
 
 ---
 
-## 13. Skip Animation on Page Load
-Saat user me-refresh atau pertama kali membuka halaman yang memiliki `AnimatePresence`, jangan paksa elemen yang sudah ada untuk fade-in dari ketiadaan kecuali itu hero reveal yang disengaja.
-- Tambahkan properti `initial={false}` pada `AnimatePresence`:
+## 13. Skip Animation on Initial Page Load
+When users refresh or open a route containing `AnimatePresence`, do not animate existing persistent components from zero opacity unless part of an intentional hero reveal.
+- Pass `initial={false}` to `AnimatePresence`:
   ```tsx
   <AnimatePresence initial={false}>
     {isOpen && <Panel key="panel" />}
@@ -160,8 +160,8 @@ Saat user me-refresh atau pertama kali membuka halaman yang memiliki `AnimatePre
 ---
 
 ## 14. Never Use `transition: all`
-- `transition: all` memicu kalkulasi ulang properti CSS yang mahal (`height`, `width`, `margin`, `padding`, `box-shadow`) dan merusak performa GPU.
-- **Aturan**: Selalu nyatakan properti target secara eksplisit:
+- `transition: all` triggers expensive style recalculations for non-composited properties (`height`, `width`, `margin`, `padding`, `box-shadow`), compromising GPU performance.
+- **Rule**: Explicitly declare targeted animated properties:
   ```css
   /* Bad */
   transition: all 0.2s ease;
@@ -173,16 +173,16 @@ Saat user me-refresh atau pertama kali membuka halaman yang memiliki `AnimatePre
 ---
 
 ## 15. Use `will-change` Sparingly
-- Jangan sembarangan menambahkan `will-change: transform` pada semua elemen di CSS permanen (ini memakan alokasi layer memori VRAM yang berlebihan).
-- Gunakan `will-change` **hanya** pada elemen yang sedang aktif dianimasikan, lalu lepas kembali setelah animasi selesai, atau batasi hanya untuk `transform, opacity, filter`.
+- Never apply `will-change: transform` across all elements in permanent CSS trees (wastes GPU VRAM layer memory).
+- Apply `will-change` strictly to actively animating elements, clearing it upon animation termination, or restricting strictly to `transform, opacity, filter`.
 
 ---
 
 ## 16. Minimum Interactive Hit Area
-Elemen kecil (ikon close, action dots, toggle kecil) sangat rentan meleset saat diklik.
-- **Mobile / Touch**: Minimal $44 \times 44\text{px}$ (standar WCAG).
-- **Desktop**: Minimal $40 \times 40\text{px}$.
-- **Trik Pseudo-Element**: Jika ikon visual hanya berukuran $16\text{px}$ atau $20\text{px}$, perluas area klik tanpa mengubah tata letak dengan pseudo-element `::after`:
+Small controls (modal close buttons, action dots, compact toggles) trigger misclicks when hit targets are constrained.
+- **Mobile / Touch**: Minimum $44 \times 44\text{px}$ (WCAG baseline).
+- **Desktop**: Minimum $40 \times 40\text{px}$.
+- **Pseudo-Element Hit Box**: When a visual glyph is only $16\text{px}$ or $20\text{px}$, expand the hit area without modifying layout geometry via a pseudo-element:
   ```html
   <button class="relative p-1">
     <X className="h-4 w-4" />
@@ -193,23 +193,23 @@ Elemen kecil (ikon close, action dots, toggle kecil) sangat rentan meleset saat 
 ---
 
 ## 17. Match Icon Stroke to Text Weight
-Ketebalan garis ikon (*stroke weight*) yang tidak cocok dengan font di sebelahnya menciptakan ketimpangan visual instan.
-- **Font Weight 400 (Regular)**: Gunakan `stroke-width={1.5}` pada Lucide icons.
-- **Font Weight 500 (Medium)**: Gunakan `stroke-width={1.75}`.
-- **Font Weight 600 (Semibold / Bold)**: Gunakan `stroke-width={2.0}`.
+Mismatches between icon stroke weights and adjacent font weights trigger visual imbalance.
+- **Font Weight 400 (Regular)**: `stroke-width={1.5}` on Lucide icons.
+- **Font Weight 500 (Medium)**: `stroke-width={1.75}`.
+- **Font Weight 600 (Semibold / Bold)**: `stroke-width={2.0}`.
   ```tsx
   {/* Semibold button text + stroke-2 icon */}
   <Button className="font-semibold gap-2">
     <Plus className="h-4 w-4" strokeWidth={2} />
-    Tambah Proyek
+    New Project
   </Button>
   ```
 
 ---
 
-## 18. One SVG, Recolored via `currentColor`
-Jangan muat dua file SVG berbeda hanya untuk state default dan state aktif/hover.
-- Buat satu SVG dengan struktur: outline sebagai path utama, dan isi fill dikontrol dinamis via `currentColor` atau opacity fill:
+## 18. Single SVG Recolored via `currentColor`
+Do not load two separate SVG files to represent active/inactive or hover states.
+- Structure a single SVG with outline paths, controlling fills dynamically via `currentColor` or opacity classes:
   ```tsx
   <Heart 
     className={cn(
@@ -222,11 +222,11 @@ Jangan muat dua file SVG berbeda hanya untuk state default dan state aktif/hover
 ---
 
 ## 19. Motion Restraint & The 10% Speed Audit
-Untuk memastikan antarmuka bebas dari glitch, flicker, atau layout shift mikro:
-- Buka **Chrome DevTools $\to$ More Tools $\to$ Animations**.
-- Perlambat kecepatan hingga **10%** (0.1x speed).
-- Klik seluruh tombol, buka dropdown, trigger modal, dan amati:
-  1. Apakah ada border yang berkedip?
-  2. Apakah transisi hover terputus (*snap*) saat kursor keluar cepat?
-  3. Apakah teks mengalami subpixel shift saat diskalakan?
-- Perbaiki setiap cacat mikro tersebut sebelum menyerahkan antarmuka ke user.
+To verify interfaces are free of micro-flicker or subpixel jitter:
+- Open **Chrome DevTools $\to$ More Tools $\to$ Animations**.
+- Slow animation speed to **10%** (0.1x speed).
+- Click buttons, trigger dropdowns, open modals, and audit:
+  1. Do borders flash or clip?
+  2. Do hover transitions snap awkwardly when the cursor exits rapidly?
+  3. Does typography undergo subpixel position shifting during scale transitions?
+- Resolve micro-defects prior to client handoff.

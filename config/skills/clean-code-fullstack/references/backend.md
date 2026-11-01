@@ -1,104 +1,105 @@
-# Backend: Standar Praktis
+# Backend: Practical Engineering Standards
 
-## Daftar isi
-1. Lapisan dan struktur
-2. Desain API
-3. Data dan database
-4. Keamanan
-5. Error dan logging
-6. Konkurensi dan keandalan
-7. Konfigurasi
-8. Testing
-9. Contoh kerangka
+## Table of Contents
+1. Layered Architecture & Separation of Concerns
+2. API Design & Contracts
+3. Data & Persistence
+4. Security & Hardening
+5. Error Handling & Structured Logging
+6. Concurrency & Reliability
+7. Environment Configuration
+8. Testing Strategy
+9. Canonical Architecture Example
 
-## 1. Lapisan dan struktur
-Tiga lapisan minimum:
-- **Transport** (route/controller): memparse request, memvalidasi bentuk, memanggil layanan, memetakan hasil ke respons HTTP. Tidak berisi aturan bisnis.
-- **Layanan/domain:** aturan bisnis murni, tidak tahu HTTP maupun detail database.
-- **Akses data** (repository): query dan transaksi; satu-satunya tempat yang tahu SQL/ORM.
-Dependensi diinjeksikan agar bisa diuji. Struktur per fitur: `orders/{route,service,repo,schema,test}`.
+---
 
-## 2. Desain API
-- Sumber daya berupa kata benda jamak (`/orders`), aksi lewat method HTTP; aksi yang bukan CRUD murni boleh sub-sumber daya (`POST /orders/{id}/cancel`).
-- Kode status tepat: 200/201/204 sukses, 400 input salah, 401 belum autentikasi, 403 tidak berhak, 404 tidak ada, 409 konflik, 422 validasi, 429 batas laju, 5xx kegagalan server.
-- Daftar selalu dipaginasi (cursor lebih stabil daripada offset untuk data besar), dengan urutan deterministik.
-- Operasi yang bisa diulang klien (pembayaran, pembuatan) mendukung **kunci idempotensi**.
-- Versi API bila perubahan merusak; jangan mengubah arti field yang sudah ada.
-- Respons konsisten: pembungkus yang sama, nama field `camelCase` atau `snake_case` (pilih satu), tanggal ISO 8601 UTC.
-- Dokumentasikan kontrak (OpenAPI) dan jadikan sumber bagi tipe klien bila memungkinkan.
-- Skema error tunggal, contoh:
+## 1. Layered Architecture & Separation of Concerns
+Enforce a minimum three-tier architecture:
+- **Transport** (routes/controllers): parse requests, validate input shapes, invoke domain services, map domain outputs to HTTP responses. Zero business logic.
+- **Service / Domain**: pure business rules; completely decoupled from HTTP semantics and specific database mechanisms.
+- **Data Access** (repositories): queries and transactions; the exclusive boundary holding SQL or ORM dependencies.
+Dependencies are injected to guarantee testability. Feature-based structure: `orders/{route,service,repo,schema,test}`.
+
+## 2. API Design & Contracts
+- Resource-oriented URLs using plural nouns (`/orders`); actions map to HTTP verbs; non-CRUD actions modeled as sub-resources (`POST /orders/{id}/cancel`).
+- Accurate HTTP status codes: 200/201/204 for success, 400 bad input, 401 unauthenticated, 403 forbidden, 404 not found, 409 conflict, 422 unprocessable entity, 429 rate limited, 5xx server failures.
+- Lists are always paginated (cursor-based pagination preferred over offset for scale) with deterministic sorting.
+- Re-triable client operations (e.g. payments, order creation) support **Idempotency Keys**.
+- Explicit API versioning for breaking changes; never alter the semantic meaning of existing fields.
+- Uniform response envelopes: consistent casing (`camelCase` or `snake_case`), ISO 8601 UTC timestamps.
+- Canonical contract documentation (OpenAPI / Type-Safe RPC) feeding client SDKs.
+- Structured error envelope format:
 ```json
-{ "error": { "code": "VALIDATION_FAILED", "message": "Email tidak valid", "fields": { "email": "format salah" } } }
+{ "error": { "code": "VALIDATION_FAILED", "message": "Invalid email address", "fields": { "email": "invalid format" } } }
 ```
 
-## 3. Data dan database
-- Skema dinormalisasi secukupnya; kunci asing, `NOT NULL`, `UNIQUE`, dan indeks mencerminkan aturan bisnis, bukan hanya aplikasi.
-- Migrasi berurutan, kecil, dapat dibalik; tidak mengedit migrasi yang sudah dijalankan.
-- Operasi multi-langkah dalam **transaksi**.
-- Hindari N+1: ambil relasi dengan join atau batch.
-- Uang: bilangan bulat satuan terkecil atau tipe decimal, bukan float.
-- Waktu: simpan UTC; konversi di tepi.
-- Hapus lunak (`deleted_at`) hanya bila ada kebutuhan bisnis; jelaskan konsekuensinya pada unique/indeks.
-- Indeks berdasar pola query nyata; periksa rencana eksekusi untuk query lambat.
-- **Pencegahan Cache Penetration (Bloom Filter):** Untuk validasi frekuensi tinggi per-keystroke (ketersediaan username, kupon, slug unik), pasang Bloom Filter in-memory (atau Redis Bloom) di depan database. Manfaatkan sifat *Zero False Negatives* (bila filter menyatakan 'pasti tidak ada', 100% tidak ada di DB) untuk memotong beban query 99%+, dan hanya query database jika filter menyatakan 'mungkin ada'.
+## 3. Data & Persistence
+- Normalized relational schemas; foreign keys, `NOT NULL`, `UNIQUE` constraints, and indexes reflect business invariants.
+- Sequential, atomic, and reversible migrations; never mutate executed migration files.
+- Multi-step modifications executed inside ACID **transactions**.
+- Prevent N+1 queries: fetch relations via joins or batch lookups (`DataLoader`).
+- Currency / Money: smallest integer minor units (cents) or arbitrary-precision decimals; never floating-point.
+- Timestamps: store in UTC; format in user locale at boundary edges.
+- Soft deletes (`deleted_at`) applied strictly upon documented business requirement, accounting for unique index constraints.
+- Indexes aligned to empirical query plans (`EXPLAIN ANALYZE`).
+- **Cache Penetration Defense (Bloom Filter)**: For high-frequency lookups (username availability, coupon codes, unique slugs), position an in-memory or Redis Bloom Filter ahead of the database. Exploit zero false negatives (if the filter reports 'definitely absent', 100% skip database queries) to eliminate 99%+ of redundant queries.
 
-## 4. Keamanan
-- Validasi **semua** input di batas (tipe, panjang, rentang, format). Tolak yang tidak dikenal.
-- Query berparameter; tidak pernah menyambung string SQL/perintah shell dari input.
-- Autentikasi: sesi atau token dengan masa berlaku; kata sandi di-hash dengan algoritma lambat khusus (argon2id, bcrypt, scrypt) dan garam.
-- Otorisasi diperiksa **per sumber daya** di sisi server (jangan hanya "sudah login"); cegah IDOR dengan memfilter berdasar pemilik.
-- Rahasia dari lingkungan atau pengelola rahasia; tidak pernah di repositori atau log.
-- CORS sempit, header keamanan, batas ukuran body, batas laju pada endpoint sensitif (login, reset kata sandi).
-- Pesan error ke klien tidak membocorkan detail internal (jejak stack, SQL).
-- Unggahan file: batasi tipe dan ukuran, simpan di luar webroot, jangan percaya nama atau MIME dari klien.
+## 4. Security & Hardening
+- Validate **all** input at boundaries (types, length, range, regex). Reject unrecognized fields.
+- Parameterized queries exclusively; string concatenation in SQL or shell executions is strictly forbidden.
+- Authentication: expirable session tokens or JWTs; password hashing using slow algorithms (Argon2id, bcrypt, scrypt) with cryptographic salts.
+- Authorization verified **per resource** on the server (never assume simple login status); mitigate BOLA/IDOR by filtering records by ownership context.
+- Secrets injected via environment variables or secret managers; never hardcoded in source control or printed to logs.
+- Strict CORS policies, security headers (CSP, HSTS), payload size limits, rate limiting on sensitive endpoints (login, password reset).
+- Error envelopes sent to clients must never leak internal stack traces or database queries.
+- File uploads: enforce MIME type validation, file size limits, store outside webroot, never trust client-provided filenames.
 
-## 5. Error dan logging
-- Bedakan **error yang diharapkan** (validasi, tidak ditemukan, konflik; dipetakan ke 4xx) dari **kegagalan tak terduga** (bug, dependensi mati; 5xx, dicatat dengan jejak).
-- Satu penangan error terpusat yang memetakan ke skema error tunggal.
-- Jangan menelan exception; tangani di tempat yang bisa berbuat sesuatu atau teruskan dengan konteks.
-- Log terstruktur (JSON) dengan ID korelasi per request, tingkat yang benar (info/warn/error), tanpa data pribadi, kata sandi, atau token.
-- Pesan log menjelaskan apa yang terjadi dan konteksnya, bukan hanya "error".
+## 5. Error Handling & Structured Logging
+- Differentiate **expected operational errors** (validation failures, not found, conflicts; mapped to 4xx) from **unexpected system failures** (bugs, network drops; mapped to 5xx with trace logging).
+- Centralized error-handling middleware mapping exceptions to standard response schemas.
+- Never swallow exceptions; handle where remediation is possible or propagate with contextual error tags.
+- Structured JSON logging with request correlation IDs, accurate severity levels (info/warn/error), sanitized of credentials, PII, and tokens.
+- Log messages convey contextual facts, avoiding ambiguous "error occurred" strings.
 
-## 6. Konkurensi dan keandalan
-- Anggap request bisa datang ganda atau bersamaan: gunakan kunci unik, transaksi, atau kontrol versi (optimistic locking) untuk mencegah balapan.
-- Panggilan ke layanan luar: timeout eksplisit, coba ulang terbatas dengan backoff dan jitter, pemutus sirkuit bila perlu.
-- Kerja berat atau lambat dipindah ke antrean/pekerja latar; respons cepat dengan status yang bisa dipantau.
-- Pekerja latar idempoten: aman dijalankan ulang.
-- Penutupan anggun (graceful shutdown) dan pemeriksaan kesehatan (liveness/readiness).
+## 6. Concurrency & Reliability
+- Anticipate duplicate and concurrent requests: rely on unique constraints, row-level locks, or optimistic concurrency control (`version` column).
+- Outbound third-party calls: enforce strict timeouts, bounded retries with exponential backoff and jitter, circuit breakers.
+- Offload long-running tasks to background job queues; respond promptly with polling or webhook callbacks.
+- Background workers must be idempotent and safely re-executable.
+- Graceful shutdown handlers and container health probes (liveness/readiness).
 
-## 7. Konfigurasi
-- Semua nilai yang berubah antar-lingkungan lewat variabel lingkungan, divalidasi saat startup (gagal cepat bila hilang).
-- Default aman; fitur eksperimen di balik flag.
-- Tidak ada kondisi `if (env === 'production')` yang tersebar; pusatkan perbedaan di konfigurasi.
+## 7. Environment Configuration
+- Environment-specific values managed via environment variables, validated at startup (fail-fast on missing keys).
+- Secure defaults; experimental features gated behind feature flags.
+- Avoid scattered `if (env === 'production')` conditionals; encapsulate environment differences within configuration providers.
 
-## 8. Testing
-- **Unit:** aturan bisnis murni, cepat, tanpa I/O.
-- **Integrasi:** route + layanan + database nyata (atau kontainer uji) untuk jalur utama dan kasus gagal.
-- **Kontrak:** bentuk respons sesuai skema yang dipakai frontend.
-- Kasus batas wajib: input kosong, duplikat, nilai ekstrem, pengguna tak berhak, permintaan ganda, kegagalan dependensi.
-- Uji perilaku, bukan implementasi; nama uji menjelaskan skenario dan hasil yang diharapkan.
-- Data uji dibuat lewat pabrik/fixture, tidak bergantung urutan uji.
+## 8. Testing Strategy
+- **Unit Tests:** pure domain logic, fast execution, zero external I/O.
+- **Integration Tests:** routes + services + live test databases (or containers) for primary happy paths and failure branches.
+- **Contract Tests:** verify responses adhere strictly to schemas consumed by frontend clients.
+- Mandatory edge cases: empty inputs, duplicate keys, boundary values, unprivileged actors, duplicate requests, dependency timeouts.
+- Test behavior, not internal implementation; test names describe scenarios and expected outcomes.
+- Test fixtures produced through factories; tests must be isolated and order-independent.
 
-## 9. Contoh kerangka (TypeScript, gaya umum)
+## 9. Canonical Architecture Example (TypeScript)
 ```ts
-// orders/schema.ts: validasi di batas
+// orders/schema.ts: Boundary validation
 export const CreateOrder = z.object({
   items: z.array(z.object({ productId: z.string(), qty: z.number().int().positive() })).min(1),
 });
 
-// orders/service.ts: aturan bisnis, tidak tahu HTTP
+// orders/service.ts: Domain business logic (HTTP-agnostic)
 export async function createOrder(deps: Deps, userId: string, input: CreateOrderInput) {
   const products = await deps.repo.getProducts(input.items.map(i => i.productId));
   if (products.length !== input.items.length) throw new NotFoundError("PRODUCT_NOT_FOUND");
   const totalMinor = calculateTotalMinor(products, input.items);
-  return deps.repo.insertOrder({ userId, items: input.items, totalMinor }); // satu transaksi di repo
+  return deps.repo.insertOrder({ userId, items: input.items, totalMinor }); // Single atomic transaction
 }
 
-// orders/route.ts: transport
+// orders/route.ts: Transport layer
 router.post("/orders", auth, async (req, res) => {
-  const input = CreateOrder.parse(req.body);              // 422 bila gagal (via penangan terpusat)
+  const input = CreateOrder.parse(req.body); // 422 handled via central middleware
   const order = await createOrder(deps, req.user.id, input);
   res.status(201).json({ data: order });
 });
 ```
-Catatan: contoh menampilkan pemisahan lapisan, bukan pustaka wajib; sesuaikan dengan stack proyek.

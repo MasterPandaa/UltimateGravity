@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Uji responsif otomatis: screenshot + pengukuran di banyak ukuran layar (Playwright).
+"""Automated responsive testing: screenshot capture + multi-viewport layout measurement (Playwright).
 
-Untuk setiap ukuran viewport, skrip ini:
-  - mengambil screenshot,
-  - mendeteksi scroll horizontal dan menyebut elemen penyebabnya,
-  - menghitung teks < 12px, target sentuh kecil (pada viewport sentuh), dan baris prosa terlalu panjang.
+For each viewport size, this script:
+  - captures a screenshot,
+  - detects horizontal overflow and identifies offending elements,
+  - counts text elements < 12px, undersized touch targets (on touch viewports), and overlong prose lines.
 
-Contoh:
+Examples:
   python3 screenshot_matrix.py index.html --preset quick --out shots/
   python3 screenshot_matrix.py http://localhost:3000 /about --preset full
   python3 screenshot_matrix.py index.html --sizes 390x844,1920x1080@2,960x540@2
   python3 screenshot_matrix.py index.html --preset tv --full-page
 
-Instalasi (sekali): pip install playwright && playwright install chromium
+Prerequisites (one-time): pip install playwright && playwright install chromium
 """
 from __future__ import annotations
 
@@ -104,7 +104,7 @@ MEASURE_JS = r"""
       }
       seen.add(el);
     }
-    // teks kecil: elemen dengan teks langsung
+    // small text: direct text nodes
     let hasText = false;
     for (const n of el.childNodes) { if (n.nodeType === 3 && n.textContent.trim().length > 1) { hasText = true; break; } }
     if (hasText) {
@@ -132,7 +132,7 @@ def parse_sizes(spec: str):
         part = part.strip()
         m = re.fullmatch(r"(\d+)x(\d+)(?:@([\d.]+))?", part)
         if not m:
-            raise SystemExit(f"Format --sizes tidak valid: '{part}' (contoh: 390x844 atau 1920x1080@2)")
+            raise SystemExit(f"Invalid --sizes format: '{part}' (e.g. 390x844 or 1920x1080@2)")
         w, h = int(m.group(1)), int(m.group(2))
         dpr = float(m.group(3)) if m.group(3) else 1
         touch = w <= 1100 and (m.group(3) is not None and dpr >= 2 or w <= 820)
@@ -150,7 +150,7 @@ def to_url(target: str, base: str | None) -> str:
         return p.resolve().as_uri()
     if base:
         return urljoin(base, target)
-    raise SystemExit(f"Target tidak ditemukan: {target} (beri URL http(s):// atau path file yang ada)")
+    raise SystemExit(f"Target not found: {target} (provide an http(s):// URL or existing file path)")
 
 
 def slug(url: str) -> str:
@@ -160,22 +160,22 @@ def slug(url: str) -> str:
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Screenshot + ukur responsif di banyak ukuran.")
-    ap.add_argument("targets", nargs="+", help="URL (http/https), path file HTML, atau path relatif terhadap URL pertama")
+    ap = argparse.ArgumentParser(description="Multi-viewport screenshot capture and responsive metric audit.")
+    ap.add_argument("targets", nargs="+", help="URL (http/https), HTML file path, or relative path to first URL")
     ap.add_argument("--preset", choices=sorted(PRESETS), default="quick")
-    ap.add_argument("--sizes", help="daftar kustom, mis. 390x844,1920x1080@2 (menggantikan --preset)")
-    ap.add_argument("--out", default="responsive-shots", help="folder keluaran")
-    ap.add_argument("--full-page", action="store_true", help="screenshot seluruh tinggi halaman")
-    ap.add_argument("--timeout", type=int, default=30000, help="timeout navigasi (ms)")
-    ap.add_argument("--wait", type=int, default=400, help="jeda setelah resize (ms)")
-    ap.add_argument("--no-screenshots", action="store_true", help="hanya ukur, tanpa menyimpan gambar")
-    ap.add_argument("--strict", action="store_true", help="exit code 1 bila ada scroll horizontal")
+    ap.add_argument("--sizes", help="custom size list, e.g. 390x844,1920x1080@2 (overrides --preset)")
+    ap.add_argument("--out", default="responsive-shots", help="output directory")
+    ap.add_argument("--full-page", action="store_true", help="capture full-page height screenshot")
+    ap.add_argument("--timeout", type=int, default=30000, help="navigation timeout (ms)")
+    ap.add_argument("--wait", type=int, default=400, help="delay after resize (ms)")
+    ap.add_argument("--no-screenshots", action="store_true", help="measure metrics only, skip saving images")
+    ap.add_argument("--strict", action="store_true", help="exit with code 1 if horizontal scroll detected")
     args = ap.parse_args(argv)
 
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        print("Playwright belum terpasang. Jalankan:\n  pip install playwright\n  playwright install chromium",
+        print("Playwright is not installed. Run:\n  pip install playwright\n  playwright install chromium",
               file=sys.stderr)
         return 2
 
@@ -189,9 +189,9 @@ def main(argv=None):
     with sync_playwright() as pw:
         try:
             browser = pw.chromium.launch()
-        except Exception as e:  # browser belum diunduh
-            print("Gagal menjalankan Chromium: " + str(e).splitlines()[0] +
-                  "\nJalankan: playwright install chromium", file=sys.stderr)
+        except Exception as e:
+            print("Failed to launch Chromium: " + str(e).splitlines()[0] +
+                  "\nRun: playwright install chromium", file=sys.stderr)
             return 2
         for url in urls:
             for name, w, h, dpr, touch in sizes:
@@ -208,8 +208,7 @@ def main(argv=None):
                     m = page.evaluate(MEASURE_JS)
                     entry.update(m)
                     entry["overflowX"] = m["scrollW"] > m["clientW"] + 1
-                    # di perangkat sentuh, lebar layout yang berbeda dari lebar device = halaman "diperkecil"
-                    # (viewport meta hilang/kaku) atau konten melebar sehingga browser mengecilkan tampilan
+                    # on touch devices, layout width differing from device width indicates zoomed out viewport
                     entry["layoutMismatch"] = bool(touch and abs(m["clientW"] - w) > 1)
                     if not args.no_screenshots:
                         shot = out_dir / f"{slug(url)}__{name}.png"
@@ -233,20 +232,20 @@ def main(argv=None):
 
     (out_dir / "report.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
     write_markdown(out_dir / "report.md", results)
-    print(f"\nLaporan: {out_dir / 'report.md'}  |  Data: {out_dir / 'report.json'}")
+    print(f"\nReport: {out_dir / 'report.md'}  |  Data: {out_dir / 'report.json'}")
     bad = [r for r in results if r.get("overflowX")]
     mism = [r for r in results if r.get("layoutMismatch")]
     errs = [r for r in results if "error" in r]
-    print(f"Ringkasan: {len(results)} pengujian, {len(bad)} dengan scroll horizontal, "
-          f"{len(mism)} dengan lebar layout != lebar device, {len(errs)} error.")
+    print(f"Summary: {len(results)} tests, {len(bad)} with horizontal scroll, "
+          f"{len(mism)} with layout width != device width, {len(errs)} errors.")
     if args.strict and (bad or mism or errs):
         return 1
     return 0
 
 
 def write_markdown(path: Path, results):
-    L = ["# Laporan matriks responsif", "",
-         "| Ukuran | Lebar layout (clientWidth) | Scroll-X | Teks <12px | Target <44px | Target <24px | Baris panjang | Viewport meta |",
+    L = ["# Responsive Matrix Report", "",
+         "| Viewport | Layout Width (clientWidth) | Scroll-X | Text <12px | Targets <44px | Targets <24px | Long Lines | Viewport Meta |",
          "|---|---|---|---|---|---|---|---|"]
     for r in results:
         if "error" in r:
@@ -255,21 +254,21 @@ def write_markdown(path: Path, results):
         lw = f"{r['clientW']}px" + (f" (device {r['width']}px: MISMATCH)" if r.get("layoutMismatch") else "")
         L.append("| {size} | {lw} | {ox} | {st} | {t44} | {t24} | {ll} | {vm} |".format(
             size=r["size"], lw=lw,
-            ox=f"YA (+{r['scrollW'] - r['clientW']}px)" if r["overflowX"] else "tidak",
+            ox=f"YES (+{r['scrollW'] - r['clientW']}px)" if r["overflowX"] else "no",
             st=r["smallText"], t44=r["smallTargets44"] if r["touch"] else "-",
             t24=r["smallTargets24"] if r["touch"] else "-", ll=r["longLines"],
-            vm="ada" if r["hasViewportMeta"] else "TIDAK ADA"))
-    L += ["", "Catatan: 'Target' hanya dihitung pada viewport sentuh. 'Baris panjang' = paragraf >~110 karakter per baris "
-          "(perkiraan). MISMATCH pada perangkat sentuh berarti lebar layout tidak sama dengan lebar device: halaman tampak "
-          "diperkecil (viewport meta hilang/kaku atau konten melebar). Hasil ini alat bantu; periksa screenshot secara visual.", ""]
+            vm="present" if r["hasViewportMeta"] else "MISSING"))
+    L += ["", "Note: 'Targets' measured only on touch viewports. 'Long lines' = paragraphs > ~110 chars per line "
+          "(estimate). MISMATCH on touch viewports indicates layout width does not match device width: page is "
+          "scaled down (missing/rigid viewport meta or wide content). Inspect screenshots visually.", ""]
     offenders = [(r["size"], r["offenders"]) for r in results if r.get("offenders")]
     if offenders:
-        L += ["## Elemen yang melewati tepi viewport", ""]
+        L += ["## Elements Overflowing Viewport Edge", ""]
         for size, offs in offenders:
             L.append(f"### {size}")
             for o in offs:
-                L.append(f"- `{o['selector']}` lebar {o['width']}px, kanan di {o['right']}px (melewati {o['over']}px)")
-            L.append("")
+                L.append(f"- `{o['selector']}`: width={o['width']}px, right={o['right']}px (+{o['over']}px overflow)")
+        L.append("")
     path.write_text("\n".join(L), encoding="utf-8")
 
 

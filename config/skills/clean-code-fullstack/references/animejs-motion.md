@@ -1,28 +1,26 @@
-# Anime.js v4: Standar Integrasi Frontend & Full-Stack
+# Anime.js v4: Frontend & Full-Stack Integration Standards
 
-Panduan teknis resmi penggunaan **Anime.js v4** dalam arsitektur Full-Stack modern (Next.js App Router, React 19, TypeScript, Vite).
+Technical guide for integrating **Anime.js v4** within modern full-stack architectures (Next.js App Router, React 19, TypeScript, Vite).
 
 ---
 
-## 1. Instalasi Proyek (Project-Level Dependency)
-
-Anime.js adalah dependensi runtime aplikasi, bukan perkakas CLI global. Pasang langsung di dalam direktori proyek web Anda:
+## 1. Project-Level Installation
+Anime.js is an application runtime dependency, not a global CLI utility. Install directly in your web project directory:
 
 ```bash
 npm install animejs
-# atau
+# or
 pnpm add animejs
-# atau
+# or
 yarn add animejs
 ```
 
 ---
 
-## 2. Batas Arsitektural SSR & React Lifecycle (`useAnime` Hook)
+## 2. SSR Boundaries & React Lifecycle (`useAnime` Hook)
+Because Anime.js accesses browser DOM objects (`document`, `window`, `requestAnimationFrame`), animations **must be isolated in Client Components** (`'use client'`) and cleaned up on unmount to prevent memory leaks.
 
-Karena Anime.js mengakses objek DOM (`document`, `window`, `requestAnimationFrame`), manipulasi animasi **wajib diisolasi di Client Component** (`'use client'`) dan dibersihkan saat unmount untuk mencegah *memory leak*.
-
-### Pola Reusable Hook (`useAnime.ts`)
+### Reusable Hook Pattern (`useAnime.ts`)
 
 ```typescript
 // src/hooks/use-anime.ts
@@ -42,17 +40,17 @@ export function useAnime<T extends HTMLElement>(
   useEffect(() => {
     if (!elementRef.current) return;
 
-    // 1. Hormati preferensi aksesibilitas pengguna
+    // 1. Honor user accessibility preferences
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
     if (prefersReducedMotion) return;
 
-    // 2. Inisialisasi animasi
+    // 2. Initialize animation
     const resolvedParams = typeof params === 'function' ? params() : params;
     const animation = animate(elementRef.current, resolvedParams);
 
-    // 3. Cleanup wajib saat komponen unmount atau deps berubah
+    // 3. Mandatory cleanup on component unmount or deps change
     return () => {
       animation.pause();
     };
@@ -64,10 +62,10 @@ export function useAnime<T extends HTMLElement>(
 
 ---
 
-## 3. Penerapan pada 4 UI States
+## 3. Application Across Mandatory 4 UI States
 
-### A. Loading State (Stagger Skeletons)
-Gunakan utilitas `stagger` bawaan v4 untuk memunculkan deretan elemen skeleton tanpa CLS (*Cumulative Layout Shift*):
+### A. Loading State (Staggered Skeletons)
+Use v4's built-in `stagger` utility to render skeleton elements smoothly with zero cumulative layout shift (CLS):
 
 ```typescript
 import { animate, stagger } from 'animejs';
@@ -85,7 +83,7 @@ export function animateSkeletonList(selector: string) {
 ```
 
 ### B. Success State (SVG Checkmark Line Drawing)
-Gunakan `animate.setDashoffset` untuk efek animasi menggambar garis ikon SVG centang:
+Use `animate.setDashoffset` for smooth SVG icon stroke reveals:
 
 ```typescript
 import { animate } from 'animejs';
@@ -100,7 +98,7 @@ export function animateSuccessCheckmark(pathElement: SVGPathElement) {
 ```
 
 ### C. Error State (Form Input Micro-Shake)
-Memberikan respons fisik instan saat validasi backend/Zod gagal:
+Provide instant physical feedback when validation fails:
 
 ```typescript
 import { animate } from 'animejs';
@@ -116,11 +114,10 @@ export function animateErrorShake(inputElement: HTMLElement) {
 
 ---
 
-## 4. Aturan Performa & Kualitas (Zero AI Slop)
-
-1. **GPU Composite Only**: Animasikan properti `x`, `y`, `scale`, `rotate`, `opacity`. Dilarang menganimasikan `top`, `left`, `width`, `height`, atau `margin` dinamis karena memicu *browser reflow*.
-2. **Durasi Natural**:
-   - Feedback tombol: 100–150 ms
-   - Transisi dialog/state: 200–300 ms
-   - SVG reveal / visual hero: 500–700 ms
-3. **Exit Faster than Entrance**: Animasi elemen keluar (hilang) harus 1.5x lebih cepat daripada animasi elemen masuk.
+## 4. Performance & Motion Invariants
+1. **GPU Composited Only**: Animate exclusively `x`, `y`, `scale`, `rotate`, and `opacity`. Never animate layout properties (`top`, `left`, `width`, `height`, `margin`) to avoid triggering CPU reflows.
+2. **Natural Durations**:
+   - Button micro-press: 100–150 ms
+   - Dialog / state transitions: 200–300 ms
+   - SVG line reveal / visual hero: 500–700 ms
+3. **Exit Faster than Entrance**: Exit transitions must complete approximately 1.5x faster than entrance animations.

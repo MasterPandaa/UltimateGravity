@@ -42,3 +42,8 @@ node C:\Users\Luthfi\.gemini\scripts\harness-distiller.js verify "<path-to-skill
 1. Scan output reports clear failure signatures and candidate proposals.
 2. Distilled spec passes `verify` with 0 format errors and 0 slop warnings.
 3. Total lines $\le 60$ lines.
+
+---
+
+## 4. Production Harness Architecture Reference
+Consult [`references/harness-engineering-pillars.md`](references/harness-engineering-pillars.md) for the 5-Pillar Harness Engineering standard (Instructions, State, Verification, Scope Boundaries, and Lifecycle Handoff).

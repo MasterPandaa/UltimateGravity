@@ -17,6 +17,7 @@ When exploring the codebase, read `GLOSSARY.md` (if it exists) to get a clear me
 - [Phase 3: Hypothesise](#phase-3-hypothesise)
 - [Phase 4: Instrument](#phase-4-instrument)
 - [Phase 5: Fix + regression test](#phase-5-fix-regression-test)
+- [Failure-Loop Intervention Circuit Breaker](#failure-loop-intervention-circuit-breaker)
 - [Phase 6: Cleanup](#phase-6-cleanup)
 
 ---
@@ -138,6 +139,15 @@ If a correct seam exists:
 3. Apply the fix.
 4. Watch it pass.
 5. Re-run the Phase 1 feedback loop against the original (un-minimised) scenario.
+
+## Failure-Loop Intervention Circuit Breaker (Microsoft TokenEconomizer Pattern)
+
+To prevent runaway token consumption and unproductive trial-and-error churn, enforce the **<= 3 Attempt Circuit Breaker**:
+- **Loop Trigger**: If >= 3 consecutive edit-and-test attempts fail against the Phase 1 feedback loop on the same issue:
+  1. **HALT TRIAL-AND-ERROR IMMEDIATELY**: Continuing to guess syntax or modify logic blindly burns context and introduces regression debt.
+  2. **Step Back to Phase 3 (Hypothesise)**: The underlying failure indicates an invalidated mental model, a hidden caller invariant, or an incorrect diagnostic seam. Re-evaluate assumptions from first principles.
+  3. **Check for Environment Quirks (Micro-Skills)**: Audit whether missing dependencies, shell environment mismatches, or test runner flags are causing false negatives without burning model calls.
+  4. **Escalate to User**: If the blocker stems from external environment state or ambiguous domain specifications, use the native `ask_question` tool rather than attempting a 4th speculative edit.
 
 ## Phase 6: Cleanup
 

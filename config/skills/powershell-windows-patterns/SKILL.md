@@ -81,3 +81,18 @@ $content = Get-Content -Path "config.json" -Raw -Encoding utf8
 # Writing:
 $jsonString | Set-Content -Path "output.json" -Encoding utf8
 ```
+
+
+### 4. High-Performance Text & Code Search (ripgrep / rg)
+For rapid codebase scanning across directories, use the native Rust binary `rg.exe` (globally available in `C:/Users/Luthfi/.gemini/antigravity/bin`):
+```powershell
+# Fast case-insensitive search (auto-ignores .git, node_modules, and binaries):
+rg -i "search_pattern" ./src
+
+# Search specific file extensions:
+rg "useState" -g "*.tsx" -g "*.ts" ./src
+
+# Return only matching file paths:
+rg -l "target_export" ./src
+```
+*Rule of thumb*: Use `rg` for instant sub-second text/regex searching across codebases; use `Select-String` only when integrating directly into pure in-memory .NET object pipelines.

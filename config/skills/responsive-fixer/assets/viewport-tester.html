@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,35 +30,35 @@
 </head>
 <body>
 <header>
-  <input id="url" type="text" placeholder="URL atau path (mis. http://localhost:3000 atau ./index.html)" aria-label="URL">
-  <button id="load" class="primary">Muat</button>
+  <input id="url" type="text" placeholder="URL or path (e.g. http://localhost:3000 or ./index.html)" aria-label="URL">
+  <button id="load" class="primary">Load</button>
   <label>Preset <select id="preset" aria-label="Preset"></select></label>
   <label>W <input id="w" type="number" min="200" max="8000" value="390"></label>
   <label>H <input id="h" type="number" min="200" max="8000" value="844"></label>
-  <button id="rotate" title="Tukar lebar dan tinggi">Rotasi</button>
-  <button id="fit" aria-pressed="true" title="Skala agar muat di layar">Fit</button>
-  <button id="mode" aria-pressed="false" title="Tampilkan banyak ukuran sekaligus">Mode matriks</button>
+  <button id="rotate" title="Swap width and height">Rotate</button>
+  <button id="fit" aria-pressed="true" title="Scale to fit window">Fit</button>
+  <button id="mode" aria-pressed="false" title="Show multiple viewports simultaneously">Matrix Mode</button>
   <span class="info" id="info"></span>
 </header>
 <main>
-  <div id="single"><div class="frame-wrap" id="wrap"><div class="empty">Masukkan URL lalu klik <b>Muat</b>.</div></div></div>
+  <div id="single"><div class="frame-wrap" id="wrap"><div class="empty">Enter a URL and click <b>Load</b>.</div></div></div>
   <div id="matrix"></div>
   <p class="note">
-    Catatan: ini hanya meniru <b>lebar dan tinggi</b> viewport (media query berbasis lebar, unit vw/dvh bereaksi benar);
-    tidak meniru DPR, sentuh, safe-area, atau perilaku toolbar browser mobile. Situs yang mengirim header
-    <code>X-Frame-Options</code>/<code>frame-ancestors</code> tidak bisa ditampilkan di sini. File lokal (<code>file://</code>)
-    biasanya bisa; jika diblokir, jalankan server lokal (mis. <code>python3 -m http.server</code>). Untuk uji lengkap
-    gunakan <code>scripts/screenshot_matrix.py</code> dan perangkat nyata.
+    Note: This simulates <b>width and height</b> viewport constraints (width-based media queries and vw/dvh units respond accurately).
+    It does not simulate touch, DPR, safe-area insets, or mobile browser toolbar dynamics. Sites sending
+    <code>X-Frame-Options</code> or <code>frame-ancestors</code> headers cannot be framed. Local files (<code>file://</code>)
+    work unless blocked; if blocked, serve via a local server (e.g. <code>python3 -m http.server</code>). For full verification,
+    use <code>scripts/screenshot_matrix.py</code> and physical devices.
   </p>
 </main>
 <script>
   const PRESETS = [
-    ["HP kecil 360x640", 360, 640], ["HP 390x844", 390, 844], ["HP besar 430x932", 430, 932],
-    ["HP landscape 844x390", 844, 390], ["Lipat terbuka 717x512", 717, 512],
-    ["Tablet 768x1024", 768, 1024], ["Tablet 820x1180", 820, 1180], ["Tablet landscape 1024x768", 1024, 768],
+    ["Small Mobile 360x640", 360, 640], ["Mobile 390x844", 390, 844], ["Large Mobile 430x932", 430, 932],
+    ["Mobile Landscape 844x390", 844, 390], ["Foldable Open 717x512", 717, 512],
+    ["Tablet Portrait 768x1024", 768, 1024], ["Tablet 820x1180", 820, 1180], ["Tablet Landscape 1024x768", 1024, 768],
     ["Laptop 1366x768", 1366, 768], ["Laptop 1440x900", 1440, 900], ["Desktop FHD 1920x1080", 1920, 1080],
     ["TV 720p 1280x720", 1280, 720], ["TV 960x540 (@2x)", 960, 540], ["QHD 2560x1440", 2560, 1440],
-    ["Ultrawide 3440x1440", 3440, 1440], ["4K 3840x2160", 3840, 2160], ["Sempit 320x568", 320, 568]
+    ["Ultrawide 3440x1440", 3440, 1440], ["4K 3840x2160", 3840, 2160], ["Narrow 320x568", 320, 568]
   ];
   const MATRIX = [[360,640],[390,844],[844,390],[768,1024],[1024,768],[1366,768],[1920,1080],[3440,1440]];
   const $ = id => document.getElementById(id);
@@ -73,7 +73,7 @@
     if (/^[a-z]+:\/\//i.test(v)) return v;
     if (/^(localhost|127\.|\d+\.\d+\.\d+\.\d+)/.test(v)) return 'http://' + v;
     if (/^[\w-]+(\.[\w-]+)+(\/|$)/.test(v) && !/\.(html?|php)$/i.test(v)) return 'https://' + v;
-    return v; // path relatif/file
+    return v;
   };
 
   function makeFrame(w, h, scale, url) {
@@ -81,9 +81,9 @@
     wrap.className = 'frame-wrap';
     wrap.style.width = Math.round(w * scale) + 'px';
     wrap.style.height = Math.round(h * scale) + 'px';
-    if (!url) { wrap.innerHTML = '<div class="empty">Masukkan URL lalu klik <b>Muat</b>.</div>'; return wrap; }
+    if (!url) { wrap.innerHTML = '<div class="empty">Enter a URL and click <b>Load</b>.</div>'; return wrap; }
     const f = document.createElement('iframe');
-    f.src = url; f.width = w; f.height = h; f.title = `Pratinjau ${w}x${h}`;
+    f.src = url; f.width = w; f.height = h; f.title = `Preview ${w}x${h}`;
     f.style.width = w + 'px'; f.style.height = h + 'px';
     f.style.transform = `scale(${scale})`;
     wrap.appendChild(f);
@@ -104,14 +104,14 @@
         fig.append(cap, makeFrame(mw, mh, s, currentUrl));
         box.appendChild(fig);
       });
-      $('info').textContent = `${MATRIX.length} ukuran`;
+      $('info').textContent = `${MATRIX.length} viewports`;
       return;
     }
     const availW = innerWidth - 40, availH = innerHeight - 140;
     const s = fit ? Math.min(1, availW / w, availH / h) : 1;
     const single = $('single'); single.innerHTML = '';
     single.appendChild(makeFrame(w, h, s, currentUrl));
-    $('info').textContent = `${w}x${h} · skala ${Math.round(s * 100)}% · rasio ${(w / h).toFixed(2)}`;
+    $('info').textContent = `${w}x${h} · scale ${Math.round(s * 100)}% · ratio ${(w / h).toFixed(2)}`;
   }
 
   preset.onchange = () => { const [, w, h] = PRESETS[+preset.value]; wEl.value = w; hEl.value = h; render(); };

@@ -1,5 +1,5 @@
 # ==============================================================================
-# UltimateGravity v4.6.0 One-Click Installer
+# UltimateGravity v4.7.0 One-Click Installer
 # Tri-Role Autonomous Engineering System for Google Antigravity (AGY)
 # ==============================================================================
 
@@ -10,7 +10,7 @@ $targetRoot = Join-Path $env:USERPROFILE ".gemini"
 $timestamp  = Get-Date -Format "yyyyMMdd-HHmmss"
 
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host "   🌌 UltimateGravity v4.6.0 — One-Click Master Installer          " -ForegroundColor Cyan
+Write-Host "   UltimateGravity v4.7.0 — One-Click Master Installer          " -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
 Write-Host "Target Installation : $targetRoot" -ForegroundColor Yellow
 

@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Buku catatan hakim agent: piagam (charter), strike, hold (penjara pemulihan ingatan),
-terminate (cut-off), dan pelajaran. Status disimpan di $JUDGE_DIR (default .judge/)."""
+"""Agent judge ledger: charter, strike, hold (memory recovery jail),
+terminate (cut-off), and lessons. State persisted at $JUDGE_DIR (default .judge/)."""
 import argparse, hashlib, json, os, re, sys, time
 
 DIR = os.environ.get("JUDGE_DIR", ".judge")
 STATE = os.path.join(DIR, "state.json")
 LESSONS = os.path.join(DIR, "lessons.md")
-STOP = set("yang dan atau untuk dengan dari pada ini itu the and for with from that this are was not you your will agar harus akan juga ada tidak".split())
+STOP = set("the and for with from that this are was not you your will should would also have been were".split())
 EXIT = {"PASS": 0, "NOTE": 0, "DONE": 0, "WARN": 3, "REVISE": 3, "HOLD": 4, "RECALL_REQUIRED": 4, "TERMINATE": 5}
 
 
 def load():
     if not os.path.exists(STATE):
-        sys.exit("Belum ada piagam. Jalankan: ledger.py init --goal ...")
+        sys.exit("No charter found. Run: ledger.py init --goal ...")
     with open(STATE, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -48,7 +48,7 @@ def lesson(st, agent, cause, rule, auto=False):
     clean_rule = re.sub(r"[\r\n]+", " ", str(rule)).strip()
     clean_agent = re.sub(r"[\r\n]+", " ", str(agent)).strip()
     with open(LESSONS, "a", encoding="utf-8") as f:
-        f.write(f"- [{'auto' if auto else 'judge'}] agent={clean_agent} | sebab: {clean_cause} | aturan: {clean_rule}\n")
+        f.write(f"- [{'auto' if auto else 'judge'}] agent={clean_agent} | cause: {clean_cause} | rule: {clean_rule}\n")
 
 
 def is_allowed_path(test_path, allowed_paths):
@@ -71,10 +71,10 @@ def terminate(st, agent, reason):
     a = st["agents"][agent]
     a["status"] = "terminated"
     event(a, "TERMINATE", reason)
-    lesson(st, agent, reason, "Jangan ulangi pola ini; patuhi piagam dan laporkan bukti.", auto=True)
+    lesson(st, agent, reason, "Do not repeat this pattern; obey charter and report verification evidence.", auto=True)
     save(st)
-    out("TERMINATE", [reason], "Hentikan agent ini sekarang. Bila perlu lanjut: register agent pengganti dengan --replaces dan "
-        "beri brief dari `ledger.py brief` (sudah memuat pelajaran).", agent, st)
+    out("TERMINATE", [reason], "Terminate this agent immediately. To continue: register a replacement agent via --replaces and "
+        "brief from `ledger.py brief` (already contains learned lessons).", agent, st)
 
 
 def cmd_init(a):
@@ -84,7 +84,7 @@ def cmd_init(a):
                       "max_silence_s": int(a.max_silence_min * 60), "max_strikes": a.max_strikes,
                       "recall_every": a.recall_every, "max_respawns": a.max_respawns}, "agents": {}}
     save(st)
-    print("Piagam dibuat di", STATE)
+    print("Charter created at", STATE)
 
 
 def cmd_register(a):
@@ -94,34 +94,34 @@ def cmd_register(a):
     if a.replaces:
         old = st["agents"].get(a.replaces)
         if not old or old["status"] != "terminated":
-            sys.exit("--replaces harus agent yang sudah terminated")
+            sys.exit("--replaces requires an agent that has already been terminated")
         lineage = old["lineage"]
         if sum(1 for x in st["agents"].values() if x["lineage"] == lineage and x["status"] == "terminated") > ch["max_respawns"]:
-            sys.exit("Batas respawn tercapai; eskalasi ke manusia.")
+            sys.exit("Max respawns exceeded; escalate to human operator.")
     elif a.agent in st["agents"]:
-        print(f"Peringatan: agent '{a.agent}' sudah terdaftar, state akan di-reset.", file=sys.stderr)
+        print(f"Warning: agent '{a.agent}' already registered, resetting state.", file=sys.stderr)
     st["agents"][a.agent] = {"role": a.role, "status": "active", "strikes": 0, "steps": 0, "last_seen": time.time(),
                              "recent": [], "recall_attempts": 0, "hold_reason": "", "lineage": lineage, "events": []}
     save(st)
-    print("Terdaftar:", a.agent)
+    print("Registered:", a.agent)
 
 
 def cmd_brief(a):
     st = load()
     ch = st["charter"]
-    print("# PIAGAM AGENT (wajib diingat)")
-    print("TUJUAN:", ch["goal"])
-    print("BATASAN WAJIB:")
+    print("# AGENT CHARTER (Mandatory Invariants)")
+    print("GOAL:", ch["goal"])
+    print("MANDATORY CONSTRAINTS:")
     for i, c in enumerate(ch["constraints"], 1):
         print(f"  {i}. {c}")
     if ch["allow_paths"]:
-        print("JALUR BOLEH DISENTUH:", ", ".join(ch["allow_paths"]))
+        print("ALLOWED PATHS:", ", ".join(ch["allow_paths"]))
     if ch["deny"]:
-        print("DILARANG KERAS:", ", ".join(ch["deny"]))
-    print(f'ATURAN: laporkan tiap langkah; klaim selesai harus disertai bukti (file:, cmd:...|exit=0, test:, log:). '
-          f'Anda akan ditanya ulang tujuan tiap {ch["recall_every"]} langkah. Maks strike {ch["max_strikes"]}, maks langkah {ch["max_steps"]}.')
+        print("STRICTLY DENIED:", ", ".join(ch["deny"]))
+    print(f'RULES: report every step; completion claims require proof (file:, cmd:...|exit=0, test:, log:). '
+          f'You will be challenged to recall goal every {ch["recall_every"]} steps. Max strikes: {ch["max_strikes"]}, max steps: {ch["max_steps"]}.')
     if os.path.exists(LESSONS):
-        print("PELAJARAN DARI AGENT SEBELUMNYA:")
+        print("LESSONS LEARNED FROM PREVIOUS AGENTS:")
         with open(LESSONS, "r", encoding="utf-8") as f:
             print(f.read().strip())
 
@@ -138,68 +138,68 @@ def cmd_report(a):
     st = load()
     ch = st["charter"]
     if a.agent not in st["agents"]:
-        sys.exit("Agent belum terdaftar")
+        sys.exit("Agent is not registered")
     ag = st["agents"][a.agent]
     ag.pop("note", None)
     if ag["status"] in ("terminated", "done"):
-        out("TERMINATE" if ag["status"] == "terminated" else "NOTE", [f'agent berstatus {ag["status"]}'], "Tidak ada aksi lanjutan.", a.agent, st)
+        out("TERMINATE" if ag["status"] == "terminated" else "NOTE", [f'agent status is {ag["status"]}'], "No further action.", a.agent, st)
     if ag["status"] == "hold":
-        event(ag, "HOLD_BREACH", "mengirim laporan saat hold")
+        event(ag, "HOLD_BREACH", "attempted report while in hold")
         save(st)
-        out("HOLD", [f'masih dalam hold: {ag["hold_reason"]}'], "Hanya jawaban recall yang diterima: ledger.py recall --answer-file ...", a.agent, st)
+        out("HOLD", [f'currently on hold: {ag["hold_reason"]}'], "Only recall responses accepted: ledger.py recall --answer-file ...", a.agent, st)
 
     action = a.action
     low = action.lower()
     for d in ch["deny"]:
         if d and d in low:
-            terminate(st, a.agent, f"melanggar larangan keras: '{d}'")
+            terminate(st, a.agent, f"violated strict deny rule: '{d}'")
     ag["steps"] += 1
     ag["last_seen"] = time.time()
     if ag["steps"] > ch["max_steps"]:
-        terminate(st, a.agent, f'melewati anggaran langkah ({ch["max_steps"]})')
+        terminate(st, a.agent, f'exceeded step budget ({ch["max_steps"]})')
 
     reasons, strikes, hold = [], 0, False
     for p in a.paths or []:
         if ch["allow_paths"] and not is_allowed_path(p, ch["allow_paths"]):
-            reasons.append(f"menyentuh jalur di luar lingkup: {p}")
+            reasons.append(f"touched out-of-scope path: {p}")
             strikes += 1
     norm_paths = sorted([p.replace("\\", "/") for p in (a.paths or [])])
     key = hashlib.md5((re.sub(r"\s+", " ", low) + "|" + ",".join(norm_paths)).encode()).hexdigest()
     ag["recent"] = (ag["recent"] + [key])[-6:]
     if ag["recent"].count(key) >= 3:
-        reasons.append("pola aksi berulang 3x tanpa kemajuan (loop)")
+        reasons.append("repeated action pattern 3x without progress (loop)")
         strikes += 1
         hold = True
     if a.done:
         good = [e for e in (a.evidence or []) if valid_evidence(e)]
         if not good:
-            reasons.append("klaim selesai tanpa bukti valid (butuh file:<ada>, cmd:...|exit=0, test:, log:, diff:)")
+            reasons.append("claimed done without valid evidence (requires file:<exists>, cmd:...|exit=0, test:, log:, diff:)")
             strikes += 1
         elif not reasons:
             ag["status"] = "done"
-            event(ag, "DONE", f"bukti: {good}")
+            event(ag, "DONE", f"evidence: {good}")
             save(st)
-            out("DONE", ["klaim diterima dengan bukti"], "Selesai.", a.agent, st)
+            out("DONE", ["claim accepted with verification evidence"], "Completed.", a.agent, st)
 
     if strikes:
         ag["strikes"] += strikes
         event(ag, "STRIKE", "; ".join(reasons))
         if ag["strikes"] >= ch["max_strikes"]:
-            terminate(st, a.agent, f'strike habis ({ag["strikes"]}): ' + "; ".join(reasons))
-        lesson(st, a.agent, "; ".join(reasons), "Periksa lingkup, hindari loop, sertakan bukti.", auto=True)
+            terminate(st, a.agent, f'strikes exhausted ({ag["strikes"]}): ' + "; ".join(reasons))
+        lesson(st, a.agent, "; ".join(reasons), "Verify scope boundaries, avoid repetitive loops, attach tangible proof.", auto=True)
         if hold:
             put_on_hold(st, a.agent, "; ".join(reasons))
             save(st)
-            out("HOLD", reasons, "Berhenti bekerja. Jawab recall: tujuan, batasan, yang sudah dikerjakan, langkah berikut.", a.agent, st)
+            out("HOLD", reasons, "Halt work. Answer recall: goal, constraints, completed tasks, next steps.", a.agent, st)
         save(st)
-        out("REVISE", reasons, "Perbaiki/kembalikan perubahan yang bermasalah, lalu laporkan ulang dengan bukti.", a.agent, st)
+        out("REVISE", reasons, "Revert or fix problematic changes, then report again with verification evidence.", a.agent, st)
 
     if ch["recall_every"] and ag["steps"] % ch["recall_every"] == 0:
-        put_on_hold(st, a.agent, "recall berkala")
+        put_on_hold(st, a.agent, "periodic recall")
         save(st)
-        out("RECALL_REQUIRED", ["pemeriksaan ingatan berkala"], "Jawab recall: ledger.py recall --answer-file ...", a.agent, st)
+        out("RECALL_REQUIRED", ["periodic memory verification check"], "Answer recall: ledger.py recall --answer-file ...", a.agent, st)
     save(st)
-    out("PASS", ["langkah diterima"], "Lanjutkan.", a.agent, st)
+    out("PASS", ["step accepted"], "Continue.", a.agent, st)
 
 
 def valid_evidence(e):
@@ -216,9 +216,9 @@ def valid_evidence(e):
 
 def cmd_challenge(a):
     st = load()
-    put_on_hold(st, a.agent, a.reason or "spot-check hakim")
+    put_on_hold(st, a.agent, a.reason or "judge spot-check")
     save(st)
-    out("RECALL_REQUIRED", [a.reason or "spot-check"], "Jawab recall tanpa melihat piagam: tujuan, batasan, selesai, berikut.", a.agent, st)
+    out("RECALL_REQUIRED", [a.reason or "spot-check"], "Answer recall without checking charter: goal, constraints, done, next.", a.agent, st)
 
 
 def cmd_recall(a):
@@ -226,12 +226,12 @@ def cmd_recall(a):
     ch = st["charter"]
     ag = st["agents"][a.agent]
     if ag["status"] != "hold":
-        sys.exit("Agent tidak sedang hold")
+        sys.exit("Agent is not currently in hold state")
     try:
         with open(a.answer_file, "r", encoding="utf-8") as f:
             ans = json.load(f)
     except Exception as ex:
-        sys.exit(f"Gagal membaca file jawaban JSON: {ex}")
+        sys.exit(f"Failed to read JSON answer file: {ex}")
     g_need = toks(ch["goal"])
     g_have = toks(ans.get("goal", ""))
     g_cov = len(g_need & g_have) / max(1, len(g_need))
@@ -248,22 +248,22 @@ def cmd_recall(a):
     if ok:
         ag["status"] = "active"
         ag["recall_attempts"] = 0
-        event(ag, "RELEASED", f"recall lulus goal={g_cov:.2f} constraints={c_cov:.2f}")
+        event(ag, "RELEASED", f"recall passed goal={g_cov:.2f} constraints={c_cov:.2f}")
         save(st)
-        out("PASS", [f"recall lulus (tujuan {g_cov:.0%}, batasan {c_cov:.0%})"], "Lanjutkan dari langkah berikut yang Anda sebutkan.", a.agent, st)
+        out("PASS", [f"recall passed (goal {g_cov:.0%}, constraints {c_cov:.0%})"], "Proceed with next stated steps.", a.agent, st)
     ag["recall_attempts"] += 1
     event(ag, "RECALL_FAIL", f"goal={g_cov:.2f} constraints={c_cov:.2f} bad_next={bad_next}")
     if ag["recall_attempts"] >= 3:
-        terminate(st, a.agent, "gagal recall 3x; konteks hilang")
+        terminate(st, a.agent, "failed recall 3x; context lost")
     save(st)
-    out("HOLD", [f"recall belum lulus (tujuan {g_cov:.0%}, batasan {c_cov:.0%}" + (", langkah berikut melanggar larangan" if bad_next else "") + ")"],
-        f'Coba lagi ({ag["recall_attempts"]}/3). Jangan menyalin; ingat dari tujuan awal. Petunjuk: sebutkan tujuan utama dan SEMUA batasan wajib.', a.agent, st)
+    out("HOLD", [f"recall failed (goal {g_cov:.0%}, constraints {c_cov:.0%}" + (", next step violates deny list" if bad_next else "") + ")"],
+        f'Try again ({ag["recall_attempts"]}/3). Do not copy verbatim; recall from initial objective. Hint: state core goal and ALL mandatory constraints.', a.agent, st)
 
 
 def cmd_lesson(a):
     st = load()
     lesson(st, a.agent, a.cause, a.rule)
-    print("Pelajaran dicatat.")
+    print("Lesson recorded.")
 
 
 def cmd_status(a):
@@ -275,9 +275,9 @@ def cmd_status(a):
         if ag["status"] == "active":
             silent = now - ag["last_seen"]
             if silent > 2 * ch["max_silence_s"]:
-                to_terminate.append((name, "diam terlalu lama (tidak ada laporan)"))
+                to_terminate.append((name, "silent too long (no report received)"))
             elif silent > ch["max_silence_s"]:
-                ag["note"] = "SILENT: minta laporan segera"
+                ag["note"] = "SILENT: request immediate progress report"
         print(f'{name:12} {ag["status"]:10} strikes={ag["strikes"]}/{ch["max_strikes"]} steps={ag["steps"]}/{ch["max_steps"]} {ag.get("note","")}')
     save(st)
     if to_terminate:
