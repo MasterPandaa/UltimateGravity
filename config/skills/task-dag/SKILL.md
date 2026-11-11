@@ -1,53 +1,45 @@
 ---
 name: task-dag
-description: "[Structured Task DAG Engine] Dependency-aware state machine for managing task execution order, DAG blockers (blockedBy), progress tracking, and Mermaid graph exports."
+description: "[Structured Task DAG Engine] Dependency-aware state machine managing execution order (blockedBy), data-edge context packets (consumes), and Mermaid graph exports."
 allowed-tools: run_command, read_file
-tags: [orchestration, tasks, dag, state-machine, workflow]
+tags: [orchestration, tasks, dag, state-machine, context-packet, workflow]
 ---
 
 # task-dag
 
-Structured, dependency-aware task orchestration engine for Antigravity.
-Prevents execution race conditions and dropped sub-tasks by enforcing strict DAG dependency rules (`ready`, `in_progress`, `completed`, `blocked`, `failed`).
+Structured, dependency-aware task orchestration engine with zero-bleed context packets.
+Enforces execution order (`blockedBy`), data dependencies (`consumes`), and lifecycle states (`ready`, `in_progress`, `completed`, `blocked`, `failed`).
 
 ## Quick CLI Usage
 
 ```powershell
-# Create tasks with dependency edges
-task-dag create --subject "Design DB Schema" --agent "kokuo"
-task-dag create --subject "Implement Backend API" --blockedBy "1" --agent "kokuo"
-task-dag create --subject "Develop Frontend UI" --blockedBy "1" --agent "son-goku"
-task-dag create --subject "Run E2E Regression" --blockedBy "2,3" --agent "gyuki"
+# Create tasks with execution edges (blockedBy) and data edges (consumes)
+task-dag create --subject "Design DB Schema" --agent "data-engineer"
+task-dag create --subject "Implement Backend API" --blockedBy "1" --consumes "1" --agent "fullstack-developer"
+task-dag create --subject "Run E2E Regression" --blockedBy "2" --consumes "2" --agent "qa-engineer"
 
-# View current DAG state table and progress percentage
+# Inspect DAG status, progress, and next executable task
 task-dag list
-
-# Query the next ready unstarted task
 task-dag next
 
-# Start execution (fails immediately if blocked by upstream tasks!)
+# Execution lifecycle & context packet generation
 task-dag start 1
+task-dag complete 1 --result "Postgres auth schema" --files "db/schema.sql"
 
-# Mark completed (automatically unblocks downstream tasks)
-task-dag complete 1 --result "Schema written to db/schema.sql"
+# Resolve zero-bleed context packet for downstream subagents
+task-dag packet 2 [--out "packet-2.md"]
 
-# Export visual Mermaid flowchart of the DAG
+# Export visual Mermaid flowchart with execution and data edges
 task-dag graph
 ```
 
-## Task Lifecycle States
+## Lifecycle States & Storage
 
 | State | Description | Transition Rule |
 |---|---|---|
-| `pending` | Task registered in DAG | Default on creation |
-| `ready` | All `blockedBy` tasks are completed | Transitioned automatically by engine |
-| `in_progress` | Currently being executed by agent | Set via `task-dag start <id>` |
-| `completed` | Verified finished | Set via `task-dag complete <id>` |
-| `blocked` | 1 or more upstream tasks are incomplete | Engine blocks execution |
-| `failed` | Task failed verification | Set via `task-dag fail <id>` |
+| `pending` / `blocked` | Registered or waiting on upstream | Default; unblocks when all `blockedBy` complete |
+| `ready` / `in_progress` | Ready or executing | Started via `task-dag start <id>` |
+| `completed` / `failed` | Verified finished or rejected | Finished via `task-dag complete` / `fail` |
 
-## Storage Location
-
-`C:\Users\Luthfi\.gemini\antigravity\tasks\<conversationId>\`
-- `dag.json`: Master dependency graph.
-- `tasks/<id>.json`: Atomic task records.
+Storage: `C:\Users\Luthfi\.gemini\antigravity\tasks\<conversationId>\` (`dag.json`, `tasks/<id>.json`, `packets/<id>.json`).
+Deep Reference: [`context-packet-spec-driven.md`](file:///C:/Users/Luthfi/.gemini/config/skills/task-dag/references/context-packet-spec-driven.md).

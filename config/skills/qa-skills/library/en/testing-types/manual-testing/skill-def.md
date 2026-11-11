@@ -1,11 +1,11 @@
----
+﻿---
 name: manual-testing
 description: Use this skill when you need to plan manual or exploratory testing with charters, heuristics, and session records; triggers include manual testing and exploratory testing.
 ---
 
 # Manual/Exploratory Testing
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

@@ -14,6 +14,7 @@ Acts as a ruthless filter to eliminate lazy, predictable patterns typical of raw
 - **Pure Black on White & AI Purple**: Ban `#000000` on `#FFFFFF` (use `#0F172A`/`#18181B`) and generic `#8B5CF6` purple/pink glow.
 - **Box-in-a-Box & Divider Clutter**: Ban cards inside cards with borders/shadows (use whitespace). Ban gratuitous `<hr>` borders.
 - **Grayscale Hierarchy Failure**: Structure and data hierarchy must be 100% decipherable in monochrome before adding color.
+- **Dead Buttons & Decorative Gradients**: All clickable elements must provide `:active`/`:focus` visual feedback. Decorative gradients without informational hierarchy purpose are banned.
 - **Literal Visual Metaphors**: Ban brains with circuits for AI, lightbulbs for ideas, and fake bento-grids.
 - **9-Pass UI Refactoring Pipeline**: When refactoring AI-generated screens, execute in strict sequential order: Spacing &rarr; Color &rarr; Icons &rarr; Copy &rarr; Type &rarr; Layout &rarr; Details &rarr; Visuals &rarr; Motion ([`references/anti-ai-slop-guide.md`](references/anti-ai-slop-guide.md)).
 
@@ -22,8 +23,9 @@ Acts as a ruthless filter to eliminate lazy, predictable patterns typical of raw
   - *Topic-Swap Test*: If a paragraph fits another topic by changing 2 words, it is empty fluff—cut it.
   - *So What? Test*: Every claim must carry a tangible consequence or metric for the reader.
   - *Anti-Fence-Sitting*: Ban diplomatic cop-outs (*"depends on individual preference"*); take a firm conditional stance.
-- **Banned AI-isms**: Ban "navigate the landscape", "tapestry", "digital era", "not just X but also Y", "delve", "beacon", "elevate", "in today's fast-paced world", and "it is important to note that".
+- **Banned AI-isms**: Ban "navigate the landscape", "tapestry", "digital era", "not just X but also Y", "delve", "beacon", "elevate", "in today's fast-paced world", "it is important to note that", and participle clause overloads (*"By leveraging X..."*).
 - **Anti-Hallucinated Experience**: Never fabricate personal stories, quotes, or fake data. Use honest facts or `[FILL: verified project data]`.
+- **Voice Profiles & Parser Boundaries**: Calibrate tone (Technical, Blunt, Professional, Casual) and strictly isolate code/frontmatter from prose refactoring ([`references/anti-ai-slop-guide.md`](references/anti-ai-slop-guide.md)).
 
 ### 3. Code Anti-Patterns
 - **Narrative Commenting**: Ban comments merely restating code (`// increment count by 1`). Explain *why*, never *what*.

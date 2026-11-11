@@ -222,3 +222,31 @@ Token JSON format (W3C Design Tokens Community Group):
   }
 }
 ```
+
+---
+
+## Agent-Ready Design Tokens & Anti-Arbitrary Value Invariants (Meta Astryx Protocol)
+
+> Grounded in the architectural absorption of Meta's `meta/astryx` design system into Antigravity.
+
+When AI agents construct user interfaces, they frequently suffer from **Arbitrary Value Hallucinations**—injecting unanchored pixel widths (`w-[318px]`), custom hex colors (`bg-[#232b3e]`), and ad-hoc padding (`p-[17px]`). This causes layout fragmentation, breaks theme switching, and pollutes codebases.
+
+### 1. The Zero-Arbitrary Value Invariant
+```text
+❌ ARBITRARY VALUE INJECTION:
+<div className="w-[342px] bg-[#1a1f2c] p-[18px] text-[#f1f5f9] rounded-[7px]">
+Fragility: High | Theme-Safe: No | Design System Compliance: 0%
+
+✅ SEMANTIC TOKEN BINDING:
+<div className="w-full max-w-sm bg-card p-4 text-card-foreground rounded-lg border border-border">
+Fragility: Zero | Theme-Safe: 100% (Light/Dark/High-Contrast) | Compliance: Strict
+```
+
+### 2. The 3 Agent Rules for UI Construction
+1. **Never use inline arbitrary hex codes or arbitrary bracket units in Tailwind/CSS**:
+   - If a layout requires a constraint, use standard scale tokens (`max-w-xs`, `max-w-md`, `max-w-xl`, `space-y-4`).
+   - If a color is needed, reference semantic tokens (`bg-primary`, `text-muted-foreground`, `border-border`), never raw primitive names (`bg-blue-600`) in component views.
+2. **Semantic Decoupling for Theme Invariance**:
+   - Component templates must be 100% agnostic to light or dark mode. The semantic CSS variable layer (`.dark { --background: ... }`) resolves color adaptation automatically.
+3. **Closed Vocabulary Verification**:
+   - If a design requirement appears to require a non-existent token, do not invent one inline. Flag the missing design token or map it to the closest approved semantic token.

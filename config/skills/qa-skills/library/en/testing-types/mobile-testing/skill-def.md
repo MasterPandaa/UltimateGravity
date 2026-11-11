@@ -1,11 +1,11 @@
----
+﻿---
 name: mobile-testing
 description: Use this skill when you need to design mobile test plans for iOS or Android covering functionality, compatibility, performance, network, and security; triggers include mobile testing and app testing.
 ---
 
 # Mobile Testing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

@@ -1,11 +1,11 @@
----
+﻿---
 name: functional-testing
 description: Use this skill when you need to design functional test plans or cases for business flows, UI, data, and integrations; triggers include functional testing and functional test cases.
 ---
 
 # Functional Testing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

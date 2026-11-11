@@ -1,6 +1,6 @@
----
+﻿---
 name: rag-quality-testing
-description: Use this skill when you need evidence-bounded grounding, relevance, completeness, citation support, abstention, and answer-level evidence in RAG outputs; triggers include RAG 质量 and RAG quality.
+description: Use this skill when you need evidence-bounded grounding, relevance, completeness, citation support, abstention, and answer-level evidence in RAG outputs; triggers include RAG  and RAG quality.
 ---
 
 # RAG Quality Testing

@@ -17,7 +17,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 const FD_BIN = 'C:\\Users\\Luthfi\\.gemini\\bin\\fd.exe';
 
@@ -29,8 +29,13 @@ function scanFilesFast(wsRoot) {
   const IGNORED = ['.git', 'node_modules', 'dist', 'build', 'out', '.next', '.nuxt', '__pycache__', 'file-history', '.gemini'];
   if (fs.existsSync(FD_BIN)) {
     try {
-      const excludes = IGNORED.map(d => `--exclude "${d}"`).join(' ');
-      const raw = execSync(`"${FD_BIN}" --type f ${excludes} . "${wsRoot}"`, {
+      const fdArgs = ['--type', 'f'];
+      IGNORED.forEach(d => {
+        fdArgs.push('--exclude', d);
+      });
+      fdArgs.push('.', wsRoot);
+
+      const raw = execFileSync(FD_BIN, fdArgs, {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024,
         timeout: 4000

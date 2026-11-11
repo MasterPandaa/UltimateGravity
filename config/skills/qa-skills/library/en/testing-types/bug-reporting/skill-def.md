@@ -1,11 +1,11 @@
----
+﻿---
 name: bug-reporting
 description: Use this skill when you need to write clear, reproducible bug reports with steps, environment details, and evidence; triggers include bug reporting and defect reporting.
 ---
 
 # Bug Reporting
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

@@ -1,4 +1,4 @@
-<div align="right"><a href="./DIRECTORY_GUIDE.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="./DIRECTORY_GUIDE.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # Skills Directory Guide
 

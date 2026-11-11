@@ -1,11 +1,11 @@
----
+﻿---
 name: api-test-restassure
 description: Use this skill when you need to parse multi-format API definitions and generate Rest Assured Java test classes; triggers include Rest Assured, RestAssured, and Java API automation.
 ---
 
 # api-test-restassure (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

@@ -1,11 +1,11 @@
----
+﻿---
 name: ui-test-playwright
 description: Use this skill when you need to design Playwright Test suites with fixtures, projects, traces, screenshots, API plus UI coverage, and CI reporting; triggers include Playwright UI testing, UI automation testing, and ui-test-playwright.
 ---
 
 # Playwright UI Testing (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

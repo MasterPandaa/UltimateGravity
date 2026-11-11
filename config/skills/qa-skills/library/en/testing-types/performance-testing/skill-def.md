@@ -1,11 +1,11 @@
----
+﻿---
 name: performance-testing
 description: Use this skill when you need to design performance testing for load, stress, spike, endurance, or capacity objectives; triggers include performance testing and load testing.
 ---
 
 # Performance Testing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

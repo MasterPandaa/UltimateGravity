@@ -1,11 +1,11 @@
----
+﻿---
 name: api-test-supertest
 description: Use this skill when you need to parse multi-format API definitions and generate executable Supertest scripts; triggers include Supertest, Node.js API testing, and Supertest automation.
 ---
 
 # api-test-supertest (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

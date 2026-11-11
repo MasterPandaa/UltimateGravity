@@ -1,4 +1,4 @@
-<div align="right"><a href="./skills-graph.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="./skills-graph.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # Skill Relationship Graph
 

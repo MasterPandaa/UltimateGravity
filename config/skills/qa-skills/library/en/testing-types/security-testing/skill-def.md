@@ -1,11 +1,11 @@
----
+﻿---
 name: security-testing
 description: Use this skill when you need to design security testing around OWASP risks, vulnerability scanning, and penetration scenarios; triggers include security testing and vulnerability testing.
 ---
 
 # Security Testing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

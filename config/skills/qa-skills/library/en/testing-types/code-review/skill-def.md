@@ -1,11 +1,11 @@
----
+﻿---
 name: code-review
 description: Use this skill when you need a risk-driven code review of a PR/diff with severity-ranked findings and actionable fixes; triggers include code review, PR review,.
 ---
 
 # Code Review
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

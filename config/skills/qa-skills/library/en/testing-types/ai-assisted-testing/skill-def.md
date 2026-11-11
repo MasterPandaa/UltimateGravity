@@ -1,11 +1,11 @@
----
+﻿---
 name: ai-assisted-testing
 description: Use this skill when you need AI-assisted testing workflows such as test data generation, root-cause analysis, and prioritization; triggers include AI-assisted testing and AI for QA.
 ---
 
 # AI-Assisted Testing
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

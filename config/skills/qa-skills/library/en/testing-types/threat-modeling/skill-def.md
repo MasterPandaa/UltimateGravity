@@ -1,6 +1,6 @@
----
+﻿---
 name: threat-modeling
-description: Use this skill when you need evidence-bounded threat-modeling analysis and validation preparation; triggers include 威胁建模 and threat-modeling.
+description: Use this skill when you need evidence-bounded threat-modeling analysis and validation preparation; triggers include  and threat-modeling.
 ---
 
 # Threat Modeling

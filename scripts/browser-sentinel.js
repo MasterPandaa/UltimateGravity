@@ -17,7 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const https = require('https');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 const EDGE_PATH = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 
@@ -74,7 +74,13 @@ async function probeUrl(targetUrl) {
 async function runEdgeHeadless(targetUrl) {
   if (!fs.existsSync(EDGE_PATH)) return null;
   try {
-    const output = execSync(`"${EDGE_PATH}" --headless --dump-dom --disable-gpu --virtual-time-budget=1000 "${targetUrl}"`, {
+    const output = execFileSync(EDGE_PATH, [
+      '--headless',
+      '--dump-dom',
+      '--disable-gpu',
+      '--virtual-time-budget=1000',
+      targetUrl
+    ], {
       encoding: 'utf8',
       timeout: 5000,
       maxBuffer: 5 * 1024 * 1024

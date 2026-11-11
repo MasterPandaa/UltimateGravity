@@ -1,6 +1,6 @@
----
+﻿---
 name: dependency-failure-testing
-description: Use this skill when you need evidence-bounded dependency-failure-testing analysis and validation preparation; triggers include 依赖故障测试 and dependency-failure-testing.
+description: Use this skill when you need evidence-bounded dependency-failure-testing analysis and validation preparation; triggers include  and dependency-failure-testing.
 ---
 
 # Dependency-Failure Testing

@@ -20,6 +20,7 @@ license: MIT
 
 ## 3. Surgical Changes (Anti-Band-Aid & Anti-Anchor)
 - Target edits precisely to prevent diff regressions; never copy legacy debt or anti-patterns.
+- **Codebase Overrides Instructions (arXiv:2610.30571)**: When repository instructions/docs conflict with the working codebase, the active codebase patterns and passing tests take precedence over stale instruction files.
 - **Anti-Band-Aid Hard Gate**: Never slap patches over rotten architecture; refactor touched root seams cleanly.
 - Clean up orphans: remove imports, variables, or functions rendered unused by your mutation.
 
@@ -27,3 +28,6 @@ license: MIT
 - Transform requests into verifiable goals (reproduce deterministically -> surgical fix -> verified clean run).
 - For UI changes, do not rely solely on compiler output; verify live browser rendering and 4 UI states.
 - **Bounded Verification Ceiling**: Cap verification at 1–2 targeted rounds. Never spin in infinite re-verification loops that burn token budget without new evidence.
+
+## 5. Autonomous Ratchet Loop (autoresearch Protocol)
+For unattended overnight optimization loops (slash command `/goal`): follow `references/autonomous-ratchet-loop.md` (steering via `program.md` -> atomic edit -> bounded scalar benchmark -> git ratchet / hard revert).

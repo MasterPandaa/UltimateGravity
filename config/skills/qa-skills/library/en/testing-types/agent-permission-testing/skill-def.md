@@ -1,6 +1,6 @@
----
+﻿---
 name: agent-permission-testing
-description: Use this skill when you need evidence-bounded Agent identity, tool/resource scope, approval, denial, escalation, and side-effect boundaries; triggers include Agent 权限 and Agent permission.
+description: Use this skill when you need evidence-bounded Agent identity, tool/resource scope, approval, denial, escalation, and side-effect boundaries; triggers include Agent  and Agent permission.
 ---
 
 # Agent Permission Testing

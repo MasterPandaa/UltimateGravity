@@ -1,6 +1,6 @@
----
+﻿---
 name: test-maintenance-cost-analysis
-description: Use this skill when you need evidence-bounded change frequency, repair effort, flaky cost, ownership, maintainability, and confidence; triggers include 维护成本 and maintenance cost.
+description: Use this skill when you need evidence-bounded change frequency, repair effort, flaky cost, ownership, maintainability, and confidence; triggers include  and maintenance cost.
 ---
 
 # Test Maintenance Cost Analysis

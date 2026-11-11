@@ -1,11 +1,11 @@
----
+﻿---
 name: test-case-writing
 description: Use this skill when you need to create high-quality test cases with normal, exception, and boundary scenarios; triggers include test case writing and test design.
 ---
 
 # Test Case Writing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

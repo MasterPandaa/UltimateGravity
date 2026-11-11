@@ -1,6 +1,6 @@
----
+﻿---
 name: reliability-testing
-description: Use this skill when you need evidence-bounded reliability-testing analysis and validation preparation; triggers include 可靠性测试 and reliability-testing.
+description: Use this skill when you need evidence-bounded reliability-testing analysis and validation preparation; triggers include  and reliability-testing.
 ---
 
 # Reliability Testing

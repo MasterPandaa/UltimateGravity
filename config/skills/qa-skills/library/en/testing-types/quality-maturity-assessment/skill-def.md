@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-maturity-assessment
-description: Use this skill when you need evidence-bounded quality-practice maturity dimensions, rubric anchors, evidence sufficiency, and improvement gaps; triggers include 质量成熟度 and quality maturity.
+description: Use this skill when you need evidence-bounded quality-practice maturity dimensions, rubric anchors, evidence sufficiency, and improvement gaps; triggers include  and quality maturity.
 ---
 
 # Quality Maturity Assessment

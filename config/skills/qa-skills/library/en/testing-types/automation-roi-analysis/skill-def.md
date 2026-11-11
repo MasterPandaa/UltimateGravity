@@ -1,6 +1,6 @@
----
+﻿---
 name: automation-roi-analysis
-description: Use this skill when you need evidence-bounded automation candidates, build/run/maintenance costs, benefit assumptions, time horizon, and sensitivity; triggers include 自动化投资回报 and automation ROI.
+description: Use this skill when you need evidence-bounded automation candidates, build/run/maintenance costs, benefit assumptions, time horizon, and sensitivity; triggers include  and automation ROI.
 ---
 
 # Automation ROI Analysis

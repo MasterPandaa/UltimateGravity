@@ -15,6 +15,9 @@
 12. Mascot & App Icon Architecture (IP as Logo Formula - s1dashu)
 13. Visual Subtraction & Single Focus (oil-ui Framework)
 14. Animation & Motion Engineering (Emil Kowalski Protocol)
+15. Mobile & Touch Ergonomics
+16. Stageshow High-Craft UI Showcase & Bento Grid Protocol
+17. Technical SEO & Structured Data Invariants (Schema.org / JSON-LD / Open Graph)
 
 ---
 
@@ -236,3 +239,29 @@ Adopted from Benji Taylor's *stageshow* design doctrine (Head of Design at X and
     - Trigger tactile hover feedback (`scale-105`) and simulated click ripples (`scale-95 duration-100`) as the cursor reaches target coordinates.
 - **Component Stage Verification**:
   - Always mount showcase components within an isolated preview stage (bounded container with dark/light mode toggle and responsive breakpoint controls) to verify optical alignment, contrast ratios, and layout stability before declaring completion.
+
+---
+
+## 17. Technical SEO & Structured Data Invariants (Grounded in `Illyism/seo-skills`)
+
+Engineering guidelines for production-grade Technical SEO, rich snippets, and social discovery:
+
+- **Metadata & Canonical URL Hygiene**:
+  - Every indexable page must declare a deterministic canonical URL: `<link rel="canonical" href="https://example.com/canonical-path" />`.
+  - Maintain Open Graph and Twitter Card tags:
+    - `og:title`, `og:description`, `og:url`, `og:type` (`website` or `article`).
+    - `og:image` ($1200\times 630\text{px}$, `<200\text{ KB}`, explicit absolute URL).
+    - `twitter:card` (`summary_large_image`), `twitter:title`, `twitter:image`.
+- **Structured Data (JSON-LD)**:
+  - Inject semantic Schema.org structured data via `<script type="application/ld+json">`.
+  - Core Schemas:
+    - **WebSite / SearchAction**: Enables site search box in SERPs.
+    - **Organization / Brand**: Logo, official social links, contact point.
+    - **Article / BlogPosting**: Author name, datePublished, dateModified, headline, publisher.
+    - **Product / SoftwareApplication**: Rating, pricing, availability.
+- **Crawlability & Indexing Signals**:
+  - Programmatic `sitemap.xml` with `<lastmod>` timestamps reflecting genuine content modifications.
+  - Strict `robots.txt` disallowing sensitive internal routes (`/api/`, `/dashboard/`, `/admin/`) while explicitly allowing assets (`/_next/static/`, `/assets/`).
+- **Core Web Vitals & Search UX**:
+  - Zero Cumulative Layout Shift (CLS): Explicit `width` and `height` attributes on all images and video embeds.
+  - Preload primary LCP assets: `<link rel="preload" as="image" href="..." fetchpriority="high">`.

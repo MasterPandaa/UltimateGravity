@@ -1,6 +1,6 @@
----
+﻿---
 name: rag-retrieval-testing
-description: Use this skill when you need evidence-bounded query variants, chunking, filters, recall/precision proxies, ranking, freshness, and retrieval evidence; triggers include 检索结果 and retrieval result.
+description: Use this skill when you need evidence-bounded query variants, chunking, filters, recall/precision proxies, ranking, freshness, and retrieval evidence; triggers include  and retrieval result.
 ---
 
 # RAG Retrieval Testing

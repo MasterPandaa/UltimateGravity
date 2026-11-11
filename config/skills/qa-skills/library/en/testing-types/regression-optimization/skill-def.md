@@ -1,6 +1,6 @@
----
+﻿---
 name: regression-optimization
-description: Use this skill when you need evidence-bounded tradeoffs among regression selection, ordering, parallelism, caching, and risk preservation; triggers include 回归范围 and regression scope.
+description: Use this skill when you need evidence-bounded tradeoffs among regression selection, ordering, parallelism, caching, and risk preservation; triggers include  and regression scope.
 ---
 
 # Regression Optimization

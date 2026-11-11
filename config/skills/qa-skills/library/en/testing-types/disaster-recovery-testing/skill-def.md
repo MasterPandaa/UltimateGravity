@@ -1,6 +1,6 @@
----
+﻿---
 name: disaster-recovery-testing
-description: Use this skill when you need evidence-bounded disaster-recovery-testing analysis and validation preparation; triggers include 灾备测试 and disaster-recovery-testing.
+description: Use this skill when you need evidence-bounded disaster-recovery-testing analysis and validation preparation; triggers include  and disaster-recovery-testing.
 ---
 
 # Disaster-Recovery Testing

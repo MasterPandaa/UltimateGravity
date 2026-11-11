@@ -1,11 +1,11 @@
----
+﻿---
 name: ui-test-webdriverio
 description: Use this skill when you need to design WebdriverIO suites with config, services, runner behavior, Page Objects, capabilities, and reporters; triggers include WebdriverIO UI testing, UI automation testing, and ui-test-webdriverio.
 ---
 
 # WebdriverIO UI Testing (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

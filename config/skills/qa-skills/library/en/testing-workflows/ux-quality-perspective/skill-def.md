@@ -1,11 +1,11 @@
----
+﻿---
 name: ux-quality-perspective
 description: Use this skill when a quality stage needs a UX perspective on information architecture, interaction states, consistency, responsive behavior, or accessibility; triggers include UX quality perspective, UX review..
 ---
 
 # UX Quality Perspective (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

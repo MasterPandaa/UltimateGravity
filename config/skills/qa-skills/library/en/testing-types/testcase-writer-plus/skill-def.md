@@ -1,11 +1,11 @@
----
+﻿---
 name: testcase-writer-plus
 description: Use this skill when you need high-quality test cases from requirements and analysis artifacts; triggers include testcase writer plus and advanced test case writing.
 ---
 
 # testcase-writer-plus (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

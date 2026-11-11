@@ -1,11 +1,11 @@
----
+﻿---
 name: api-test-postman
 description: Use this skill when you need to design Postman collections, environments, scripts, and Newman-ready API regression plans; triggers include Postman API testing, API testing, and api-test-postman.
 ---
 
 # Postman API Testing (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

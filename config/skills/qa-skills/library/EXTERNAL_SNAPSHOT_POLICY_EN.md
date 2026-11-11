@@ -1,4 +1,4 @@
-<div align="right"><a href="./EXTERNAL_SNAPSHOT_POLICY.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="./EXTERNAL_SNAPSHOT_POLICY.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # External Reference Policy
 

@@ -1,6 +1,6 @@
----
+﻿---
 name: api-security-testing
-description: Use this skill when you need evidence-bounded api-security-testing analysis and validation preparation; triggers include API 安全测试 and api-security-testing.
+description: Use this skill when you need evidence-bounded api-security-testing analysis and validation preparation; triggers include API  and api-security-testing.
 ---
 
 # API Security Testing

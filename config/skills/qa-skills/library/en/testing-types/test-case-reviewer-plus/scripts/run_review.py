@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import argparse
 from pathlib import Path
 from typing import Dict, List, Tuple
@@ -70,21 +70,21 @@ def main() -> None:
     args = parser.parse_args()
 
     docs: List[Tuple[str, str]] = []
-    docs.append(_load_doc(args.requirement, "需求文档"))
-    docs.append(_load_doc(args.testcase, "测试用例文档"))
+    docs.append(_load_doc(args.requirement, ""))
+    docs.append(_load_doc(args.testcase, ""))
 
     optional_inputs = [
-        ("需求分析结果", args.analysis),
-        ("技术文档", args.tech),
-        ("项目计划", args.plan),
-        ("测试策略文档", args.strategy),
+        ("", args.analysis),
+        ("", args.tech),
+        ("", args.plan),
+        ("", args.strategy),
     ]
     for label, path in optional_inputs:
         if path:
             docs.append(_load_doc(path, label))
 
     for idx, p in enumerate(args.other, start=1):
-        docs.append(_load_doc(p, f"其他文档{idx}"))
+        docs.append(_load_doc(p, f"{idx}"))
 
     prompt_text = args.prompt.read_text(encoding="utf-8", errors="strict")
     review = build_review(prompt_text, docs)

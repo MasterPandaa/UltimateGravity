@@ -1,12 +1,12 @@
 /**
  * session-end-cleanup.js
- * Hook yang berjalan saat session berakhir:
- * - Mencetak reminder wajib ke agent: simpan context ke Supermemory
- * - Log session end timestamp ke file
+ * Hook executed when a session terminates:
+ * - Emits mandatory reminder to agent: persist context to Supermemory
+ * - Logs session end timestamp to file
  *
- * CATATAN: Supermemory tidak bisa di-call langsung dari hook script
- * (tidak ada API key di hook context). Hook ini hanya mencetak reminder
- * ke stdout agar agent melihatnya sebagai context injection.
+ * NOTE: Supermemory cannot be called directly from hook scripts
+ * (no API key in hook context). This hook emits reminders to stdout
+ * so Antigravity injects it into agent context.
  */
 
 const fs = require('fs');
@@ -22,14 +22,13 @@ if (!fs.existsSync(logDir)) {
 const ts = new Date().toISOString();
 fs.appendFileSync(LOG_PATH, `[${ts}] Session ended.\n`, 'utf8');
 
-// Context injection ke agent via stdout
-// Antigravity hook akan memasukkan ini ke context window agent
+// Context injection to agent via stdout
 console.log(`
-[SESSION-END REMINDER] Sesi Antigravity berakhir pada ${ts}.
-Wajib dipenuhi sebelum menutup percakapan:
-1. Panggil supermemory add_memory untuk menyimpan keputusan arsitektural penting dari sesi ini.
-2. Jika ada bug atau violation baru yang ditemukan, catat ke VIOLATIONS_LEDGER.md.
-3. Bersihkan scratch files sementara yang tidak diperlukan.
+[SESSION-END REMINDER] Antigravity session ended at ${ts}.
+Mandatory actions before closing the conversation:
+1. Call supermemory add_memory to persist key architectural decisions from this session.
+2. If new bugs or violations were detected, log them in VIOLATIONS_LEDGER.md.
+3. Clean up temporary scratch files that are no longer needed.
 `);
 
 process.exit(0);

@@ -15,7 +15,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 const FD_BIN = 'C:\\Users\\Luthfi\\.gemini\\bin\\fd.exe';
 
@@ -112,8 +112,13 @@ function scanWorkspace(rootDir = process.cwd()) {
   let usedFd = false;
   if (fs.existsSync(FD_BIN)) {
     try {
-      const excludes = Array.from(IGNORED_DIRS).map(d => `--exclude "${d}"`).join(' ');
-      const rawOut = execSync(`"${FD_BIN}" --type f ${excludes} . "${absRoot}"`, {
+      const fdArgs = ['--type', 'f'];
+      IGNORED_DIRS.forEach(d => {
+        fdArgs.push('--exclude', d);
+      });
+      fdArgs.push('.', absRoot);
+
+      const rawOut = execFileSync(FD_BIN, fdArgs, {
         encoding: 'utf8',
         maxBuffer: 15 * 1024 * 1024,
         timeout: 3000

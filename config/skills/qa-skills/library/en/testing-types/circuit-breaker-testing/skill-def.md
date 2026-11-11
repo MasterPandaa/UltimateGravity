@@ -1,6 +1,6 @@
----
+﻿---
 name: circuit-breaker-testing
-description: Use this skill when you need evidence-bounded circuit-breaker-testing analysis and validation preparation; triggers include 熔断器测试 and circuit-breaker-testing.
+description: Use this skill when you need evidence-bounded circuit-breaker-testing analysis and validation preparation; triggers include  and circuit-breaker-testing.
 ---
 
 # Circuit-Breaker Testing

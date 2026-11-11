@@ -1,6 +1,6 @@
----
+﻿---
 name: test-effectiveness-analysis
-description: Use this skill when you need evidence-bounded the relationship between test signals and defects or risks, missed-detection limits, false signals, and validation plans; triggers include 测试有效性 and test effectiveness.
+description: Use this skill when you need evidence-bounded the relationship between test signals and defects or risks, missed-detection limits, false signals, and validation plans; triggers include  and test effectiveness.
 ---
 
 # Test Effectiveness Analysis

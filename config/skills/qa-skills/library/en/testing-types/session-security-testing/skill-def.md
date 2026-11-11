@@ -1,6 +1,6 @@
----
+﻿---
 name: session-security-testing
-description: Use this skill when you need evidence-bounded session-security-testing analysis and validation preparation; triggers include 会话安全测试 and session-security-testing.
+description: Use this skill when you need evidence-bounded session-security-testing analysis and validation preparation; triggers include  and session-security-testing.
 ---
 
 # Session-Security Testing

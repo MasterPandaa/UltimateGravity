@@ -5,7 +5,10 @@ description: "[Application & API Security Pentest Audit] Rigorous security audit
 
 # Security Audit: Vulnerability & Compliance Playbook
 
-Guides Security Auditor and QA Engineer in conducting rigorous, evidence-based security audits and penetration verification across application codebases, APIs, and AI agent skills.
+Guides the **`security-engineer`** (AppSec Sentinel) and QA Engineer in conducting rigorous, evidence-based security audits, multi-tier leak detection, and penetration verification across host environments, AI agents, and application codebases.
+
+> [!NOTE]
+> For operational procedures covering Windows Host memory profiling, secret/token leak interception, and AST command injection taint analysis, consult [`references/multi-tier-leak-defense.md`](references/multi-tier-leak-defense.md).
 
 ## Table of Contents
 

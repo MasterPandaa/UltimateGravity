@@ -1,6 +1,6 @@
----
+﻿---
 name: authentication-testing
-description: Use this skill when you need evidence-bounded authentication-testing analysis and validation preparation; triggers include 身份认证测试 and authentication-testing.
+description: Use this skill when you need evidence-bounded authentication-testing analysis and validation preparation; triggers include  and authentication-testing.
 ---
 
 # Authentication Testing

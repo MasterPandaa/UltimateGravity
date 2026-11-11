@@ -1,4 +1,4 @@
-# Test-Case Review Result Template
+﻿# Test-Case Review Result Template
 
 ## 1. Review title
 - Example: Flash-sale gift campaign test-case review
@@ -19,9 +19,9 @@
 - Data reproducibility:
 
 ## 5. Findings by priority
-- P0：
-- P1：
-- P2：
+- P0
+- P1
+- P2
 
 ## 6. Missing scenarios
 - 

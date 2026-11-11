@@ -1,6 +1,6 @@
----
+﻿---
 name: ci-test-optimization
-description: Use this skill when you need evidence-bounded pipeline stages, feedback latency, resources, flakiness, caching/sharding, and rollback boundaries; triggers include CI 测试流水线 and CI test pipeline.
+description: Use this skill when you need evidence-bounded pipeline stages, feedback latency, resources, flakiness, caching/sharding, and rollback boundaries; triggers include CI  and CI test pipeline.
 ---
 
 # CI Test Pipeline Optimization

@@ -1,11 +1,11 @@
----
+﻿---
 name: requirements-analysis-plus
 description: Use this skill when you need to parse Word/HTML/JSON/Markdown/Excel requirements and produce a structured analysis; triggers include requirements analysis plus and requirement document parsing.
 ---
 
 # requirements-analysis-plus (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

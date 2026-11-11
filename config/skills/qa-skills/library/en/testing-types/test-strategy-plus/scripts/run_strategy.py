@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import argparse
 import re
 from pathlib import Path
@@ -69,19 +69,19 @@ def main() -> None:
     args = parser.parse_args()
 
     docs: List[Tuple[str, str]] = []
-    docs.append(_load_doc(args.requirement, "需求文档"))
+    docs.append(_load_doc(args.requirement, ""))
 
     optional_inputs = [
-        ("需求分析结果", args.analysis),
-        ("技术文档", args.tech),
-        ("项目计划", args.plan),
+        ("", args.analysis),
+        ("", args.tech),
+        ("", args.plan),
     ]
     for label, path in optional_inputs:
         if path:
             docs.append(_load_doc(path, label))
 
     for idx, p in enumerate(args.other, start=1):
-        docs.append(_load_doc(p, f"其他文档{idx}"))
+        docs.append(_load_doc(p, f"{idx}"))
 
     prompt_text = args.prompt.read_text(encoding="utf-8", errors="strict")
     strategy = build_strategy(prompt_text, docs)

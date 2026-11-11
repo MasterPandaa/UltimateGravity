@@ -1,11 +1,11 @@
----
+﻿---
 name: test-strategy
 description: Use this skill when you need to define a test strategy covering scope, methods, resources, risks, and quality gates; triggers include test strategy and QA planning.
 ---
 
 # Test Strategy
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

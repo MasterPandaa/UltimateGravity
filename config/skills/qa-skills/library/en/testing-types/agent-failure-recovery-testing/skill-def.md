@@ -1,6 +1,6 @@
----
+﻿---
 name: agent-failure-recovery-testing
-description: Use this skill when you need evidence-bounded failure classification, retry/fallback/escalation, state consistency, user notice, and recovery evidence; triggers include Agent 故障恢复 and Agent failure recovery.
+description: Use this skill when you need evidence-bounded failure classification, retry/fallback/escalation, state consistency, user notice, and recovery evidence; triggers include Agent  and Agent failure recovery.
 ---
 
 # Agent Failure Recovery Testing

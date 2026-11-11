@@ -1,4 +1,4 @@
-<div align="right"><a href="./SKILL_STYLE_GUIDE.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="./SKILL_STYLE_GUIDE.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # Skill Style Guide
 
@@ -35,7 +35,7 @@ English entries use:
 5. `## Common Pitfalls`
 6. `## Best Practices`
 
-Chinese entries use the equivalent `何时使用`, `输出格式选项`, `如何使用`, `参考文件`, `常见误区`, and `最佳实践` headings. Workflow Skills may also include workflow steps.
+Chinese entries use the equivalent ``, ``, ``, ``, ``, and `` headings. Workflow Skills may also include workflow steps.
 
 ## Required Prompt Sections
 
@@ -50,7 +50,7 @@ English prompts:
 7. `## Output`
 8. `## Quality Bar`
 
-Chinese prompts use the corresponding `角色定位`, `输入`, `你要做的事`, `执行规则`, `最低覆盖清单`, `输出`, and `质量要求` headings.
+Chinese prompts use the corresponding ``, ``, ``, ``, ``, ``, and `` headings.
 
 ## Writing Rules
 

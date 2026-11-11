@@ -104,6 +104,7 @@ function cmdCreate(options, conversationId) {
   dag.highwatermark = parseInt(nextId, 10);
 
   const blockedBy = options.blockedBy ? options.blockedBy.split(',').map(s => s.trim()).filter(Boolean) : [];
+  const consumes = options.consumes ? options.consumes.split(',').map(s => s.trim()).filter(Boolean) : [];
 
   const task = {
     id: nextId,
@@ -113,6 +114,7 @@ function cmdCreate(options, conversationId) {
     status: 'pending',
     blocks: [],
     blockedBy,
+    consumes,
     createdAt: new Date().toISOString(),
     startedAt: null,
     completedAt: null,
@@ -133,7 +135,7 @@ function cmdCreate(options, conversationId) {
   updateTaskReadiness(dag);
   saveDag(sessionDir, dag);
 
-  console.log(`[DAG Task Created] ID: #${nextId} | Subject: "${task.subject}" | Initial Status: ${task.status} | BlockedBy: [${blockedBy.join(', ')}]`);
+  console.log(`[DAG Task Created] ID: #${nextId} | Subject: "${task.subject}" | Initial Status: ${task.status} | BlockedBy: [${blockedBy.join(', ')}] | Consumes: [${consumes.join(', ')}]`);
 }
 
 function cmdList(conversationId) {
@@ -150,8 +152,8 @@ function cmdList(conversationId) {
     return;
   }
 
-  console.log('ID'.padEnd(5) + 'Status'.padEnd(14) + 'Agent'.padEnd(12) + 'Blocked By'.padEnd(16) + 'Subject');
-  console.log('-'.repeat(85));
+  console.log('ID'.padEnd(5) + 'Status'.padEnd(14) + 'Agent'.padEnd(12) + 'Blocked By'.padEnd(14) + 'Consumes'.padEnd(12) + 'Subject');
+  console.log('-'.repeat(95));
 
   for (const t of taskList) {
     const statusIcon = {
@@ -164,11 +166,13 @@ function cmdList(conversationId) {
     }[t.status] || `[${t.status}]`;
 
     const blockedStr = (t.blockedBy && t.blockedBy.length > 0) ? `[#${t.blockedBy.join(', #')}]` : '-';
+    const consumesStr = (t.consumes && t.consumes.length > 0) ? `[#${t.consumes.join(', #')}]` : '-';
     console.log(
       `#${t.id}`.padEnd(5) +
       statusIcon.padEnd(14) +
       t.assignedAgent.padEnd(12) +
-      blockedStr.padEnd(16) +
+      blockedStr.padEnd(14) +
+      consumesStr.padEnd(12) +
       t.subject
     );
   }
@@ -229,7 +233,9 @@ function cmdStart(id, conversationId) {
   console.log(`[Task Started] #${id}: "${t.subject}" (in_progress)`);
 }
 
-function cmdComplete(id, result, conversationId) {
+function cmdComplete(id, options, conversationId) {
+  const result = typeof options === 'string' ? options : (options && options.result ? options.result : null);
+  const filesStr = options && options.files ? options.files : null;
   const sessionDir = resolveSessionDir(conversationId);
   const dag = loadDag(sessionDir);
 
@@ -243,16 +249,117 @@ function cmdComplete(id, result, conversationId) {
   t.completedAt = new Date().toISOString();
   if (result) t.result = result;
 
+  // Save dedicated Context Packet for zero-bleed downstream consumption (context-packet protocol)
+  const packetsDir = path.join(sessionDir, 'packets');
+  if (!fs.existsSync(packetsDir)) fs.mkdirSync(packetsDir, { recursive: true });
+
+  const packet = {
+    taskId: id,
+    subject: t.subject,
+    assignedAgent: t.assignedAgent,
+    completedAt: t.completedAt,
+    result: t.result || '',
+    files: filesStr ? filesStr.split(',').map(s => s.trim()).filter(Boolean) : []
+  };
+  fs.writeFileSync(path.join(packetsDir, `${id}.json`), JSON.stringify(packet, null, 2), 'utf8');
+
   // Auto-unblock downstream dependencies
   updateTaskReadiness(dag);
   saveDag(sessionDir, dag);
 
   console.log(`[Task Completed] #${id}: "${t.subject}"`);
+  console.log(`[Context Packet Saved] packets/${id}.json`);
 
   // Check which downstream tasks became ready
   const unblocked = (t.blocks || []).map(bId => dag.tasks[bId]).filter(d => d && d.status === 'ready');
   if (unblocked.length > 0) {
     console.log(`Downstream tasks now READY to run: #${unblocked.map(u => u.id + ' ("' + u.subject + '")').join(', ')}`);
+  }
+}
+
+function cmdPacket(id, options, conversationId) {
+  const sessionDir = resolveSessionDir(conversationId);
+  const dag = loadDag(sessionDir);
+
+  const t = dag.tasks[id];
+  if (!t) {
+    console.error(`Task #${id} not found.`);
+    process.exit(1);
+  }
+
+  const packetsDir = path.join(sessionDir, 'packets');
+  const consumedIds = t.consumes || [];
+  const upstreamPackets = [];
+
+  for (const depId of consumedIds) {
+    const packetPath = path.join(packetsDir, `${depId}.json`);
+    if (fs.existsSync(packetPath)) {
+      try {
+        upstreamPackets.push(JSON.parse(fs.readFileSync(packetPath, 'utf8')));
+        continue;
+      } catch (e) {}
+    }
+    if (dag.tasks[depId]) {
+      const depTask = dag.tasks[depId];
+      upstreamPackets.push({
+        taskId: depId,
+        subject: depTask.subject,
+        assignedAgent: depTask.assignedAgent,
+        completedAt: depTask.completedAt || 'pending',
+        result: depTask.result || '(No result logged)',
+        files: []
+      });
+    }
+  }
+
+  const mdLines = [
+    `# Context Packet: Task #${t.id} - ${t.subject}`,
+    `**Assigned Agent**: \`${t.assignedAgent}\``,
+    `**Status**: \`${t.status}\``,
+    `**Execution Dependencies (BlockedBy)**: ${t.blockedBy && t.blockedBy.length > 0 ? `[#${t.blockedBy.join(', #')}]` : 'None'}`,
+    `**Data Dependencies (Consumes)**: ${consumedIds.length > 0 ? `[#${consumedIds.join(', #')}]` : 'None'}`,
+    '',
+    `## 1. Task Objective`,
+    t.description || t.subject,
+    '',
+    `## 2. Upstream Consumed Deliverables (Zero Context Bleed)`
+  ];
+
+  if (upstreamPackets.length === 0) {
+    mdLines.push(consumedIds.length > 0
+      ? `*(Warning: Consumed upstream tasks [#${consumedIds.join(', #')}] have not generated packet artifacts yet)*`
+      : `*No upstream data packets consumed. This task operates as a root/independent node.*`
+    );
+  } else {
+    for (const p of upstreamPackets) {
+      mdLines.push(`### 📦 Deliverable from Task #${p.taskId}: "${p.subject}"`);
+      mdLines.push(`- **Completed By**: \`${p.assignedAgent}\` at ${p.completedAt}`);
+      mdLines.push(`- **Deliverable Summary**:`);
+      mdLines.push(`  ${(p.result || '').replace(/\n/g, '\n  ')}`);
+      if (p.files && p.files.length > 0) {
+        mdLines.push(`- **Deliverable Files**:`);
+        for (const f of p.files) {
+          mdLines.push(`  - \`${f}\``);
+        }
+      }
+      mdLines.push('');
+    }
+  }
+
+  mdLines.push(
+    `## 3. Operational Invariants`,
+    `- Zero Context Bleed: Subagent must consume ONLY the deliverables listed above. Do not read raw upstream transcripts or assume uncommitted state.`,
+    `- Mandatory Verification Gate: Output must provide verified exit codes and diffs before task completion.`
+  );
+
+  const outputContent = mdLines.join('\n');
+
+  if (options && options.out) {
+    const outPath = path.resolve(options.out);
+    fs.writeFileSync(outPath, outputContent, 'utf8');
+    console.log(`[Context Packet Generated] Written to: ${outPath}`);
+  } else {
+    console.log(outputContent);
   }
 }
 
@@ -304,6 +411,9 @@ function cmdGraph(conversationId) {
     for (const bId of (t.blocks || [])) {
       lines.push(`    T${t.id} --> T${bId}`);
     }
+    for (const cId of (t.consumes || [])) {
+      lines.push(`    T${cId} -. consumes .-> T${t.id}`);
+    }
   }
 
   lines.push('```');
@@ -344,8 +454,8 @@ switch (command) {
     cmdStart(rawArgs[1], flags.session || rawArgs[2]);
     break;
   case 'complete':
-    if (!rawArgs[1]) { console.error('Usage: complete <id> [--result "output"]'); process.exit(1); }
-    cmdComplete(rawArgs[1], flags.result, flags.session || rawArgs[2]);
+    if (!rawArgs[1]) { console.error('Usage: complete <id> [--result "output"] [--files "f1,f2"]'); process.exit(1); }
+    cmdComplete(rawArgs[1], flags, flags.session || rawArgs[2]);
     break;
   case 'fail':
     if (!rawArgs[1]) { console.error('Usage: fail <id> [--reason "error"]'); process.exit(1); }
@@ -354,6 +464,10 @@ switch (command) {
   case 'graph':
     cmdGraph(flags.session || rawArgs[1]);
     break;
+  case 'packet':
+    if (!rawArgs[1]) { console.error('Usage: packet <id> [--out <path>]'); process.exit(1); }
+    cmdPacket(rawArgs[1], flags, flags.session || rawArgs[2]);
+    break;
   default:
-    console.log('Commands: create, list, next, start, complete, fail, graph');
+    console.log('Commands: create, list, next, start, complete, fail, graph, packet');
 }

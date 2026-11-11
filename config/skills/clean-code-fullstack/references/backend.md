@@ -10,6 +10,7 @@
 7. Environment Configuration
 8. Testing Strategy
 9. Canonical Architecture Example
+10. Data Pipeline & Scraping Ingestion Standards (Declarative Schemas & Supply-Chain Defense)
 
 ---
 
@@ -73,10 +74,12 @@ Dependencies are injected to guarantee testability. Feature-based structure: `or
 - Secure defaults; experimental features gated behind feature flags.
 - Avoid scattered `if (env === 'production')` conditionals; encapsulate environment differences within configuration providers.
 
-## 8. Testing Strategy
+## 8. Testing Strategy & Tooling
 - **Unit Tests:** pure domain logic, fast execution, zero external I/O.
 - **Integration Tests:** routes + services + live test databases (or containers) for primary happy paths and failure branches.
 - **Contract Tests:** verify responses adhere strictly to schemas consumed by frontend clients.
+- **Python Tooling Standard**: Use `ruff` (`ruff check` and `ruff format`) as the primary Rust-based linter/formatter in Python projects for sub-second, zero-overhead linting without heavy legacy toolchains.
+- **Cloud Endpoint Decoupling Invariant**: Never hardcode cloud provider URLs (AWS S3, Supabase, DynamoDB) inside service code or test harnesses. Always bind endpoints to environment variables (`AWS_ENDPOINT_URL`, `SUPABASE_URL`, `S3_ENDPOINT`). This enables integration tests to seamlessly target local in-memory mocks (MSW, MinIO, or lightweight emulators) without code modifications or heavy container daemons.
 - Mandatory edge cases: empty inputs, duplicate keys, boundary values, unprivileged actors, duplicate requests, dependency timeouts.
 - Test behavior, not internal implementation; test names describe scenarios and expected outcomes.
 - Test fixtures produced through factories; tests must be isolated and order-independent.
@@ -103,3 +106,27 @@ router.post("/orders", auth, async (req, res) => {
   res.status(201).json({ data: order });
 });
 ```
+
+---
+
+## 10. Data Pipeline & Scraping Ingestion Standards (Declarative Schemas & Supply-Chain Defense)
+
+### A. Declarative Schema-Driven Extraction (Inspired by `xscrape`)
+When transforming raw extracted HTML strings into structured datasets:
+1. **Decouple Fetching from Parsing**:
+   - Use dedicated Tier-1 scrapers (Scrapling, Firecrawl, Jina Reader) to handle stealth anti-bot bypass and raw HTML acquisition.
+   - Never write fragile ad-hoc regex expressions or unstructured selector loops for document transformation.
+2. **Standard Schema Binding (Zod / Pydantic)**:
+   - Pair extraction primitives (`text`, `attr`, `nested`, `many`) directly with runtime schema validation.
+   - Enforce type coercion explicitly (e.g., `z.coerce.number()` for stringified HTML counters or timestamps).
+   - If target HTML structure shifts, fail fast with a structured diagnostic error instead of silently returning corrupted or `undefined` records into downstream storage.
+
+### B. Windows Supply-Chain Security & Dependency Defense (Inspired by Lisdex Hermes Research)
+Scraper repositories and utility packages on Windows are primary lure vectors for Malware-as-a-Service (MaaS) loaders (e.g., PyMapper / Hermes infostealers):
+1. **Zero-Trust Dependency Provenance**:
+   - Never run unverified `pip install` or `npm install` directly from untrusted third-party scraper repositories without auditing package sources and lockfiles.
+2. **Lifecycle Script Audit**:
+   - Inspect package scripts (`package.json` -> `postinstall` / `preinstall`, Python `setup.py`, and `__init__.py`) for memory-injection hooks, hidden process spawns (`hVNC`), or obfuscated network calls prior to execution.
+3. **Execution Context & Credential Isolation**:
+   - Scraping pipelines must run in isolated sub-processes.
+   - Never expose active browser session profiles, developer SSH keys, JWT tokens, or environment credentials to the runtime scope of external scraping scripts.

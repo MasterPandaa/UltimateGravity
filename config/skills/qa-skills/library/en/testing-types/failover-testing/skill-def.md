@@ -1,6 +1,6 @@
----
+﻿---
 name: failover-testing
-description: Use this skill when you need evidence-bounded failover-testing analysis and validation preparation; triggers include 故障切换测试 and failover-testing.
+description: Use this skill when you need evidence-bounded failover-testing analysis and validation preparation; triggers include  and failover-testing.
 ---
 
 # Failover Testing

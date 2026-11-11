@@ -1,6 +1,6 @@
----
+﻿---
 name: test-runtime-optimization
-description: Use this skill when you need evidence-bounded slow tests, profiling evidence, setup/teardown, parallelism, isolation, and baselines; triggers include 测试运行时间 and test runtime.
+description: Use this skill when you need evidence-bounded slow tests, profiling evidence, setup/teardown, parallelism, isolation, and baselines; triggers include  and test runtime.
 ---
 
 # Test Runtime Optimization

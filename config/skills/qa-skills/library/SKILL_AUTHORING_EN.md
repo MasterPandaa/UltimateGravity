@@ -1,4 +1,4 @@
-<div align="right"><a href="./SKILL_AUTHORING.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="./SKILL_AUTHORING.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # Skill Authoring Guide
 
@@ -18,7 +18,7 @@ Minimum frontmatter:
 ```yaml
 ---
 name: skill-name
-description: Use this skill when ...; triggers include 中文触发词 and English triggers.
+description: Use this skill when ...; triggers include  and English triggers.
 ---
 ```
 

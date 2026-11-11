@@ -70,6 +70,13 @@ Exit faster than entrance. Use natural deceleration such as `cubic-bezier(0.16, 
 
 Keep content visible in the default state so failed scripts do not hide the page. Avoid casually animating layout-driving properties such as `width`, `height`, `top`, `left`, and margins; use FLIP, transforms, or grid techniques when appropriate. Bound blur, filter, shadow, canvas, and shader work to isolated regions. Apply `will-change` only during known animation. Measure on target viewports and devices rather than assuming transform means fast.
 
+## SVG Icon Morphing Micro-Interactions (Morphicons)
+
+For stroke-based icon transitions (Theme toggle Sun <-> Moon, Drawer Menu <-> X, Action Copy <-> Check, Accordion Plus <-> Minus):
+- Prefer `morphicons` / `@morphicons/react` (~7 KB gzipped, zero dependencies, SSR-safe) for universal stroke morphing.
+- Integrates seamlessly with Lucide Icons (shadcn/ui), Tabler, and Heroicons outline.
+- Employs Procrustes analysis and polar interpolation for natural rotation; utilizes interruptible spring physics that handle rapid clicks without jank or layout shift.
+
 ## Accessibility and control
 
 Respect autoplay and sound preferences. Any nonessential loop must stop when offscreen or hidden.

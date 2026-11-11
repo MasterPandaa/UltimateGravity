@@ -63,12 +63,15 @@ Apply Section 3 as an inspection rubric. Provide concrete findings (which elemen
 ### 1.2 Rhythm & Sentence Structure (*Burstiness*)
 - **Monotonous Cadence**: Every sentence spans 15–20 words. Mix ultra-short sentences (3–5 words for punch) with nuanced multi-clause observations.
 - **Compulsive Rule of Three**: Tacking on three adjectives to every noun (*"fast, efficient, and reliable"*). Select the single most accurate descriptor supported by evidence.
+- **Participle Clause Overload**: Opening sentences with dangling participle phrases (*"By leveraging X, users can now..."*, *"Utilizing Y, developers achieve..."*). State the actor and direct action immediately.
+- **Formulaic Colon Titles**: Cliché subtitles (*"The Power of X: Why Y is Transforming Z"*). Replace with direct, descriptive headings.
+- **Sycophantic Hedging**: *"While there are valid arguments on both sides, it could arguably be suggested that..."*. State the concrete engineering condition directly.
 - **Theatrical False Negation**: *"This is not just about X; it is about Y."* Limit to once per document if the contrast imparts real information; otherwise, state Y directly.
 - **Sententious Concluding One-Liners**: Ending every paragraph with a pseudo-philosophical aphorism. Remove it; readers already grasp the point.
 - **Stale Rhetorical Inquiries**: *"Have you ever wondered...?"* Delete and begin directly with the answer.
 
 ### 1.3 Cliché Vocabulary (*AI-isms*)
-- **Banned Clichés**: *Delve, tapestry, testament, beacon, symphony, unlock, elevate, realm, game-changer, in today's fast-paced digital world, it's worth noting, foster, bespoke, multifaceted, paradigm shift, holistic synergy, navigate the landscape.*
+- **Banned Clichés**: *Delve, tapestry, testament, beacon, symphony, unlock, elevate, realm, game-changer, in today's fast-paced digital world, it's worth noting, foster, bespoke, multifaceted, paradigm shift, holistic synergy, navigate the landscape, burgeoning, underscore, vital, robust, pivotal, seamlessly, harness, powerhouse, indispensable.*
 - **Remediation**: Do not replace with another hollow synonym. State measurable facts: replace *"significantly enhanced operational velocity"* with *"reduced reconciliation runs from 2 hours to 15 minutes"*.
 
 ### 1.4 Chatbot Conversational Leaks
@@ -158,13 +161,28 @@ Strip public artifacts of: conversational praise (*"Great question!"*), sycophan
 
 ---
 
-## 7. The 9-Pass Sequential UI Refactoring Pipeline (Damir Sokolovsky / unslop Pattern)
+## 7. The 10-Pass Sequential UI Refactoring Pipeline (Unslop & Aesthetic Anchoring Pattern)
 
-When refactoring generic AI-generated interfaces ("vibecoded" screens characterized by purple/blue neon glows, ambient card gradients, emojis in every header, and arbitrary Tailwind pixel hacks), never attempt to fix all aesthetic dimensions simultaneously. Execute changes across **9 sequential passes in strict dependency order**:
+When refactoring generic AI-generated interfaces ("vibecoded" screens characterized by purple/blue neon glows, ambient card gradients, emojis in every header, and arbitrary Tailwind pixel hacks), never attempt to fix all aesthetic dimensions simultaneously. Execute changes across **10 sequential passes in strict dependency order**:
 
 ```
-[1. Spacing] ──> [2. Color] ──> [3. Icons] ──> [4. Copy] ──> [5. Type] ──> [6. Layout] ──> [7. Details] ──> [8. Visuals] ──> [9. Motion]
+[0. Archetype] ──> [1. Spacing] ──> [2. Color] ──> [3. Icons] ──> [4. Copy] ──> [5. Type] ──> [6. Layout] ──> [7. Details] ──> [8. Visuals] ──> [9. Motion]
 ```
+
+### 0. Archetype Pass (Aesthetic Anchoring / Anti-Default Slop)
+> Grounded in the architectural absorption of Wil Waldon's `claude-code-frontend-design-toolkit`.
+
+Before touching layout or styling, **explicitly anchor to one Visual Aesthetic Archetype**. Never default to the generic "AI SaaS Card" (centered purple/blue gradient card, glowing pill badge, floating stock icons). Choose exactly one archetype and adhere strictly to its rules:
+
+| Aesthetic Archetype | Target Tone & Use Case | Typography Standard | Surface & Palette | Density & Radius |
+| :--- | :--- | :--- | :--- | :--- |
+| **Technical Dense** | Developer consoles, dashboards, monitoring, data-heavy IDE tools. | Monospace / clean Grotesk (`Geist Mono`, `JetBrains Mono`, `Inter`). | High-contrast monochrome, off-black (`#09090b`), single functional accent (cyan/emerald). | High density, compact padding (`p-2`, `p-3`), sharp borders (`rounded-none` or `rounded-sm`), data tables. |
+| **Minimalist Swiss** | Portfolios, luxury consumer apps, minimalist publications, high-end SaaS. | Neutral Neo-Grotesk (`Inter`, `Helvetica Neue`), strong scale ratio. | Stark white or deep black, zero ambient glow, deliberate negative space (60-30-10 rule). | Medium density, generous white space (`p-8`, `p-12`), crisp geometry, hairline dividers (`border-border/40`). |
+| **Editorial Publication** | Content platforms, research hubs, blogs, essay readers. | Serif headings (`Newsreader`, `Merriweather`, `Playfair`) paired with clean sans body. | Warm off-white paper (`#fbfbfa`, `#f7f4ee`) or dark slate (`#1c1d21`), muted ink contrast. | Content-first layout, bounded reading column (`max-w-prose`), balanced typography (`text-wrap: balance`). |
+| **Warm Craft & Paper** | Indie products, personal knowledge tools, notes, artisan software. | Warm humanist sans or soft rounded grotesk (`Plus Jakarta Sans`, `Cabinet Grotesk`). | Warm earth tones, subtle paper grain, tactile borders (`border-amber-900/10`), cream accents. | Soft corners (`rounded-lg`, `rounded-xl`), subtle tactile inset shadows, authentic non-synthetic depth. |
+| **Neo-Brutalist Utility** | High-energy dev tools, creative studios, experimental productivity apps. | Heavy sans bold headings (`Space Grotesk`, `Archivo Black`), mono accents. | High-saturation primary contrasts (electric yellow, deep cobalt), stark black borders (`border-2 border-black`). | Hard drop shadows (`shadow-[4px_4px_0px_0px_#000]`), zero blur, zero gradient, raw functional layout. |
+
+**The Anti-Default Invariant**: If a generated view contains a centered card with a purple/blue linear gradient background, glowing pill badge, and generic emoji in the title, it is a critical violation of Pass 0. Refactor immediately to an anchored archetype above.
 
 ### 1. Spacing Pass (Geometric Rhythm)
 - Replace arbitrary pixel values (`mt-[13px]`, `p-[21px]`) with strict 8pt geometric scales (`p-2`, `p-4`, `p-6`, `p-8` / `8, 16, 24, 32px`).
@@ -213,3 +231,26 @@ When refactoring generic AI-generated interfaces ("vibecoded" screens characteri
 - **Zero Fake Entities**: Strictly prohibited to invent fake product names, fictional company brands, or fabricated user accounts when refactoring templates.
 - **Anti-Trend-Hopping**: Never replace one generic AI cliché with another (e.g., swapping neon-purple cards for generic glassmorphism or neo-brutalism unless specified by the product design system).
 - **Invariance of Well-Crafted Screens**: If a component or view already demonstrates strong typography, harmonious spacing, and semantic hierarchy, leave it untouched.
+
+---
+
+## 9. Calibrated Voice Profiles & Parser Boundaries
+
+> Grounded in the architectural absorption of `conorbronsdon/avoid-ai-writing`.
+
+### 9.1 Calibrated Voice Profiles
+Select an explicit tonal register before drafting or editing:
+
+| Profile | Target Audience | Syntactic Invariants | Banned Traits |
+|---|---|---|---|
+| **Technical** | Engineers, Architects | High information density, concrete metrics, code diffs, explicit trade-offs. | Marketing buzzwords, vague adjectives, emotive flourishes. |
+| **Blunt** | Incident Commanders, Decision Makers | Active voice, short sentences (5–12 words), immediate findings first, zero hedging. | Politeness filler, throat-clearing, diplomatic qualification. |
+| **Professional** | Cross-functional stakeholders | Structured, outcome-focused, clear business impact, neutral tone. | Conversational slang, sycophantic praise, robotic bullet lists. |
+| **Casual** | Developer blogs, community updates | Natural human cadence, contractions allowed (*don't, we've*), warm and direct. | Formulaic hooks, excessive emojis, artificial excitement. |
+
+### 9.2 Parser Boundary Defense (Edit-in-Place Protection)
+When humanizing or polishing prose in mixed technical documents:
+1. **Never Touch Code Blocks**: Blocks delimited by ```` ``` ```` must remain byte-for-byte identical. Do not alter comments inside code unless explicitly directed.
+2. **Preserve Frontmatter & Metadata**: YAML/TOML frontmatter blocks (`--- ... ---`) and JSON headers must be bypassed entirely.
+3. **Preserve Technical Identifiers**: Never rewrite filenames, terminal commands, environment variables (`$HOME`), API flags (`--verbose`), or symbol names.
+4. **Target Pure Prose Only**: Restrict editing passes strictly to body paragraphs, headings, and list descriptions.

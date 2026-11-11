@@ -1,8 +1,8 @@
 /**
  * EverMind-AI / Raven Multi-Agent Execution Plane (Antigravity 2.0)
  *
- * Implements Phase 3 of the Self-Evolving Agent Architecture:
- * 1. Collision-Free Subagent DAG Partitioning: Assigns tasks to Tri-Role Specialists (fullstack, qa, data).
+ * Implements Phase 3 & 4 of the Self-Evolving Agent Architecture:
+ * 1. Collision-Free Subagent DAG Partitioning: Assigns tasks to Quad-Role Specialists (fullstack, qa, data, security).
  * 2. File Ownership Invariant: Disjoint file write sets to eliminate concurrent write races.
  * 3. Step 0 Skill Ingestion Formatting: Formats invocation prompts conforming to GEMINI.md Step 0 protocol.
  * 4. Context Bleed Barrier: Synthesizes subagent deliverables into a clean, zero-slop summary.
@@ -21,8 +21,14 @@ const ROLE_ROUTING = {
   test: 'qa-engineer',
   qa: 'qa-engineer',
   e2e: 'qa-engineer',
-  security: 'qa-engineer',
-  leak: 'qa-engineer',
+  security: 'security-engineer',
+  pentest: 'security-engineer',
+  leak: 'security-engineer',
+  memory_leak: 'security-engineer',
+  token_leak: 'security-engineer',
+  injection: 'security-engineer',
+  cve: 'security-engineer',
+  audit: 'security-engineer',
   scrape: 'data-engineer',
   sql: 'data-engineer',
   database: 'data-engineer',
@@ -33,7 +39,7 @@ function printHelp() {
   console.log(`
 EverMind-AI / Raven Multi-Agent Execution Plane CLI:
   node raven-dispatcher.js plan --goal "<objective>" --files "<file1,file2,...>" [--workspace <branch|share|inherit>]
-      Generates collision-free execution DAG and Step 0 invocation briefs for Tri-Role subagents.
+      Generates collision-free execution DAG and Step 0 invocation briefs for Quad-Role subagents.
 
   node raven-dispatcher.js synthesize --reports "<report1_path,report2_path>" [--out <summary_path>]
       Synthesizes isolated subagent outputs, eliminating raw log bloat from the main context.
@@ -41,11 +47,14 @@ EverMind-AI / Raven Multi-Agent Execution Plane CLI:
 }
 
 /**
- * Classify file path or task domain to a Tri-Role specialist
+ * Classify file path or task domain to a Quad-Role specialist
  */
 function classifyDomain(filePath) {
   const p = filePath.toLowerCase();
-  if (p.includes('test') || p.includes('spec') || p.includes('qa') || p.includes('audit')) {
+  if (p.includes('security') || p.includes('leak') || p.includes('vuln') || p.includes('cve') || p.includes('injection') || p.includes('pentest') || p.includes('audit') || /(^|[\\/_\.-])sec([\\/_\.-]|$)/i.test(p)) {
+    return 'security-engineer';
+  }
+  if (p.includes('test') || p.includes('spec') || p.includes('qa') || p.includes('e2e')) {
     return 'qa-engineer';
   }
   if (p.includes('sql') || p.includes('scrape') || p.includes('etl') || p.includes('pipeline') || p.includes('migration')) {
@@ -55,7 +64,7 @@ function classifyDomain(filePath) {
 }
 
 /**
- * 1. PLAN & PARTITION: Creates collision-free DAG plan for Tri-Role Subagents
+ * 1. PLAN & PARTITION: Creates collision-free DAG plan for Quad-Role Subagents
  */
 function planSubtasks(args) {
   const goal = args.goal || 'Parallel task execution';
@@ -65,7 +74,8 @@ function planSubtasks(args) {
   const partitions = {
     'fullstack-developer': [],
     'qa-engineer': [],
-    'data-engineer': []
+    'data-engineer': [],
+    'security-engineer': []
   };
 
   rawFiles.forEach(f => {

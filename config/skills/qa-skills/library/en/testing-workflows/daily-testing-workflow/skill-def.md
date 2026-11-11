@@ -1,11 +1,11 @@
----
+﻿---
 name: daily-testing-workflow
 description: Use this skill when you need a day-by-day QA routine including planning, execution, bug reporting, and end-of-day wrap-up; triggers include daily testing workflow and daily QA routine.
 ---
 
 # Daily Testing Workflow
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

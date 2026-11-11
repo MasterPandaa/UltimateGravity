@@ -1,11 +1,11 @@
-id: domain-method-success
+﻿id: domain-method-success
 title: "ui-test-selector-review: Domain procedure and result oracle"
 input:
   prompt: |
     Use ui-test-selector-review to analyze the supplied redacted static fixture. Analyze material only; do not execute tests or edit assets.
     Complete the six-part input audit and sourced findings required by the main prompt. Show expected behavior, observations in the material, decision reasons, and minimal validation for each item; do not invent findings for correct controls.
 
-    D1 #billing and #profile each contain a button named"Save"; target saves billing. T1 globally finds button/name Save and takes first; DOM order may change. D2 English Save/Chinese 保存, no fixed-language contract.
+    D1 #billing and #profile each contain a button named"Save"; target saves billing. T1 globally finds button/name Save and takes first; DOM order may change. D2 English Save/Chinese , no fixed-language contract.
 expect:
   exit_code: 0
 judge:

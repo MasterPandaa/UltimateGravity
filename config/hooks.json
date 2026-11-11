@@ -58,7 +58,7 @@
   "diagnostic-watchdog": {
     "PostToolUse": [
       {
-        "matcher": "edit_file|write_file",
+        "matcher": "edit_file|write_file|run_command",
         "hooks": [
           {
             "type": "command",

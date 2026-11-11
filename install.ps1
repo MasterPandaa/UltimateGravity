@@ -1,6 +1,6 @@
-# ==============================================================================
-# UltimateGravity v4.7.0 One-Click Installer
-# Tri-Role Autonomous Engineering System for Google Antigravity (AGY)
+﻿# ==============================================================================
+# UltimateGravity v6.0.0 One-Click Installer
+# Quad-Role Autonomous Engineering System for Google Antigravity (AGY)
 # ==============================================================================
 
 $ErrorActionPreference = "Stop"
@@ -10,7 +10,7 @@ $targetRoot = Join-Path $env:USERPROFILE ".gemini"
 $timestamp  = Get-Date -Format "yyyyMMdd-HHmmss"
 
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host "   UltimateGravity v4.7.0 — One-Click Master Installer          " -ForegroundColor Cyan
+Write-Host "   UltimateGravity v6.0.0 — One-Click Master Installer          " -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
 Write-Host "Target Installation : $targetRoot" -ForegroundColor Yellow
 
@@ -86,10 +86,10 @@ if (Test-Path (Join-Path $currentDir "CHANGELOG.md")) {
     Copy-Item -Path (Join-Path $currentDir "CHANGELOG.md") -Destination (Join-Path $targetRoot "CHANGELOG.md") -Force
 }
 
-# Salin config/agents (Tri-Role)
+# Salin config/agents (Quad-Role: fullstack, qa, data, security)
 Copy-Item -Path (Join-Path $currentDir "config\agents\*") -Destination (Join-Path $targetRoot "config\agents") -Recurse -Force
 
-# Salin config/skills (35 active curated skills)
+# Salin config/skills (Curated Active Skills with Progressive Disclosure)
 Copy-Item -Path (Join-Path $currentDir "config\skills\*") -Destination (Join-Path $targetRoot "config\skills") -Recurse -Force
 
 # Salin config/plugins (3 active plugins)

@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-debt-analysis
-description: Use this skill when you need evidence-bounded quality-debt items, origins, impact, age, priority, ownership, and paydown tradeoffs; triggers include 质量债务 and quality debt.
+description: Use this skill when you need evidence-bounded quality-debt items, origins, impact, age, priority, ownership, and paydown tradeoffs; triggers include  and quality debt.
 ---
 
 # Quality Debt Analysis

@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-dashboard-design
-description: Use this skill when you need evidence-bounded quality dashboard audiences, decision questions, panels, drill-downs, freshness, and alert boundaries; triggers include 质量仪表盘 and quality dashboard.
+description: Use this skill when you need evidence-bounded quality dashboard audiences, decision questions, panels, drill-downs, freshness, and alert boundaries; triggers include  and quality dashboard.
 ---
 
 # Quality Dashboard Design

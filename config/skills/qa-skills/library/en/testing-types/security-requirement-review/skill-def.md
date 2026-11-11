@@ -1,6 +1,6 @@
----
+﻿---
 name: security-requirement-review
-description: Use this skill when you need evidence-bounded security-requirement-review analysis and validation preparation; triggers include 安全需求审查 and security-requirement-review.
+description: Use this skill when you need evidence-bounded security-requirement-review analysis and validation preparation; triggers include  and security-requirement-review.
 ---
 
 # Security-Requirement Review

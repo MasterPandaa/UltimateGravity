@@ -1,6 +1,6 @@
----
+﻿---
 name: chaos-testing
-description: Use this skill when you need evidence-bounded chaos-testing analysis and validation preparation; triggers include 混沌测试 and chaos-testing.
+description: Use this skill when you need evidence-bounded chaos-testing analysis and validation preparation; triggers include  and chaos-testing.
 ---
 
 # Chaos Testing

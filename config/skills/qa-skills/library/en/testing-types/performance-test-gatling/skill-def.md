@@ -1,11 +1,11 @@
----
+﻿---
 name: performance-test-gatling
 description: Use this skill when you need Gatling performance scope, simulations, or runnable entry points; triggers include Gatling, Gatling simulations, and Gatling performance testing.
 ---
 
 # performance-test-gatling (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

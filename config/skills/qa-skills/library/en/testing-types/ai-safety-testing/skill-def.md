@@ -1,6 +1,6 @@
----
+﻿---
 name: ai-safety-testing
-description: Use this skill when you need evidence-bounded safety policy, abuse categories, refusal/redirect behavior, privacy, escalation, and Human risk decisions; triggers include AI 安全 and AI safety.
+description: Use this skill when you need evidence-bounded safety policy, abuse categories, refusal/redirect behavior, privacy, escalation, and Human risk decisions; triggers include AI  and AI safety.
 ---
 
 # AI Safety Testing

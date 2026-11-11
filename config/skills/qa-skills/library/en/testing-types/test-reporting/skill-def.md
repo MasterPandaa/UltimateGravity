@@ -1,11 +1,11 @@
----
+﻿---
 name: test-reporting
 description: Use this skill when you need to generate test reports with summary, metrics, defect analysis, and risk assessment; triggers include test reporting and QA status report.
 ---
 
 # Test Reporting
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

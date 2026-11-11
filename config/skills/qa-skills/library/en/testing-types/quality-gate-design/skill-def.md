@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-gate-design
-description: Use this skill when you need evidence-bounded entry criteria, evidence requirements, owners, and exception paths for a delivery or release gate; triggers include 质量门禁 and quality gate.
+description: Use this skill when you need evidence-bounded entry criteria, evidence requirements, owners, and exception paths for a delivery or release gate; triggers include  and quality gate.
 ---
 
 # Quality Gate Design

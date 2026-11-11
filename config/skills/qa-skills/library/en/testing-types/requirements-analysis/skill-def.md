@@ -1,11 +1,11 @@
----
+﻿---
 name: requirements-analysis
 description: Use this skill when you need to analyze requirements, identify test points, boundaries, dependencies, and risks before test design; triggers include requirements analysis and test point analysis.
 ---
 
 # Requirements Analysis (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

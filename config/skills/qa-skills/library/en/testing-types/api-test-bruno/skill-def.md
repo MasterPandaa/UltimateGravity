@@ -1,11 +1,11 @@
----
+﻿---
 name: api-test-bruno
 description: Use this skill when you need to parse multi-format API definitions and generate Bruno collections for executable regression; triggers include Bruno collections and Bruno API testing.
 ---
 
 # api-test-bruno (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

@@ -1,6 +1,6 @@
----
+﻿---
 name: retry-testing
-description: Use this skill when you need evidence-bounded retry-testing analysis and validation preparation; triggers include 重试测试 and retry-testing.
+description: Use this skill when you need evidence-bounded retry-testing analysis and validation preparation; triggers include  and retry-testing.
 ---
 
 # Retry Testing

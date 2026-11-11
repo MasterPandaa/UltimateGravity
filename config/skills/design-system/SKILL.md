@@ -91,6 +91,7 @@ node scripts/validate-tokens.cjs --dir src/
 | Component Specs | `references/component-specs.md` |
 | States & Variants | `references/states-and-variants.md` |
 | Tailwind Integration | `references/tailwind-integration.md` |
+| Workspace DESIGN.md | `references/design-md-spec.md` |
 
 ## Component Spec Pattern
 

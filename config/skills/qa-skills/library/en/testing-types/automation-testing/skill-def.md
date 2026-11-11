@@ -1,11 +1,11 @@
----
+﻿---
 name: automation-testing
 description: Use this skill when you need to design automation testing approaches using patterns like POM, data-driven testing, or BDD; triggers include automation testing and test automation strategy.
 ---
 
 # Automation Testing (English)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

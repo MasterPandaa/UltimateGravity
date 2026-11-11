@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 import json
 import zipfile
 from xml.sax.saxutils import escape
@@ -14,39 +14,39 @@ def format_markdown(cases: List[Dict]) -> str:
                 [
                     f"## {c['title']}",
                     "",
-                    f"**优先级**: {c['priority']}",
-                    f"**类型**: {c['type']}",
-                    f"**前置条件**: {c['preconditions']}",
-                    f"**测试步骤**: {c['steps']}",
+                    f"****: {c['priority']}",
+                    f"****: {c['type']}",
+                    f"****: {c['preconditions']}",
+                    f"****: {c['steps']}",
                     "",
-                    f"**测试数据**: {c['data']}",
+                    f"****: {c['data']}",
                     "",
-                    f"**预期结果**: {c['expected']}",
+                    f"****: {c['expected']}",
                     "",
-                    f"**实际结果**: {c['actual']}",
-                    f"**状态**: {c['status']}",
-                    f"**备注**: {c['remark']}",
+                    f"****: {c['actual']}",
+                    f"****: {c['status']}",
+                    f"****: {c['remark']}",
                 ]
             )
         )
-    return "# 测试用例输出\n\n" + "\n\n---\n\n".join(chunks) + "\n"
+    return "# \n\n" + "\n\n---\n\n".join(chunks) + "\n"
 
 
 def format_word_text(cases: List[Dict]) -> str:
-    lines = ["测试用例输出", "==========", ""]
+    lines = ["", "==========", ""]
     for idx, c in enumerate(cases, start=1):
         lines.extend(
             [
-                f"{idx}. 用例标题: {c['title']}",
-                f"优先级: {c['priority']}",
-                f"类型: {c['type']}",
-                f"前置条件: {c['preconditions']}",
-                f"测试步骤: {c['steps']}",
-                f"测试数据: {c['data']}",
-                f"预期结果: {c['expected']}",
-                f"实际结果: {c['actual']}",
-                f"状态: {c['status']}",
-                f"备注: {c['remark']}",
+                f"{idx}. : {c['title']}",
+                f": {c['priority']}",
+                f": {c['type']}",
+                f": {c['preconditions']}",
+                f": {c['steps']}",
+                f": {c['data']}",
+                f": {c['expected']}",
+                f": {c['actual']}",
+                f": {c['status']}",
+                f": {c['remark']}",
                 "",
             ]
         )
@@ -66,20 +66,20 @@ def _paragraph_xml(text: str) -> str:
 
 
 def _build_docx_xml(cases: List[Dict]) -> str:
-    lines = ["测试用例输出", ""]
+    lines = ["", ""]
     for idx, c in enumerate(cases, start=1):
         lines.extend(
             [
-                f"{idx}. 用例标题: {c['title']}",
-                f"优先级: {c['priority']}",
-                f"类型: {c['type']}",
-                f"前置条件: {c['preconditions']}",
-                f"测试步骤: {c['steps']}",
-                f"测试数据: {c['data']}",
-                f"预期结果: {c['expected']}",
-                f"实际结果: {c['actual']}",
-                f"状态: {c['status']}",
-                f"备注: {c['remark']}",
+                f"{idx}. : {c['title']}",
+                f": {c['priority']}",
+                f": {c['type']}",
+                f": {c['preconditions']}",
+                f": {c['steps']}",
+                f": {c['data']}",
+                f": {c['expected']}",
+                f": {c['actual']}",
+                f": {c['status']}",
+                f": {c['remark']}",
                 "",
             ]
         )
@@ -138,23 +138,23 @@ def format_json(cases: List[Dict]) -> str:
     for c in cases:
         payload.append(
             {
-                "用例标题": c["title"],
-                "优先级": c["priority"],
-                "类型": c["type"],
-                "前置条件": c["preconditions"],
-                "测试步骤": c["steps"],
-                "测试数据": c["data"],
-                "预期结果": c["expected"],
-                "实际结果": c["actual"],
-                "状态": c["status"],
-                "备注": c["remark"],
+                "": c["title"],
+                "": c["priority"],
+                "": c["type"],
+                "": c["preconditions"],
+                "": c["steps"],
+                "": c["data"],
+                "": c["expected"],
+                "": c["actual"],
+                "": c["status"],
+                "": c["remark"],
             }
         )
     return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
 def format_excel_tsv(cases: List[Dict]) -> str:
-    rows = ["用例标题\t优先级\t类型\t前置条件\t测试步骤\t测试数据\t预期结果\t实际结果\t状态\t备注"]
+    rows = ["\t\t\t\t\t\t\t\t\t"]
     for c in cases:
         row = [
             c["title"],

@@ -1,6 +1,6 @@
----
+﻿---
 name: agent-long-running-testing
-description: Use this skill when you need evidence-bounded checkpoints, heartbeats, resume, cancellation, duplicate submission, timeouts, and resource lifecycle; triggers include 长运行 Agent and long-running Agent.
+description: Use this skill when you need evidence-bounded checkpoints, heartbeats, resume, cancellation, duplicate submission, timeouts, and resource lifecycle; triggers include  Agent and long-running Agent.
 ---
 
 # Long-Running Agent Testing

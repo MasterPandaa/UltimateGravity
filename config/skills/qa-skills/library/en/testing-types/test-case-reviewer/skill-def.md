@@ -1,11 +1,11 @@
----
+﻿---
 name: test-case-reviewer
 description: Use this skill when you need to review test cases for completeness, clarity, maintainability, and missing scenarios; triggers include test case review and test case QA.
 ---
 
 # Test Case Review
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

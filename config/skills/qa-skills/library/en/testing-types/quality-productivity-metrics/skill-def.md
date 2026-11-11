@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-productivity-metrics
-description: Use this skill when you need evidence-bounded quality and delivery metrics, denominators, attribution limits, gaming risk, and the Human-use boundary; triggers include 质量生产力 and quality productivity.
+description: Use this skill when you need evidence-bounded quality and delivery metrics, denominators, attribution limits, gaming risk, and the Human-use boundary; triggers include  and quality productivity.
 ---
 
 # Quality Productivity Metrics

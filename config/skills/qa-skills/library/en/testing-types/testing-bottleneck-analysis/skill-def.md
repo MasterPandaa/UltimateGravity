@@ -1,6 +1,6 @@
----
+﻿---
 name: testing-bottleneck-analysis
-description: Use this skill when you need evidence-bounded queues, dependencies, capacity, handoffs, and evidence for testing constraints; triggers include 测试瓶颈 and testing bottleneck.
+description: Use this skill when you need evidence-bounded queues, dependencies, capacity, handoffs, and evidence for testing constraints; triggers include  and testing bottleneck.
 ---
 
 # Testing Bottleneck Analysis

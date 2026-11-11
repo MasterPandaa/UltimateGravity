@@ -59,12 +59,14 @@ process.stdin.on('end', () => {
 
     const normalized = path.normalize(targetPath);
 
-    // Skip internal configs, git internals, node_modules, and the remover tool itself
+    // Skip all internal Antigravity assets (.gemini), git internals, node_modules, and the remover tool itself
     if (
-      normalized.includes('\\.gemini\\config\\') ||
-      normalized.includes('\\.gemini\\antigravity\\brain\\') && (normalized.endsWith('transcript.jsonl') || normalized.endsWith('.log')) ||
+      normalized.includes('\\.gemini\\') ||
+      normalized.includes('/.gemini/') ||
       normalized.includes('\\.git\\') ||
+      normalized.includes('/.git/') ||
       normalized.includes('\\node_modules\\') ||
+      normalized.includes('/node_modules/') ||
       normalized.includes('\\tools\\watermarks-remover\\')
     ) {
       process.stdout.write(JSON.stringify({}));

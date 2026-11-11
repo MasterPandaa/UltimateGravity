@@ -1,6 +1,6 @@
----
+﻿---
 name: agent-memory-testing
-description: Use this skill when you need evidence-bounded memory write/read/update/delete, retention, contamination, isolation, provenance, and forgetting behavior; triggers include Agent 记忆 and Agent memory.
+description: Use this skill when you need evidence-bounded memory write/read/update/delete, retention, contamination, isolation, provenance, and forgetting behavior; triggers include Agent  and Agent memory.
 ---
 
 # Agent Memory Testing

@@ -1,11 +1,11 @@
----
+﻿---
 name: release-testing-workflow
 description: Use this skill when you need release-phase QA workflow from T-14 planning to go/no-go and post-release monitoring; triggers include release testing workflow and go/no-go QA.
 ---
 
 # Release Testing Workflow
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

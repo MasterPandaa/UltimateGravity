@@ -1,11 +1,11 @@
----
+﻿---
 name: test-strategy-plus
 description: Use this skill when you need a structured test strategy from requirement, analysis, tech, and plan docs; triggers include test strategy plus and advanced test strategy.
 ---
 
 # test-strategy-plus (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

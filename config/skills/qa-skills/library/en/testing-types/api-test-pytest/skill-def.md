@@ -1,11 +1,11 @@
----
+﻿---
 name: api-test-pytest
 description: Use this skill when you need to parse multi-format API definitions and generate Pytest API automation; triggers include Pytest API tests and API automation with Pytest.
 ---
 
 # api-test-pytest (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

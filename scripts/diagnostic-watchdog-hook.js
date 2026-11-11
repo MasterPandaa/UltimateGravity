@@ -9,7 +9,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const crypto = require('crypto');
+const { execFileSync } = require('child_process');
 
 function log(msg) {
   try {
@@ -26,6 +27,59 @@ process.stdin.on('data', (chunk) => {
   inputData += chunk;
 });
 
+function checkRepeatTool(toolCall) {
+  if (!toolCall || !toolCall.name) return null;
+
+  const logDir = 'C:\\Users\\Luthfi\\.gemini\\scripts\\logs';
+  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
+  const historyFile = path.join(logDir, 'tool-call-history.json');
+
+  let history = [];
+  try {
+    if (fs.existsSync(historyFile)) {
+      history = JSON.parse(fs.readFileSync(historyFile, 'utf8'));
+    }
+  } catch (e) {
+    history = [];
+  }
+
+  // Generate fingerprint of tool arguments
+  const argsStr = JSON.stringify(toolCall.args || {});
+  const argHash = crypto.createHash('md5').update(argsStr).digest('hex').slice(0, 8);
+  const currentEntry = { name: toolCall.name, hash: argHash, ts: Date.now() };
+
+  // Calculate streak of identical consecutive calls
+  let streak = 1;
+  for (let i = history.length - 1; i >= 0; i--) {
+    const prev = history[i];
+    // Ignore calls older than 5 minutes
+    if (Date.now() - prev.ts > 300000) break;
+    if (prev.name === currentEntry.name && prev.hash === currentEntry.hash) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  // Update rolling history (keep last 20)
+  history.push(currentEntry);
+  if (history.length > 20) history = history.slice(-20);
+  try {
+    fs.writeFileSync(historyFile, JSON.stringify(history), 'utf8');
+  } catch (e) {}
+
+  // Check DSH thresholds: 3, 5, 8
+  if (streak === 3 || streak === 5 || streak >= 8) {
+    return {
+      streak,
+      toolName: toolCall.name,
+      message: `[Repeat-Tool Sentinel Alert]: Tool "${toolCall.name}" has been called ${streak} consecutive times with matching parameters. You may be stuck in a repetitive loop. Please step back, re-examine assumptions, or switch strategy (diagnosing-bugs hypothesis loop) instead of repeating the same action.`
+    };
+  }
+
+  return null;
+}
+
 process.stdin.on('end', () => {
   try {
     if (!inputData.trim()) {
@@ -38,20 +92,30 @@ process.stdin.on('end', () => {
     const toolName = toolCall.name || '';
     const targetPath = toolCall.args?.Path;
 
+    const messages = [];
+
+    // 1. Repeat-Tool Sentinel Check (DeepSeek Harness Inspired)
+    const repeatAlert = checkRepeatTool(toolCall);
+    if (repeatAlert) {
+      log(repeatAlert.message);
+      messages.push(repeatAlert.message);
+    }
+
+    // 2. Syntax / Compiler Check on modified files
     if ((toolName === 'edit_file' || toolName === 'write_file') && targetPath) {
       const issue = checkDiagnostics(targetPath);
       if (issue) {
         log(`Diagnostic issue found in ${targetPath}: ${issue.message}`);
-        const response = {
-          injectSteps: [
-            {
-              ephemeralMessage: `[Diagnostic Watchdog Alert]: File "${path.basename(targetPath)}" has a syntax/compiler issue after modification:\n${issue.message}\nPlease resolve this issue before finishing.`
-            }
-          ]
-        };
-        process.stdout.write(JSON.stringify(response));
-        process.exit(0);
+        messages.push(`[Diagnostic Watchdog Alert]: File "${path.basename(targetPath)}" has a syntax/compiler issue after modification:\n${issue.message}\nPlease resolve this issue before finishing.`);
       }
+    }
+
+    if (messages.length > 0) {
+      const response = {
+        injectSteps: messages.map(msg => ({ ephemeralMessage: msg }))
+      };
+      process.stdout.write(JSON.stringify(response));
+      process.exit(0);
     }
 
     process.stdout.write(JSON.stringify({}));
@@ -70,6 +134,14 @@ function checkDiagnostics(filePath) {
     const ext = path.extname(filePath).toLowerCase();
     const content = fs.readFileSync(filePath, 'utf8');
 
+    // 0. High-Priority Security & Secret Leak Check
+    const secretIssue = checkSecretLeak(content, filePath);
+    if (secretIssue) return secretIssue;
+
+    // 0B. Code/Command Injection Sink Heuristic
+    const injectionIssue = checkCommandInjectionSink(content, ext);
+    if (injectionIssue) return injectionIssue;
+
     // 1. JSON Files
     if (ext === '.json') {
       try {
@@ -86,7 +158,7 @@ function checkDiagnostics(filePath) {
     if (ext === '.py') {
       try {
         // python -m py_compile validates syntax without executing
-        execSync(`python -m py_compile "${filePath}"`, {
+        execFileSync('python', ['-m', 'py_compile', filePath], {
           timeout: 2000,
           stdio: ['pipe', 'pipe', 'pipe']
         });
@@ -103,7 +175,7 @@ function checkDiagnostics(filePath) {
     // 3. JavaScript Files (.js, .mjs, .cjs)
     if (ext === '.js' || ext === '.mjs' || ext === '.cjs') {
       try {
-        execSync(`node --check "${filePath}"`, {
+        execFileSync('node', ['--check', filePath], {
           timeout: 2000,
           stdio: ['pipe', 'pipe', 'pipe']
         });
@@ -136,10 +208,11 @@ function checkDiagnostics(filePath) {
 
       if (localTsc) {
         try {
-          execSync(`"${localTsc}" --noEmit --skipLibCheck "${filePath}"`, {
+          execFileSync(localTsc, ['--noEmit', '--skipLibCheck', filePath], {
             cwd: curr,
             timeout: 3000,
-            stdio: ['pipe', 'pipe', 'pipe']
+            stdio: ['pipe', 'pipe', 'pipe'],
+            shell: true
           });
         } catch (err) {
           const stdout = err.stdout ? err.stdout.toString('utf8').trim() : '';
@@ -161,6 +234,17 @@ function checkDiagnostics(filePath) {
             message: delimiterErr
           };
         }
+      }
+    }
+
+    // 5. PowerShell Files (.ps1)
+    if (ext === '.ps1') {
+      const delimiterErr = checkBalancedDelimiters(content);
+      if (delimiterErr) {
+        return {
+          type: 'powershell_syntax_error',
+          message: `PowerShell Syntax Issue: ${delimiterErr}`
+        };
       }
     }
 
@@ -243,5 +327,47 @@ function checkBalancedDelimiters(content) {
     return `Unclosed '${unclosed.char}' opened at line ${unclosed.line}, column ${unclosed.col}`;
   }
 
+  return null;
+}
+
+function checkSecretLeak(content, filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  // Skip non-code files, documentation, and system transcript logs
+  if (ext === '.md' || ext === '.log' || filePath.includes('.system_generated') || filePath.includes('.git')) return null;
+
+  const patterns = [
+    { name: 'OpenAI/Anthropic API Key', regex: /\b(sk-[a-zA-Z0-9_-]{20,}|sk-ant-[a-zA-Z0-9_-]{20,})\b/ },
+    { name: 'GitHub Personal Access Token', regex: /\b(ghp_[a-zA-Z0-9]{36}|github_pat_[a-zA-Z0-9_]{82})\b/ },
+    { name: 'AWS Access Key ID', regex: /\bAKIA[0-9A-Z]{16}\b/ },
+    { name: 'Private Key Header', regex: /-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/ }
+  ];
+
+  for (const p of patterns) {
+    if (p.regex.test(content)) {
+      return {
+        type: 'secret_leak_alert',
+        message: `[CRITICAL SECURITY ALERT]: Hardcoded ${p.name} detected! Remove plaintext credentials and use environment variables immediately.`
+      };
+    }
+  }
+  return null;
+}
+
+function checkCommandInjectionSink(content, ext) {
+  if (ext === '.js' || ext === '.ts' || ext === '.mjs') {
+    if (/\b(exec|execSync)\s*\(\s*`[^`]*\$\{/i.test(content) || /\b(exec|execSync)\s*\(\s*['"][^'"]*['"]\s*\+/i.test(content)) {
+      return {
+        type: 'command_injection_risk',
+        message: `[SECURITY WARNING]: Potential command injection sink detected in exec/execSync. Avoid string interpolation/concatenation; use execFile or spawn with argument arrays instead.`
+      };
+    }
+  } else if (ext === '.py') {
+    if (/\bos\.system\s*\(\s*f?["'][^"']*["']\s*(\+|\.format|\%)/i.test(content) || /\bos\.system\s*\(\s*f["']/i.test(content)) {
+      return {
+        type: 'command_injection_risk',
+        message: `[SECURITY WARNING]: Potential command injection sink detected in os.system(). Use subprocess.run([...], check=True) with argument lists instead.`
+      };
+    }
+  }
   return null;
 }

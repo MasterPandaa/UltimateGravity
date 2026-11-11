@@ -1,6 +1,6 @@
----
+﻿---
 name: recovery-testing
-description: Use this skill when you need evidence-bounded recovery-testing analysis and validation preparation; triggers include 恢复测试 and recovery-testing.
+description: Use this skill when you need evidence-bounded recovery-testing analysis and validation preparation; triggers include  and recovery-testing.
 ---
 
 # Recovery Testing

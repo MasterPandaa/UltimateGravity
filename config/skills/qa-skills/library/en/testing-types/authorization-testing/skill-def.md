@@ -1,6 +1,6 @@
----
+﻿---
 name: authorization-testing
-description: Use this skill when you need evidence-bounded authorization-testing analysis and validation preparation; triggers include 授权测试 and authorization-testing.
+description: Use this skill when you need evidence-bounded authorization-testing analysis and validation preparation; triggers include  and authorization-testing.
 ---
 
 # Authorization Testing

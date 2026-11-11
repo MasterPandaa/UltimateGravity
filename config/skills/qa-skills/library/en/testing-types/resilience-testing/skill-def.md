@@ -1,6 +1,6 @@
----
+﻿---
 name: resilience-testing
-description: Use this skill when you need evidence-bounded resilience-testing analysis and validation preparation; triggers include 韧性测试 and resilience-testing.
+description: Use this skill when you need evidence-bounded resilience-testing analysis and validation preparation; triggers include  and resilience-testing.
 ---
 
 # Resilience Testing

@@ -1,11 +1,11 @@
----
+﻿---
 name: test-case-reviewer-plus
 description: Use this skill when you need structured test-case review findings from requirements, strategy, and case docs; triggers include test case reviewer plus and advanced test case review.
 ---
 
 # test-case-reviewer-plus (EN)
 
-**Chinese version：** See the corresponding Chinese skill.
+**Chinese version** See the corresponding Chinese skill.
 
 ## When to Use
 

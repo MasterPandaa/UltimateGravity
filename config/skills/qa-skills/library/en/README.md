@@ -1,4 +1,4 @@
-<div align="right"><a href="../zh/README.md">🇨🇳 中文</a> | <strong>🇬🇧 English</strong></div>
+﻿<div align="right"><a href="../zh/README.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
 # English Skills
 
@@ -116,7 +116,7 @@ Each language provides **164** Skills: 10 workflows + 149 testing types + 5 Skil
 | Edge Case Discovery | [`edge-case-discovery`](testing-types/edge-case-discovery/) |
 | Negative Scenario Discovery | [`negative-scenario-discovery`](testing-types/negative-scenario-discovery/) |
 
-#### Reliability and Security — 可靠性与安全
+#### Reliability and Security — 
 
 | Skill | Directory |
 | --- | --- |

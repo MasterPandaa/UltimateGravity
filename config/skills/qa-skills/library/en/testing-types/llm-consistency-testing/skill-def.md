@@ -1,6 +1,6 @@
----
+﻿---
 name: llm-consistency-testing
-description: Use this skill when you need evidence-bounded repeat inputs, version/model/prompt factors, invariants, variance evidence, and comparison boundaries; triggers include LLM 一致性 and LLM consistency.
+description: Use this skill when you need evidence-bounded repeat inputs, version/model/prompt factors, invariants, variance evidence, and comparison boundaries; triggers include LLM  and LLM consistency.
 ---
 
 # LLM Consistency Testing

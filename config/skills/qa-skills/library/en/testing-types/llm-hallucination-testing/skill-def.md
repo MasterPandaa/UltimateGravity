@@ -1,6 +1,6 @@
----
+﻿---
 name: llm-hallucination-testing
-description: Use this skill when you need evidence-bounded claim-to-source relations, unsupported assertions, abstention, uncertainty, and evidence review; triggers include LLM 幻觉 and LLM hallucination.
+description: Use this skill when you need evidence-bounded claim-to-source relations, unsupported assertions, abstention, uncertainty, and evidence review; triggers include LLM  and LLM hallucination.
 ---
 
 # LLM Hallucination Testing

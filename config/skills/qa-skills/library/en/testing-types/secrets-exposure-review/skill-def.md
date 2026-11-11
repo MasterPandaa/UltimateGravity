@@ -1,6 +1,6 @@
----
+﻿---
 name: secrets-exposure-review
-description: Use this skill when you need evidence-bounded secrets-exposure-review analysis and validation preparation; triggers include 敏感信息暴露审查 and secrets-exposure-review.
+description: Use this skill when you need evidence-bounded secrets-exposure-review analysis and validation preparation; triggers include  and secrets-exposure-review.
 ---
 
 # Secrets-Exposure Review

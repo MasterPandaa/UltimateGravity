@@ -132,3 +132,5 @@ Enforce strict parity between frontend and backend contracts:
 - `references/review-checklist.md`: Review rubrics and verification gates prior to code submission.
 - `references/animejs-motion.md`: Anime.js v4 integration standards, SSR-safe custom hooks (`useAnime`), memory leak cleanup, and 4 UI states motion.
 - `references/gsap-motion.md`: GreenSock GSAP integration standards, useGSAP context cleanup, autoAlpha vs opacity, and timeline sequencing.
+- `references/mobile-expo.md`: Expo SDK & React Native engineering standards, Expo Router, NativeWind v4, Safe Area insets, and EAS workflows.
+- `references/codebase-untangling.md`: Deep refactoring heuristics, skeleton AST probing, volatility hierarchy, and temporal co-change git mining.

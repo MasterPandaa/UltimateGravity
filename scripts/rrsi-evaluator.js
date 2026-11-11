@@ -55,6 +55,12 @@ Google RRSI & MaD-RSI Regularizer & Selector CLI:
 
   node rrsi-evaluator.js failure-matrix
       Analyzes multi-model failure trajectories to isolate universal harness defects vs model-specific quirks.
+
+  node rrsi-evaluator.js localize-failure --error "<sig>" [--task <name>] [--model <model>]
+      Recuris failure attribution: localizes errors to Working Memory vs Experiential Skill vs System Harness.
+
+  node rrsi-evaluator.js recuris-status
+      Displays the active status of the Recuris Dual-Memory (Working vs Experiential) architecture.
 `);
 }
 
@@ -310,6 +316,154 @@ function analyzeFailureMatrix() {
   });
 }
 
+/**
+ * Recuris Structured Failure Localization & Attribution
+ * Categorizes failure into:
+ * - WORKING_MEMORY: Ephemeral state defects (transient network, missing path, dirty working directory).
+ * - EXPERIENTIAL_MEMORY: Skill instruction defects (outdated API, bad selector, invalid schema).
+ * - SYSTEM_HARNESS: Host/OS infrastructure issues (EACCES, permissions, dead daemon).
+ */
+function localizeFailure(opts) {
+  const error = opts.error || '';
+  const task = opts.task || 'unspecified-task';
+  const model = opts.model || 'active-model';
+
+  let memoryTier = 'EXPERIENTIAL_MEMORY';
+  let localizedTarget = 'general-skill';
+  let confidence = 0.85;
+  let recommendedAction = '';
+  let blastRadius = 'Minimal (Single Skill)';
+
+  const lower = error.toLowerCase();
+
+  // 1. Working Memory (Ephemeral state defects)
+  if (
+    lower.includes('enoent') ||
+    lower.includes('cannot find module') ||
+    lower.includes('path does not exist') ||
+    lower.includes('no such file or directory') ||
+    lower.includes('econnrefused') ||
+    lower.includes('etimedout') ||
+    lower.includes('socket hang up') ||
+    (lower.includes('syntaxerror: unexpected token') && lower.includes('in json'))
+  ) {
+    memoryTier = 'WORKING_MEMORY';
+    localizedTarget = 'transient-workspace-state';
+    confidence = 0.95;
+    blastRadius = 'Isolated (Turn Scratchpad / CWD)';
+    recommendedAction = 'DO NOT MUTATE GLOBAL RULES OR SKILLS! Revert active step via step-checkpoint or fix target path/connection.';
+  }
+  // 2. System Harness (OS/Security/Permission defects)
+  else if (
+    lower.includes('eacces') ||
+    lower.includes('operation not permitted') ||
+    lower.includes('permission denied') ||
+    lower.includes('spawn eacces') ||
+    lower.includes('process exited with code 127') ||
+    lower.includes('mcp server disconnected')
+  ) {
+    memoryTier = 'SYSTEM_HARNESS';
+    localizedTarget = 'host-platform-harness';
+    confidence = 0.92;
+    blastRadius = 'Platform Level (Shell / Permissions / MCP)';
+    recommendedAction = 'Verify OS permissions, check Windows execution policy, or restart MCP auth keeper.';
+  }
+  // 3. Experiential Memory (Skill instruction defects)
+  else {
+    memoryTier = 'EXPERIENTIAL_MEMORY';
+    confidence = 0.90;
+    
+    if (lower.includes('playwright') || lower.includes('locator') || lower.includes('element not interactable') || lower.includes('page.goto') || (lower.includes('timeout') && lower.includes('selector'))) {
+      localizedTarget = 'playwright-cli';
+    } else if (lower.includes('sql') || lower.includes('query') || lower.includes('foreign key') || lower.includes('deadlock') || lower.includes('constraint')) {
+      localizedTarget = 'sql-optimization';
+    } else if (lower.includes('powershell') || lower.includes('cmdlet') || lower.includes('parameterbindingvalidationexception')) {
+      localizedTarget = 'powershell-windows-patterns';
+    } else if (lower.includes('ts(') || lower.includes('typescript') || (lower.includes('type') && lower.includes('not assignable'))) {
+      localizedTarget = 'typescript-pro';
+    } else if (lower.includes('react') || lower.includes('hydration') || lower.includes('tailwind') || lower.includes('shadcn')) {
+      localizedTarget = 'shadcn-ui';
+    } else if (lower.includes('api') || lower.includes('400 bad request') || lower.includes('422') || lower.includes('zoderror')) {
+      localizedTarget = 'api-contract-design';
+    } else {
+      localizedTarget = 'active-domain-skill';
+    }
+
+    blastRadius = `Surgical (Isolated to ${localizedTarget})`;
+    recommendedAction = `Skill defect localized to [${localizedTarget}]. Update target skill and validate via 5-Gate RRSI before committing.`;
+  }
+
+  const report = {
+    id: `recuris-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    model,
+    task,
+    error,
+    memoryTier,
+    localizedTarget,
+    confidence: `${Math.round(confidence * 100)}%`,
+    blastRadius,
+    recommendedAction,
+    status: 'LOCALIZED'
+  };
+
+  // Persist to mad-rsi-failures.json
+  let db = [];
+  if (fs.existsSync(FAILURE_DB_PATH)) {
+    try { db = JSON.parse(fs.readFileSync(FAILURE_DB_PATH, 'utf8')); } catch (_) { db = []; }
+  }
+  db.push(report);
+  fs.writeFileSync(FAILURE_DB_PATH, JSON.stringify(db, null, 2), 'utf8');
+
+  console.log('\n=== [RECURIS STRUCTURED FAILURE LOCALIZATION] ===');
+  console.log(`Error:              "${error.substring(0, 100)}${error.length > 100 ? '...' : ''}"`);
+  console.log(`Memory Tier:        ${memoryTier === 'WORKING_MEMORY' ? '🟢 WORKING_MEMORY (Ephemeral State)' : memoryTier === 'EXPERIENTIAL_MEMORY' ? '🟡 EXPERIENTIAL_MEMORY (Skill Defect)' : '🔴 SYSTEM_HARNESS (Host Defect)'}`);
+  console.log(`Localized Target:   ${localizedTarget}`);
+  console.log(`Confidence:         ${report.confidence}`);
+  console.log(`Blast Radius:       ${blastRadius}`);
+  console.log(`Mandatory Action:   ${recommendedAction}`);
+  console.log('==================================================\n');
+
+  return report;
+}
+
+/**
+ * Recuris Dual-Memory Architecture Status
+ */
+function showRecurisStatus() {
+  console.log('\n=== [RECURIS DUAL-MEMORY ARCHITECTURE STATUS] ===');
+  // 1. Working Memory
+  console.log('📁 [WORKING MEMORY - Ephemeral State]');
+  const taskDagPath = path.join(__dirname, '..', 'antigravity', 'tasks', 'dag-state.json');
+  const activeTasks = fs.existsSync(taskDagPath) ? 'Active DAG file present' : 'Clean / Idle';
+  console.log(` - Active Task State:     ${activeTasks}`);
+  console.log(` - Current Working Dir:   ${process.cwd()}`);
+
+  // 2. Experiential Memory
+  console.log('\n🧠 [EXPERIENTIAL MEMORY - Persistent Domain Skills]');
+  let failCount = 0;
+  let workingFailures = 0;
+  let skillFailures = 0;
+  let systemFailures = 0;
+  if (fs.existsSync(FAILURE_DB_PATH)) {
+    try {
+      const db = JSON.parse(fs.readFileSync(FAILURE_DB_PATH, 'utf8'));
+      failCount = db.length;
+      db.forEach(e => {
+        if (e.memoryTier === 'WORKING_MEMORY') workingFailures++;
+        else if (e.memoryTier === 'SYSTEM_HARNESS') systemFailures++;
+        else skillFailures++;
+      });
+    } catch (_) {}
+  }
+  console.log(` - Total Failure Trajectories Logged: ${failCount}`);
+  console.log(`   * Working Memory Glitches:         ${workingFailures}`);
+  console.log(`   * Localized Skill Defects:         ${skillFailures}`);
+  console.log(`   * System/Harness Deficiencies:     ${systemFailures}`);
+  console.log(` - Validation Gate:                   Active (Google RRSI 5-Gate)`);
+  console.log('==================================================\n');
+}
+
 // CLI Dispatcher
 const rawArgs = process.argv.slice(2);
 const command = rawArgs[0];
@@ -339,6 +493,10 @@ if (command === 'evaluate') {
   recordFailure(parsed);
 } else if (command === 'failure-matrix') {
   analyzeFailureMatrix();
+} else if (command === 'localize-failure') {
+  localizeFailure(parsed);
+} else if (command === 'recuris-status') {
+  showRecurisStatus();
 } else {
   console.error(`Unknown command: ${command}`);
   printHelp();

@@ -1,6 +1,6 @@
----
+﻿---
 name: quality-metrics-design
-description: Use this skill when you need evidence-bounded quality metric definitions, calculation rules, data sources, freshness, and anti-gaming boundaries; triggers include 质量指标 and quality metric.
+description: Use this skill when you need evidence-bounded quality metric definitions, calculation rules, data sources, freshness, and anti-gaming boundaries; triggers include  and quality metric.
 ---
 
 # Quality Metrics Design

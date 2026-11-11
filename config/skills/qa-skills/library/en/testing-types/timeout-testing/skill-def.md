@@ -1,6 +1,6 @@
----
+﻿---
 name: timeout-testing
-description: Use this skill when you need evidence-bounded timeout-testing analysis and validation preparation; triggers include 超时测试 and timeout-testing.
+description: Use this skill when you need evidence-bounded timeout-testing analysis and validation preparation; triggers include  and timeout-testing.
 ---
 
 # Timeout Testing
