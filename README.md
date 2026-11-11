@@ -192,6 +192,8 @@ After installation, these commands can be called directly from any terminal or P
 - **Microsoft TokenEconomizer (`microsoft/TokenEconomizer`)**: $\le 3$ attempt circuit breaker halting runaway speculative edit loops before token exhaustion.
 - **Damir Sokolovsky Unslop (`heydamir/unslop`)**: 10-pass sequential UI refactoring pipeline with Pass 0 Design Archetypes eliminating multi-variable CSS churn.
 - **Benji Taylor Stageshow (`benjitaylor/skills`)**: Asymmetric bento grids, window/device shells, and `@gsap/react` `useGSAP()` zero-leak motion choreography.
+- **Harness Engineering & Goal Loop (`shareAI-lab/learn-claude-code`)**: Dissected harness mechanisms around the primary loop: 4-tier hierarchical context compaction, task-bound ephemeral git worktrees for parallel subagents, and independent Goal Evaluator termination gating.
+- **Skill Judge & Architecture Tracing (`shareAI-lab/lab-skills`)**: 5-dimension diagnostic rubric for agent skill health (Timing, Density, L0 Budget, Freedom, Verification) and source-level architectural investigation.
 
 ---
 
