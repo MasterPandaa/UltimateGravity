@@ -194,6 +194,7 @@ After installation, these commands can be called directly from any terminal or P
 - **Benji Taylor Stageshow (`benjitaylor/skills`)**: Asymmetric bento grids, window/device shells, and `@gsap/react` `useGSAP()` zero-leak motion choreography.
 - **Harness Engineering & Goal Loop (`shareAI-lab/learn-claude-code`)**: Dissected harness mechanisms around the primary loop: 4-tier hierarchical context compaction, task-bound ephemeral git worktrees for parallel subagents, and independent Goal Evaluator termination gating.
 - **Skill Judge & Architecture Tracing (`shareAI-lab/lab-skills`)**: 5-dimension diagnostic rubric for agent skill health (Timing, Density, L0 Budget, Freedom, Verification) and source-level architectural investigation.
+- **External Harness Armor Theory (`kishi27/note`)**: 3-layer protective armor plates (Intent Anchoring, Destructive Gateways, Diff & Syntax Boundary Safety) eliminating "misguided kindness" agent drift and preventing rogue file modifications.
 
 ---
 
