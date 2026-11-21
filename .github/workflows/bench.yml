@@ -20,5 +20,15 @@ jobs:
         with:
           node-version: 18
 
+      - name: Prepare Test Fixtures
+        run: |
+          if (!(Test-Path "config/mcp_config.json")) {
+            Copy-Item "config/mcp_config.template.json" "config/mcp_config.json" -Force
+          }
+          if (!(Test-Path "config/skill-usage.json")) {
+            '{"security-audit":{"usageCount":1},"clean-code-fullstack":{"usageCount":1}}' | Out-File -FilePath "config/skill-usage.json" -Encoding utf8
+          }
+        shell: pwsh
+
       - name: Run Benchmark Regression Suite
         run: node scripts/bench-runner.js run

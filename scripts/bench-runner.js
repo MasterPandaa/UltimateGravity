@@ -86,6 +86,28 @@ function resolveTargetPath(target) {
   const cleaned = target.replace(/^C:[\\/]Users[\\/][^\\/]+[\\/]\.gemini[\\/]/i, '').replace(/^[\\/]/, '');
   const repoRelative = path.resolve(__dirname, '..', cleaned);
   if (fs.existsSync(repoRelative)) return repoRelative;
+
+  // Fallback: map mcp_config.json to mcp_config.template.json if present
+  if (cleaned.endsWith('mcp_config.json')) {
+    const templatePath = path.resolve(__dirname, '../config/mcp_config.template.json');
+    if (fs.existsSync(templatePath)) return templatePath;
+  }
+
+  // Fallback: synthesize baseline telemetry ledger if skill-usage.json missing on fresh clone
+  if (cleaned.endsWith('skill-usage.json')) {
+    const usagePath = path.resolve(__dirname, '../config/skill-usage.json');
+    if (!fs.existsSync(usagePath)) {
+      const baseline = {
+        "security-audit": { "usageCount": 1, "firstUsedAt": new Date().toISOString(), "lastUsedAt": new Date().toISOString() },
+        "clean-code-fullstack": { "usageCount": 1, "firstUsedAt": new Date().toISOString(), "lastUsedAt": new Date().toISOString() }
+      };
+      try {
+        fs.writeFileSync(usagePath, JSON.stringify(baseline, null, 2), 'utf8');
+        return usagePath;
+      } catch {}
+    }
+  }
+
   return target;
 }
 
