@@ -1,0 +1,41 @@
+name: "💡 Feature Request"
+description: Propose a new feature, skill, invariant, or architecture improvement
+title: "[FEAT]: "
+labels: ["enhancement", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We welcome proposals that improve developer experience, agent resilience, or verification capabilities!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a specific problem or limitation?
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution / Architecture
+      description: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or workarounds you've evaluated.
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Architectural Alignment
+      description: Please confirm compliance with our core invariants:
+      options:
+        - label: "Complies with Windows host constraints (8GB RAM friendly)"
+          required: false
+        - label: "Avoids tool sprawl (keeps active MCP tools <= 150)"
+          required: false
+        - label: "Root SKILL.md adheres to L0 <= 60 lines"
+          required: false

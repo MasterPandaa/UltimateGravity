@@ -79,15 +79,24 @@ function runAudit() {
   }
 }
 
+function resolveTargetPath(target) {
+  if (!target) return target;
+  if (fs.existsSync(target)) return target;
+  // Fallback for CI / portable environments: map C:/Users/Luthfi/.gemini/... to repo root
+  const cleaned = target.replace(/^C:[\\/]Users[\\/][^\\/]+[\\/]\.gemini[\\/]/i, '').replace(/^[\\/]/, '');
+  const repoRelative = path.resolve(__dirname, '..', cleaned);
+  if (fs.existsSync(repoRelative)) return repoRelative;
+  return target;
+}
+
 function evaluateAssertion(assertion, context) {
+  const target = resolveTargetPath(context.target_file);
   switch (assertion.type) {
     case 'file_exists': {
-      const target = context.target_file;
       const exists = fs.existsSync(target);
       return { passed: exists, reason: exists ? 'File exists' : `Target missing: ${target}` };
     }
     case 'max_file_size_kb': {
-      const target = context.target_file;
       if (!fs.existsSync(target)) return { passed: false, reason: `File missing: ${target}` };
       const stats = fs.statSync(target);
       const sizeKb = stats.size / 1024;
@@ -95,7 +104,6 @@ function evaluateAssertion(assertion, context) {
       return { passed: ok, reason: `Size: ${sizeKb.toFixed(2)} KB (Max: ${assertion.max_kb} KB)` };
     }
     case 'file_contains_regex': {
-      const target = context.target_file;
       if (!fs.existsSync(target)) return { passed: false, reason: `File missing: ${target}` };
       const content = fs.readFileSync(target, 'utf8');
       const regex = new RegExp(assertion.pattern);
@@ -103,7 +111,8 @@ function evaluateAssertion(assertion, context) {
       return { passed: ok, reason: ok ? `Matched pattern: ${assertion.pattern}` : `Missing pattern: ${assertion.pattern}` };
     }
     case 'node_syntax_check': {
-      for (const p of assertion.paths) {
+      for (const rawP of assertion.paths) {
+        const p = resolveTargetPath(rawP);
         if (!fs.existsSync(p)) return { passed: false, reason: `Script missing: ${p}` };
         try {
           execSync(`node --check "${p}"`, { stdio: 'pipe' });
@@ -284,6 +293,10 @@ function runBenchmark(suiteFilter = 'all', k = 1, verbose = false) {
   saveHistory(history);
 
   console.log(`\n${C.dim}History updated at: ${HISTORY_FILE}${C.reset}\n`);
+
+  if (regressions.length > 0 || passedCases < totalCases) {
+    process.exit(1);
+  }
 }
 
 function showScorecard() {

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "💬 Community Discussions & Questions"
+    url: "https://github.com/MasterPandaa/UltimateGravity/discussions"
+    about: "Ask questions, share configurations, and discuss agent workflows with the community."

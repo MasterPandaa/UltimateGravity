@@ -3,8 +3,9 @@
   <br /><br />
   <h1>UltimateGravity</h1>
   <p><strong>The Production-Grade Autonomous Engineering Operating System for AI Coding Agents</strong></p>
-  <p><em>Engineered by <a href="https://github.com/MasterPandaa">MasterPandaa</a> for high-craft, zero-hallucination software engineering.</em></p>
+  <p><em>Engineered by <a href="https://github.com/MasterPandaa">MasterPandaa</a> for high-craft, verified software engineering.</em></p>
 
+  [![CI](https://github.com/MasterPandaa/UltimateGravity/actions/workflows/bench.yml/badge.svg)](https://github.com/MasterPandaa/UltimateGravity/actions/workflows/bench.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
   [![Platform: Google Antigravity](https://img.shields.io/badge/Platform-Google%20Antigravity-4285F4.svg?style=flat-square)](https://deepmind.google)
   [![Architecture: Quad--Role](https://img.shields.io/badge/Architecture-Quad--Role%20Autonomous-00C853.svg?style=flat-square)](GEMINI.md)
@@ -196,4 +197,8 @@ UltimateGravity was conceived, designed, and actively engineered by **[MasterPan
 
 The philosophy is straightforward: **software engineering standards should not be discarded just because an AI is generating code**. If human engineers require compile checks, test coverage, clean architecture, and security reviews, an AI coding agent must be held to the exact same standard.
 
-Distributed under the [MIT License](LICENSE). Contributions, issues, and star badges are warmly welcome!
+Distributed under the [MIT License](LICENSE). Contributions, feedback, and bug reports are warmly welcome!
+
+---
+
+*Disclaimer: UltimateGravity is an independent open-source engineering harness crafted by MasterPandaa and is not officially affiliated with or endorsed by Google.*
