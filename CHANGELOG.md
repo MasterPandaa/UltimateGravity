@@ -11,7 +11,7 @@ flowchart LR
     v1["v1.0 - v2.0<br/>Foundations<br/>Swarm & Socratic"]
     --> v3["v3.0 - v4.0<br/>Tri-Role Genesis<br/>Qoder & Devin Sentinel"]
     --> v5["v5.0 - v6.0<br/>Quad-Role Sentinel<br/>AppSec Veto & Context Packets"]
-    --> v63["v6.3.0 (Latest)<br/>Web-Bench Regression<br/>MaxIM & Lexical Hierarchy"]
+    --> v63["v6.3.0 (Latest)<br/>Web-Bench Regression<br/>MaxIM & GitHub Craft"]
 ```
 
 ---
@@ -19,13 +19,14 @@ flowchart LR
 ## [v6.3.0] - 2026-11-21
 
 ### 🚀 Highlights
-Major release adding automated regression benchmarking, lexical-first retrieval hierarchy, information-theoretic memory compaction, and unified IT operational resilience.
+Major release adding automated regression benchmarking, lexical-first retrieval hierarchy, information-theoretic memory compaction, unified IT operational resilience, and the `github-craft` repository launch engine.
 
 ### Added & Optimized
-- **Automated Regression Suite (`bench-runner.js`)**: Standalone, zero-dependency test runner executing 25 deterministic regression test cases across 4 suites:
+- **GitHub Launch & Conversion Engine (`github-craft`)**: Authored comprehensive repository launch skill ($L_0 \le 60$ lines) and 5 modular reference guides codifying high-conversion README architecture, evergreen transformation About descriptions, 18-topic algorithmic discovery, scannable milestone changelogs, automated GitHub releases via `gh` CLI, and 21:9 banner/badge specifications.
+- **Automated Regression Suite (`bench-runner.js`)**: Standalone, zero-dependency test runner executing 26 deterministic regression test cases across 4 suites:
   - `browser-resilience.jsonl`: Visual SSIM $\ge 0.98$, DOM accessibility, and anti-bot challenge boundaries.
   - `code-sequential.jsonl`: Multi-step state accumulation ($N \to N+1$), Zod schemas, and 4 UI states.
-  - `core-rules.jsonl`: 14 system hygiene checks, Quad-Role invariants, and token budgets.
+  - `core-rules.jsonl`: 15 system hygiene checks, Quad-Role invariants, and token budgets.
   - `skill-activation.jsonl`: Trigger sensitivity ($D_1 \ge 4$), Step 0 mandatory ingestion, and telemetry attributability.
 - **Lexical-First Grep Hierarchy (PwC Labs, arXiv:2605.15184)**: Proved exact regex search outperforms dense vector embeddings by eliminating semantic drift ("false friends") and saving ~1.5 GB RAM by removing vector DBs.
 - **Dual-Gate Memory Compaction (Google MaxIM, arXiv:2611.12825)**: Enforced capacity-constrained bounds ($|S_t| \le C$) across task handoffs:
