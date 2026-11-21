@@ -82,7 +82,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 # 3. Verify your system benchmarks
 node ~/.gemini/scripts/bench-runner.js run
-# => 25 / 25 Test Cases Passed (100.0%)! System ready.
+# => 26 / 26 Test Cases Passed (100.0%)! System ready.
 ```
 
 *Restart your Google Antigravity IDE or terminal after installation to load the updated PATH and active rules.*
@@ -133,9 +133,9 @@ UltimateGravity includes a built-in, zero-dependency benchmark engine ([`bench-r
 
 ---
 
-## 🛠️ 23 Global CLI Tools Included
+## 🛠️ 26 Global CLI Tools & Utilities Included
 
-Included out-of-the-box in `bin/` and accessible from any PowerShell prompt:
+Included out-of-the-box in `bin/` and accessible from any PowerShell prompt after installation:
 
 | Command | Category | What it Does |
 |---|---|---|
@@ -148,8 +148,23 @@ Included out-of-the-box in `bin/` and accessible from any PowerShell prompt:
 | `mcp-profile` | Tool Manager | Dynamic MCP switcher keeping active tools $\le 150$ |
 | `browser-sentinel`| Frontend Sentinel | Headless Edge probe detecting React hydration & runtime crashes |
 | `harness-distiller`| Distiller | Converts session friction logs into lean $L_0 \le 60$ line skills |
-| `clean-file` | Privacy | Strips C2PA, EXIF, and AI steganographic watermarks |
+| `clean-file` | Privacy | Strips C2PA, EXIF, and AI steganographic watermarks for data hygiene |
 | `fd` | Fast Search | High-performance native Rust filesystem search engine |
+| `agent-activate` | Orchestration | Interactive terminal picker to load specialist agent profiles |
+| `agent-archive` | Context Diet | Safely compresses and archives dormant subagent definitions |
+| `agy-exec` | Execution Engine | Persistent Windows PowerShell execution with session state retention |
+| `antigravity-conversation-fix` | Resilience | Heuristic recovery utility for damaged IDE conversation transcripts |
+| `file-history` | Audit & Safety | Pre-tool-use file mutation snapshot logger |
+| `harness2` | Meta-Harness | Autonomous harness bootstrap and operational invariant verifier |
+| `raven-dispatch` | Dispatcher | Context-bleed barrier and DAG task dispatcher for subagents |
+| `repo-wiki` | Documentation | Local markdown wiki builder and structural indexer |
+| `rrsi-eval` | Evaluation | 5-gate regularizer and cross-model failure critic |
+| `skill-activate` | Skill Engine | Dynamic skill loader and prompt injector |
+| `skill-archive` | Storage Diet | Compresses and stores inactive skills to preserve token budget |
+| `skill-usage` | Telemetry | Real-time skill invocation frequency tracker and telemetry reporter |
+| `tier-manager` | Tier Engine | Agent capability tier and model fallback manager |
+| `win-memory-profile` | Profiler | Sysinternals VMMap memory profiler for Windows host |
+| `workspace-index` | Indexer | AST and dependency topology scanner for workspace roots |
 
 ---
 

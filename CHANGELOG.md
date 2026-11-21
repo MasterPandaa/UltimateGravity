@@ -14,6 +14,9 @@ flowchart LR
     --> v63["v6.3.0 (Latest)<br/>Web-Bench Regression<br/>MaxIM & GitHub Craft"]
 ```
 
+> [!NOTE]
+> **Lineage & Versioning Note**: Versions `v1.0.0` through `v6.2.0` document the pre-release architectural research iterations and private laboratory prototypes engineered by [@MasterPandaa](https://github.com/MasterPandaa). Version `v6.3.0` marks the initial canonical public open-source release on GitHub.
+
 ---
 
 ## [v6.3.0] - 2026-11-21
