@@ -50,6 +50,7 @@ Skip any step = lying, not verifying
 | Regression test works | Red-green cycle verified | Test passes once |
 | Agent completed | VCS diff shows changes | Agent reports "success" |
 | Requirements met | Line-by-line checklist | Tests passing |
+| System / skill updated | bench-runner output: 100% pass, 0 reg | "Rules look clean", assumed pass |
 
 ## Red Flags - STOP
 

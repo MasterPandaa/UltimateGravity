@@ -1,0 +1,12 @@
+{
+  "skillName": "twg",
+  "target": "managed",
+  "installPath": "C:\\Users\\Luthfi\\AppData\\Roaming\\twg\\skills\\twg",
+  "binaryPath": "C:\\Users\\Luthfi\\AppData\\Local\\Programs\\twg\\bin\\twg.exe",
+  "installedAt": "2026-11-12T22:09:06.928Z",
+  "installedVersion": "1.4.4",
+  "contentRevision": "d231e861852a63bcab0ad87a46b26799a710f61daa615fea3647e0640c18c965",
+  "buildProfile": "external",
+  "buildCommit": "6a499a665c33",
+  "builtAt": "2026-11-06T16:06:08.835Z"
+}

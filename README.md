@@ -8,7 +8,7 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
   [![Platform: Google Antigravity](https://img.shields.io/badge/Platform-Google%20Antigravity-4285F4.svg?style=flat-square)](https://deepmind.google)
   [![Architecture: Quad--Role](https://img.shields.io/badge/Architecture-Quad--Role%20Autonomous-00C853.svg?style=flat-square)](GEMINI.md)
-  [![Release: v6.0.0](https://img.shields.io/badge/Release-v6.0.0%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
+  [![Release: v6.3.0](https://img.shields.io/badge/Release-v6.3.0%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
   [![Environment: Windows Native](https://img.shields.io/badge/OS-Windows%2010%2F11-0078D6.svg?style=flat-square)](install.ps1)
 </div>
 
@@ -16,7 +16,7 @@
 
 ## ⚡ The Pain vs. The Fix
 
-| Without UltimateGravity (Standard AI Assistants) | With UltimateGravity v6.0.0 |
+| Without UltimateGravity (Standard AI Assistants) | With UltimateGravity v6.3.0 |
 |---|---|
 | **AI Slop & Generic Tropes**: Verbose boilerplate, empty adjectives (*"blazing fast"*, *"game-changing"*), decorative non-functional gradients, and robotic copy. | **Anti-AI Slop & 10-Pass Refactoring**: 3 diagnostic tests (*Topic-Swap*, *"So What?"*, *Real Reader*) + Pass 0 Design Archetypes (*Corporate Clean*, *Brutalist*, *Playful*, *Dev Minimal*, *Luxury*) and sequential UI refactoring (*Spacing ➔ Color ➔ Icons ➔ Copy ➔ Type ➔ Layout ➔ Details ➔ Visuals ➔ Motion*). |
 | **Context Rot & Quadratic Degradation**: Unbounded raw token accumulation in long sessions degrades model attention and skyrockets billing costs. | **Zero-Bleed Context Packets & AST Outlines**: Task DAG `--consumes` routes exact schema/contract slices, AST syntax skeleton pruning for files > 300 lines, and 3-Tier LSM compaction slashing latency by $3\times$ with up to $80\%$ KV-cache discounts. |
@@ -28,7 +28,7 @@
 
 ## 🚀 Quickstart (1-Click Setup)
 
-Copy and run in PowerShell to provision the complete v6.0.0 canonical architecture into `~/.gemini`:
+Copy and run in PowerShell to provision the complete v6.3.0 canonical architecture into `~/.gemini`:
 
 ```powershell
 # 1. Clone the master repository
@@ -77,6 +77,7 @@ UltimateGravity/
 │   └── skills/                  # 37 curated Tier 1 engineering SOPs
 ├── scripts/                     # Node.js & PowerShell background automation engines
 │   ├── ast-outline.js           # Structural skeleton extractor for large source files
+│   ├── bench-runner.js          # Standalone benchmark test runner & regression tracker
 │   ├── compact-log.js           # JSONL log trimmer & transcript pruner
 │   ├── harness2.js              # Google Harness2 8-component open-world engine
 │   ├── harness-distiller.js     # L0 prompt distillation & session discovery
@@ -84,10 +85,11 @@ UltimateGravity/
 │   ├── token-optimizer.js       # Turn-0 token auditor & progressive disclosure linter
 │   ├── win-memory-profile.ps1   # Native Windows process memory analyzer
 │   └── workspace-indexer.js     # Incremental project topology mapper
+├── benchmarks/                  # Web-Bench, Core Rules, Browser & Skill Activation Suites
 ├── tools/watermarks-remover/    # Native C2PA, EXIF, and AI watermark stripper
 ├── GEMINI.md                    # Canonical Quad-Role governance rules & token budgets
-├── CHANGELOG.md                 # Master canonical evolution record (v1.0.0 -> v6.0.0)
-└── install.ps1                  # Idempotent 1-click Windows installer (~170 lines)
+├── CHANGELOG.md                 # Master canonical evolution record (v1.0.0 -> v6.3.0)
+└── install.ps1                  # Idempotent 1-click Windows installer (~175 lines)
 ```
 
 ---

@@ -37,3 +37,12 @@ workspace-index get-prompt-context
 `C:\Users\Luthfi\.gemini\antigravity\workspace-index\<workspaceHash>\`
 - `workspace-summary.json`: High-level topology, extension distribution, and recent files.
 - `file-index.json`: Flat hashmap of relative file paths, sizes, and mtimes.
+
+
+## 🧠 Think-in-Code & Script-First Extraction (Absorbed from `mksglu/context-mode`)
+
+To prevent dumping raw multi-megabyte files, large database tables, or verbose terminal logs into prompt context (~98% token reduction):
+1. **Never Dump Large Payloads (> 300 lines)**: Avoid using `read_file` or printing huge terminal logs into active conversation.
+2. **Execute First via Scratch Scripts**: Author a lightweight disposable script in `<conversationId>/scratch/` (Node.js/Python/PowerShell) to filter, aggregate, or search (e.g. SQLite FTS5 / ripgrep) the target dataset locally on disk.
+3. **Inject Attributable Snippets Only**: Output only the computed summary, schema contract, or specific offending lines into the agent context.
+4. **Grep-Over-Embeddings Hierarchy**: Prioritize exact lexical search (ripgrep/regex) over heavy vector embeddings (arXiv:2605.15184); eliminates semantic drift and false friends with zero vector DB RAM overhead.

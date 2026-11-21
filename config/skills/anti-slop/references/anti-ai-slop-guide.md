@@ -254,3 +254,20 @@ When humanizing or polishing prose in mixed technical documents:
 2. **Preserve Frontmatter & Metadata**: YAML/TOML frontmatter blocks (`--- ... ---`) and JSON headers must be bypassed entirely.
 3. **Preserve Technical Identifiers**: Never rewrite filenames, terminal commands, environment variables (`$HOME`), API flags (`--verbose`), or symbol names.
 4. **Target Pure Prose Only**: Restrict editing passes strictly to body paragraphs, headings, and list descriptions.
+
+
+---
+
+## 10. The Anti-First-Choice Invariant & Moves Ledger (Absorbed from `mankidev/antialgorithm`)
+
+AI models converge on the top-1 statistically average output (e.g., generic purple gradient cards, "streamline your workflow" copy, or sterile symmetric grids).
+
+### 10.1 The Anti-First-Choice Invariant (Move-Away Protocol)
+1. **Explicit Cliché Recognition**: Before generating UI layouts, copy, or variable naming, mentally identify the model's top-1 default choice.
+2. **Deliberate Divergence**: Explicitly reject that initial impulse and choose an alternative grounded in the project's unique functional domain.
+3. **Organic Materiality**: Avoid sterile digital perfection in UI and SVG assets. Introduce subtle optical balance, dynamic rhythm, or organic character rather than robotic uniformity.
+
+### 10.2 The Moves Ledger (Anti-Counter-Slop)
+Counter-slop can easily degenerate into its own cliché (e.g., overusing brutalism, dark mode, or monospace fonts everywhere once learned).
+- Maintain an implicit or explicit "Moves Ledger": track the core creative technique applied in the current screen.
+- Do not blindly repeat the same creative move across unrelated screens or deliverables.

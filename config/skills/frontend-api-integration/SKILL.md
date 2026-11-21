@@ -36,6 +36,7 @@ The comprehensive frontend data-fetching and server state management suite. Desi
 | **Mode 2: Optimistic Mutation & Rollback** | Instant UI responsiveness | Apply instant UI updates before server confirmation with bulletproof fallback. | `onMutate`, `onError`, `onSettled` |
 | **Mode 3: Type-Safe API Client Abstraction** | Network layer | Build resilient HTTP client wrappers with interceptors and error normalization. | Fetch/Axios wrappers, Zod validation |
 | **Mode 4: Infinite Scroll & Pagination** | Large list fetching | Manage cursor-based and offset pagination without duplicate items or layout shift. | `useInfiniteQuery`, cursor pagination |
+| **Mode 5: Agent-UI Event Streaming** | Real-time agent UX | Event-driven lifecycle bindings between autonomous agent backends and frontend state. | AG-UI Protocol, SSE streaming |
 
 ---
 
@@ -90,4 +91,15 @@ export function useUpdateTodo() {
     },
   });
 }
+```
+
+
+### 3. Agent-to-UI Event Lifecycle Pattern (Absorbed from `ag-ui`)
+```typescript
+// Standardized Event-Driven Contract between Agent Runtime and UI
+export type AgentUIEvent =
+  | { type: "AGENT_THINKING"; delta: string }
+  | { type: "TOOL_INVOCATION"; tool: string; args: Record<string, unknown> }
+  | { type: "UI_STATE_MUTATION"; state: "loading" | "empty" | "error" | "success"; payload?: unknown }
+  | { type: "USER_ACTION_RESOLVED"; actionId: string; result: unknown };
 ```

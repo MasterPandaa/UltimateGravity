@@ -60,8 +60,8 @@ Activate this skill whenever the user or task involves:
 
 When deeper domain specifics, templates, or checklists are required, read the matching reference file:
 
-- **[Catalog & Inventory](references/skills-index_EN.md):** Complete catalog of all 164 individual skills with canonical IDs.
-- **[Composition Routes](references/skills-composition_EN.md):** Pre-mapped combinations pairing 1 primary skill with at most 1 helper.
+- **[Catalog & Inventory](references/skills-index.md):** Complete catalog of all 164 individual skills with canonical IDs.
+- **[Composition Routes](references/skills-composition.md):** Pre-mapped combinations pairing 1 primary skill with at most 1 helper.
 - **[Cross-Stage Workflows](references/workflows.md):** Daily, sprint, and release workflows, Go/No-Go decision matrix, and 5 quality perspectives (QA, Product, UX, Tech, Delivery).
 - **[Core QA Test Design](references/core-qa-design.md):** Formal testing techniques (2/3-value BVA, Equivalence Partitioning, Decision Tables, Pairwise, State Machines).
 - **[Test Automation Guild](references/automation-guild.md):** Architecture guides for Playwright, Cypress, REST Assured, pytest, k6, Gatling, and CI/CD pipelines.

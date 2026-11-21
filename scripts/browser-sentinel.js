@@ -74,12 +74,16 @@ async function probeUrl(targetUrl) {
 async function runEdgeHeadless(targetUrl) {
   if (!fs.existsSync(EDGE_PATH)) return null;
   try {
+    const parsed = new URL(targetUrl);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      return null;
+    }
     const output = execFileSync(EDGE_PATH, [
       '--headless',
       '--dump-dom',
       '--disable-gpu',
       '--virtual-time-budget=1000',
-      targetUrl
+      parsed.href
     ], {
       encoding: 'utf8',
       timeout: 5000,

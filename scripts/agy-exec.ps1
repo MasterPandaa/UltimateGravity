@@ -25,22 +25,31 @@ if (-not $Command) {
 }
 
 $SNAPSHOT_ROOT = "C:\Users\Luthfi\.gemini\antigravity\shell-snapshots"
-$sessionDir = Join-Path $SNAPSHOT_ROOT $ConversationId
+$cleanConvId = ($ConversationId -replace '[^a-zA-Z0-9_-]', '')
+if (-not $cleanConvId) { $cleanConvId = "default-session" }
+$sessionDir = Join-Path $SNAPSHOT_ROOT $cleanConvId
 
 if (-not (Test-Path $sessionDir)) {
     New-Item -ItemType Directory -Path $sessionDir -Force | Out-Null
 }
 
-$stateFilePs1  = Join-Path $sessionDir "session-init.ps1"
 $stateFileJson = Join-Path $sessionDir "session-env.json"
 $historyLog    = Join-Path $sessionDir "command-history.log"
 
-# 1. Restore previous state if available
-if (Test-Path $stateFilePs1) {
+# 1. Restore previous state safely from JSON (immune to injection)
+if (Test-Path $stateFileJson) {
     try {
-        . $stateFilePs1
+        $saved = Get-Content $stateFileJson -Raw | ConvertFrom-Json
+        if ($saved.cwd -and (Test-Path -LiteralPath $saved.cwd)) {
+            Set-Location -LiteralPath $saved.cwd
+        }
+        if ($saved.env) {
+            foreach ($prop in $saved.env.PSObject.Properties) {
+                [System.Environment]::SetEnvironmentVariable($prop.Name, [string]$prop.Value, 'Process')
+            }
+        }
     } catch {
-        Write-Warning "Failed to load previous session-init.ps1: $_"
+        Write-Warning "Failed to restore previous state from session-env.json: $_"
     }
 }
 
@@ -72,12 +81,16 @@ if (-not $NoPersist) {
     $finalLocation = (Get-Location).Path
 
     # Find new or modified environment variables
+    # Compute environment deltas (with sensitive token/credential filter)
+    $secretFilter = '(?i)(KEY|TOKEN|SECRET|PASSWORD|AUTH|CREDENTIAL|PRIVATE|JWT|BEARER|OPENAI|SUPABASE)'
     $envDeltas = @{}
     Get-ChildItem env: | ForEach-Object {
         $name = $_.Name
         $val = $_.Value
-        if (-not $initialEnv.ContainsKey($name) -or ($initialEnv[$name] -ne $val)) {
-            $envDeltas[$name] = $val
+        if ($name -notmatch $secretFilter) {
+            if (-not $initialEnv.ContainsKey($name) -or ($initialEnv[$name] -ne $val)) {
+                $envDeltas[$name] = $val
+            }
         }
     }
 
@@ -91,7 +104,7 @@ if (-not $NoPersist) {
 
     # Read existing JSON state if present
     $persistedState = @{
-        conversationId = $ConversationId
+        conversationId = $cleanConvId
         cwd = $finalLocation
         updatedAt = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
         env = @{}
@@ -122,19 +135,12 @@ if (-not $NoPersist) {
     # Save JSON state
     $persistedState | ConvertTo-Json -Depth 5 | Set-Content -Path $stateFileJson -Encoding UTF8
 
-    # Generate session-init.ps1 for fast dot-sourcing in next turn
-    $initLines = @(
-        "# Antigravity Shell Snapshot Init",
-        "# Generated at: $($persistedState.updatedAt)",
-        "Set-Location `"$($finalLocation.Replace('`"', '```"'))`""
-    )
-
-    foreach ($k in $persistedState.env.Keys) {
-        $escapedVal = $persistedState.env[$k].Replace('`', '``').Replace('"', '`"')
-        $initLines += "`$env:$k = `"$escapedVal`""
+    # Clean up legacy session-init.ps1 if lingering
+    $legacyPs1 = Join-Path $sessionDir "session-init.ps1"
+    if (Test-Path $legacyPs1) {
+        Remove-Item -Path $legacyPs1 -Force -ErrorAction SilentlyContinue
     }
 
-    $initLines | Set-Content -Path $stateFilePs1 -Encoding UTF8
     Add-Content -Path $historyLog -Value "[$((Get-Date).ToString('yyyy-MM-ddTHH:mm:ss.fffZ'))] [END] exitCode=$exitCode cwd=$finalLocation modifiedEnv=$($envDeltas.Keys -join ',')" -Encoding UTF8
 }
 

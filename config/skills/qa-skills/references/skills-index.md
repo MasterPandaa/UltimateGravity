@@ -1,14 +1,14 @@
-﻿<div align="right"><strong>🇨🇳 </strong> | <a href="./skills-index_EN.md">🇬🇧 English</a></div>
+﻿<div align="right"><a href="./skills-index.md">🇨🇳 </a> | <strong>🇬🇧 English</strong></div>
 
-# Skills 
+# Complete Skills Index
 
- 10 149  5  Skill Engineering 164  328  [Skill ](../governance/SKILL_GOVERNANCE_ROADMAP.md)[](../SKILL_MATRIX.md)[](../SKILL_MATCHING_REGISTER.md)  [v1.4 ](../governance/PHASE_0_V1_4_CLOSEOUT.md)
+Each language contains 10 workflows, 149 testing types, and 5 Skill Engineering packages: 164 per language and 328 directories total. This is logical navigation; physical directories do not change. See the [Skill governance roadmap](../governance/SKILL_GOVERNANCE_ROADMAP_EN.md), [governance matrix](../SKILL_MATRIX_EN.md), [matching register](../SKILL_MATCHING_REGISTER_EN.md), and [v1.4 closeout](../governance/PHASE_0_V1_4_CLOSEOUT_EN.md) for long-term governance.
 
-Composition  [v1.5.2 Composition Catalog](skills-composition.md)
+See the [v1.5.2 Composition Catalog](skills-composition_EN.md) for route and composition navigation; it is metadata, not an installation dependency or automatic execution chain.
 
-## 
+## Cross-phase workflows
 
-### 
+### Discovery
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `ux-quality-perspective` | [](../../skills/zh/testing-workflows/ux-quality-perspective/) | [English](../../skills/en/testing-workflows/ux-quality-perspective/) |
 | `technical-quality-perspective` | [](../../skills/zh/testing-workflows/technical-quality-perspective/) | [English](../../skills/en/testing-workflows/technical-quality-perspective/) |
 
-### 
+### Development
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -26,25 +26,25 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `sprint-testing-workflow` | [](../../skills/zh/testing-workflows/sprint-testing-workflow/) | [English](../../skills/en/testing-workflows/sprint-testing-workflow/) |
 | `project-delivery-perspective` | [](../../skills/zh/testing-workflows/project-delivery-perspective/) | [English](../../skills/en/testing-workflows/project-delivery-perspective/) |
 
-### 
+### Release
 
 | Skill |  | English |
 | --- | --- | --- |
 | `release-testing-workflow` | [](../../skills/zh/testing-workflows/release-testing-workflow/) | [English](../../skills/en/testing-workflows/release-testing-workflow/) |
 | `multi-role-quality-synthesis` | [](../../skills/zh/testing-workflows/multi-role-quality-synthesis/) | [English](../../skills/en/testing-workflows/multi-role-quality-synthesis/) |
 
-##  × 
+## Four Capability Stages × R&D and Testing Lifecycle
 
-### Core QA Skills — 
+### Core QA Skills — Quality foundation
 
-#### 
+#### Discovery and Requirements Analysis
 
 | Skill |  | English |
 | --- | --- | --- |
 | `requirements-analysis` | [](../../skills/zh/testing-types/requirements-analysis/) | [English](../../skills/en/testing-types/requirements-analysis/) |
 | `requirements-analysis-plus` | [](../../skills/zh/testing-types/requirements-analysis-plus/) | [English](../../skills/en/testing-types/requirements-analysis-plus/) |
 
-#### 
+#### Solution Design and Test Strategy
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -52,7 +52,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `test-strategy-plus` | [](../../skills/zh/testing-types/test-strategy-plus/) | [English](../../skills/en/testing-types/test-strategy-plus/) |
 | `test-strategy-review` | [](../../skills/zh/testing-types/test-strategy-review/) | [English](../../skills/en/testing-types/test-strategy-review/) |
 
-#### 
+#### Test Design and Preparation
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -70,7 +70,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `property-based-testing` | [](../../skills/zh/testing-types/property-based-testing/) | [English](../../skills/en/testing-types/property-based-testing/) |
 | `metamorphic-testing` | [](../../skills/zh/testing-types/metamorphic-testing/) | [English](../../skills/en/testing-types/metamorphic-testing/) |
 
-#### 
+#### Test Execution and Analysis
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `accessibility-testing` | [](../../skills/zh/testing-types/accessibility-testing/) | [English](../../skills/en/testing-types/accessibility-testing/) |
 | `security-testing` | [](../../skills/zh/testing-types/security-testing/) | [English](../../skills/en/testing-types/security-testing/) |
 
-#### 
+#### Release, Defects, and Reporting
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -89,9 +89,9 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `test-reporting` | [](../../skills/zh/testing-types/test-reporting/) | [English](../../skills/en/testing-types/test-reporting/) |
 | `test-report-review` | [](../../skills/zh/testing-types/test-report-review/) | [English](../../skills/en/testing-types/test-report-review/) |
 
-### Engineering QA Skills — 
+### Engineering QA Skills — Quality engineering
 
-#### 
+#### Requirements and Shift Left
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `edge-case-discovery` | [](../../skills/zh/testing-types/edge-case-discovery/) | [English](../../skills/en/testing-types/edge-case-discovery/) |
 | `negative-scenario-discovery` | [](../../skills/zh/testing-types/negative-scenario-discovery/) | [English](../../skills/en/testing-types/negative-scenario-discovery/) |
 
-> v1.1  `business-rule-consistency-review``architecture-testability-review`  `test-coverage-analysis`  Skill [](../SKILL_MATCHING_REGISTER.md)
+> The v1.1 follow-on cards `business-rule-consistency-review`, `architecture-testability-review`, and `test-coverage-analysis` are recorded as enhancement modes on existing physical Skills rather than duplicate directories; see the [capability match register](../SKILL_MATCHING_REGISTER_EN.md).
 
 #### Reliability and Security — 
 
@@ -140,7 +140,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `threat-modeling` | [](../../skills/zh/testing-types/threat-modeling/) | [English](../../skills/en/testing-types/threat-modeling/) |
 | `secrets-exposure-review` | [](../../skills/zh/testing-types/secrets-exposure-review/) | [English](../../skills/en/testing-types/secrets-exposure-review/) |
 
-#### 
+#### Quality Engineering and Productivity
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -158,7 +158,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `test-maintenance-cost-analysis` | [](../../skills/zh/testing-types/test-maintenance-cost-analysis/) | [English](../../skills/en/testing-types/test-maintenance-cost-analysis/) |
 | `quality-productivity-metrics` | [](../../skills/zh/testing-types/quality-productivity-metrics/) | [English](../../skills/en/testing-types/quality-productivity-metrics/) |
 
-#### 
+#### Development and Continuous Integration
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -175,7 +175,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `api-version-compatibility-testing` | [](../../skills/zh/testing-types/api-version-compatibility-testing/) | [English](../../skills/en/testing-types/api-version-compatibility-testing/) |
 | `api-error-contract-testing` | [](../../skills/zh/testing-types/api-error-contract-testing/) | [English](../../skills/en/testing-types/api-error-contract-testing/) |
 
-#### 
+#### Test Data and Automation Implementation
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -198,7 +198,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `visual-regression-testing` | [](../../skills/zh/testing-types/visual-regression-testing/) | [English](../../skills/en/testing-types/visual-regression-testing/) |
 | `cross-browser-testing` | [](../../skills/zh/testing-types/cross-browser-testing/) | [English](../../skills/en/testing-types/cross-browser-testing/) |
 
-#### 
+#### Test Execution and Regression Intelligence
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -212,7 +212,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `mock-quality-review` | [](../../skills/zh/testing-types/mock-quality-review/) | [English](../../skills/en/testing-types/mock-quality-review/) |
 | `test-suite-health-analysis` | [](../../skills/zh/testing-types/test-suite-health-analysis/) | [English](../../skills/en/testing-types/test-suite-health-analysis/) |
 
-#### 
+#### Performance Engineering and Capacity Decisions
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -226,22 +226,22 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `performance-regression-analysis` | [](../../skills/zh/testing-types/performance-regression-analysis/) | [English](../../skills/en/testing-types/performance-regression-analysis/) |
 | `capacity-planning-analysis` | [](../../skills/zh/testing-types/capacity-planning-analysis/) | [English](../../skills/en/testing-types/capacity-planning-analysis/) |
 
-#### 
+#### Retrospective and Continuous Improvement
 
 | Skill |  | English |
 | --- | --- | --- |
 | `root-cause-analysis` | [](../../skills/zh/testing-types/root-cause-analysis/) | [English](../../skills/en/testing-types/root-cause-analysis/) |
 | `log-analysis` | [](../../skills/zh/testing-types/log-analysis/) | [English](../../skills/en/testing-types/log-analysis/) |
 
-### Production Quality Skills — 
+### Production Quality Skills — Production quality
 
-#### 
+#### Release and Production Verification
 
 | Skill |  | English |
 | --- | --- | --- |
 | `production-verification` | [](../../skills/zh/testing-types/production-verification/) | [English](../../skills/en/testing-types/production-verification/) |
 
-#### 
+#### Production Operations and Incident Response
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -249,15 +249,15 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `distributed-trace-analysis` | [](../../skills/zh/testing-types/distributed-trace-analysis/) | [English](../../skills/en/testing-types/distributed-trace-analysis/) |
 | `metrics-anomaly-analysis` | [](../../skills/zh/testing-types/metrics-anomaly-analysis/) | [English](../../skills/en/testing-types/metrics-anomaly-analysis/) |
 
-### AI Native QA Skills — AI 
+### AI Native QA Skills — AI-native quality
 
-#### AI 
+#### AI Feature Requirements and Risk
 
 | Skill |  | English |
 | --- | --- | --- |
 | `ai-feature-testing` | [](../../skills/zh/testing-types/ai-feature-testing/) | [English](../../skills/en/testing-types/ai-feature-testing/) |
 
-#### LLM  Prompt 
+#### LLM and Prompt Evaluation Design
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -271,7 +271,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 
 > `prompt-regression-testing` is an enhancement mode named `prompt-regression` inside `prompt-testing`; no alias directory is created.
 
-#### Agent
+#### Agent, Tool, and Safety Testing
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -286,7 +286,7 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `multi-agent-testing` | [](../../skills/zh/testing-types/multi-agent-testing/) | [English](../../skills/en/testing-types/multi-agent-testing/) |
 | `ai-safety-testing` | [](../../skills/zh/testing-types/ai-safety-testing/) | [English](../../skills/en/testing-types/ai-safety-testing/) |
 
-## Skill Engineering
+## Skill Engineering (Cross-cutting Governance)
 
 | Skill |  | English |
 | --- | --- | --- |
@@ -296,9 +296,9 @@ Composition  [v1.5.2 Composition Catalog](skills-composition.md)
 | `skill-prose-review` | [](../../skills/zh/skill-engineering/skill-prose-review/) | [English](../../skills/en/skill-engineering/skill-prose-review/) |
 | `skill-prose-trim` | [](../../skills/zh/skill-engineering/skill-prose-trim/) | [English](../../skills/en/skill-engineering/skill-prose-trim/) |
 
-
+Evolution details:
 
 - [](../governance/QA_SKILLS_EVOLUTION_ROADMAP.md)
 - [English roadmap](../governance/QA_SKILLS_EVOLUTION_ROADMAP_EN.md)
-- [v1.0 ](../governance/SKILL_GOVERNANCE_V1.md)
-- [v1.4 Phase 0 ](../governance/PHASE_0_V1_4_CLOSEOUT.md)35  Project 
+- [v1.0 source-governance baseline and per-package records](../governance/SKILL_GOVERNANCE_V1_EN.md) (static evidence, not runtime quality)
+- [v1.4 Phase 0 closeout](../governance/PHASE_0_V1_4_CLOSEOUT_EN.md) (evidence table for 35 Project cards, not release approval)

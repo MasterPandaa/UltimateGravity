@@ -72,3 +72,102 @@ Authoritative architecture specification for autonomous AI coding agent harnesse
 | **3. Verification** | `verification-before-completion`, `diagnosing-bugs` 4-step loop, `qa-skills`, `eval-harness`. |
 | **4. Scope** | Solo Direct Mode default, `raven-dispatcher` disjoint DAG partitioning, branch isolation. |
 | **5. Lifecycle** | `file-rewind` shadow copies, `persistent-shell` (`agy-exec`), `diagnostic-watchdog-hook`. |
+
+---
+
+## 🔄 SkillOpt: Textual Gradient Descent & Instruction Optimization
+
+Absorbed from Microsoft Research's `microsoft/SkillOpt` (*Text-space Optimization for Frozen LLM Agents*):
+
+1. **Instruction as Trainable State**:
+   - Rather than attempting brute-force prompt inflation or fine-tuning model parameters, treat the compact skill document (`SKILL.md`) as the primary trainable state ($S$).
+2. **Trajectory-Driven Credit Assignment**:
+   - When an agent encounters an execution failure or test regression, analyze the trajectory to isolate the exact instruction clause, missing precondition, or tacit assumption responsible for the error.
+   - Prohibit destructive full-file rewrites; perform surgical credit attribution.
+3. **Surgical Delta Mutations**:
+   - Apply minimal verifiable edits ($\le 50$ lines) to the target instruction text, preserving existing behavioral invariants.
+4. **Validation-Gated Updates**:
+   - Never commit an instruction change without validating against a split/benchmark or dry-run test suite to prove regression-free improvement.
+
+
+---
+
+## 🛡️ Autonomous Skill Layer & Sandboxing (Absorbed from `tigerless-labs/autoharness`)
+
+Specifications for agents that dynamically distill, refine, and evolve skills from working sessions:
+
+1. **Self-Authored Partitioning (Write-Boundary Separation)**:
+   - Automated skill distillation/learning engines are **strictly barred** from modifying human-authored root rules (`GEMINI.md`, core invariants, or primary curated skills).
+   - Dynamically synthesized or evolved skills must reside in an isolated ephemeral partition (`~/.gemini/learned_skills/` or equivalent), preventing machine-generated prompt pollution from corrupting system rules.
+2. **Session Provenance Traceability**:
+   - Every synthesized skill must carry an immutable provenance header:
+     - `origin_session`: Conversation ID or transcript hash where the pattern was proven.
+     - `failure_signature`: The exact runtime crash, friction, or test failure that prompted the distillation.
+     - `timestamp`: ISO-8601 creation date.
+     - `verified_trials`: Number of consecutive clean runs ($k \ge 3$) validating the skill before promotion.
+3. **Automated Deduplication & Pruning**:
+   - Automatically merge near-duplicate skills operating on the same scenario and prune dormant/unused skills to maintain the anti-sprawl limit ($10 \le \text{active skills} \le 25$).
+
+
+---
+
+## 🧬 The Two-Level Automated Harness Evolution Framework (Absorbed from Sylph.AI, arXiv:2604.21003)
+
+Formalizes the elimination of the manual "Harness Engineering Bottleneck" via a recursive two-tier optimization architecture:
+
+### 1. Level 1: The Harness Evolution Loop (Task-Specific Optimization)
+For any target domain task $T$, optimizes harness configuration $\mathcal{H}$ through an adversarial closed-loop triad:
+- **Worker Agent ($W_{\mathcal{H}}$)**: Executes task $T$ under active harness $\mathcal{H}^{(t)}$.
+- **Evaluator Agent ($V$)**: Adversarially diagnoses execution traces $\tau^{(t)}$, pinpoints root causes of failures, and assigns calibrated performance scores $D^{(t)}$.
+- **Evolution Agent ($E$)**: Ingests historical execution logs $H^{(t)} = \{(\mathcal{H}^{(i)}, \tau^{(i)}, D^{(i)})\}_{i=1}^t$ and synthesizes surgical harness mutations $\mathcal{H}^{(t+1)}$.
+- **Convergence Condition**:
+  $$\mathcal{H}^* = \arg\max_{\mathcal{H}} \text{Score}(W_{\mathcal{H}}, T)$$
+
+### 2. Level 2: The Meta-Evolution Loop (Cross-Domain Meta-Learning)
+Optimizes the evolution blueprint itself across a broad task distribution $\mathcal{T}_{\text{meta}}$:
+$$\Lambda = [W_{\mathcal{H}}, \mathcal{H}^{(0)}, V, E]$$
+- **Meta-Learning Objective**: Discovers the optimal baseline harness seed $\mathcal{H}^{(0)}$, adversarial evaluation rubrics $V$, and mutation strategies $E$ that minimize steps to convergence on unseen tasks.
+- **Rapid Convergence Invariant**: When presented with an arbitrary novel domain $T_{\text{novel}}$, the meta-learned blueprint $\Lambda^{(\text{best})}$ must converge to a production-ready harness in $\le 3$ automated iterations without human prompt engineering.
+
+### 3. Cost & Stability Guardrails
+To prevent automated harness evolution from becoming an unbounded token sink:
+- **Annealed Mutation Budget ($b_t$)**: Mutation edits are strictly bounded per round to prevent catastrophic drift.
+- **Noise-Adjusted Floor**: Candidate harness $\mathcal{H}'$ must beat baseline score by at least the empirical noise margin ($\delta$).
+- **Token-ROI Invariant**: Any harness expansion $\Delta C$ must be strictly justified by verified performance lift $\Delta S$.
+
+
+---
+
+## 🏛️ The 7 Canonical Subsystems of Production Harnesses (Absorbed from Barbaste et al., arXiv:2609.00006)
+
+Empirical source-code study across 11 production coding agents (Claude Code, Codex CLI, Gemini CLI, Mistral Vibe, OpenHands, Aider, Mini-SWE-Agent, Hermes, Pi, OpenCode, OpenClaw) formalizing the fundamental equation:
+$$\text{Agent} = \text{Model} + \text{Harness}$$
+
+### The 7 Canonical Subsystems:
+1. **The Agent Loop**: Minimalist ReAct execution cycle, deterministic turn lifecycle, stop conditions, and cycle-detection guards. Bypasses bloated frameworks in favor of transparent loops.
+2. **LLM Provider Layer**: Token budgeting, model fallback routing, streaming parsers, and prompt payload size constraints.
+3. **Tools & Execution Sandbox**: High-precision surgical mutation (`edit_file`), syntax-aware AST validation, safe command execution, and directory confinement.
+4. **Memory & Context Management**: Disk-backed state, bounded context windows, progressive disclosure, and Grep-over-Embeddings lexical search.
+5. **Safety & Permissions Controls**: Approval gates for destructive actions (Git force push, DB drop), path traversal boundaries, and anti-leak sanitization.
+6. **Multi-Agent Orchestration**: Disjoint file ownership, isolated branch sandboxes, context packets, and dependency DAGs.
+7. **Extension Surfaces**: Declarative file-based skills (`SKILL.md`) and Model Context Protocol (MCP) tool integration.
+
+
+---
+
+## 🌙 The Offline Sleep & Synthetic Rehearsal Paradigm (Absorbed from Behrouz et al., Google Research, arXiv:2606.03979)
+
+Biologically-inspired memory consolidation and anti-catastrophic forgetting protocol adapted for agent harness engineering:
+
+### 1. Active (Wake) Phase
+- Interactive execution turns addressing user requests.
+- Ephemeral state generation (scratch files, temporary execution logs, trial commands).
+
+### 2. Offline (Sleep) Phase: Consolidation & Dreaming Rehearsal
+When a long-running session concludes or persistent rules are mutated:
+1. **Memory Consolidation**:
+   - Upward distillation of short-term interaction traces into long-term system rules or `SKILL.md` workflows via `memory-trimmer` and `harness-distiller`.
+   - Purge ephemeral scratch files and deduplicate failure trajectories.
+2. **Synthetic Rehearsal Gate (Anti-Catastrophic Forgetting)**:
+   - Before promoting new skills or committing system rule updates, run the automated benchmark runner (`bench-runner.js run`).
+   - Mathematically verifies that newly consolidated knowledge does not regress or break existing system invariants (100% pass rate requirement).

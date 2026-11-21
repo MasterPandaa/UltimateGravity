@@ -72,17 +72,31 @@ $output = Receive-Job -Id $job.Id
 Remove-Job -Id $job.Id
 ```
 
-### 3. Safe UTF-8 File Reading & Writing
-Always specify `-Encoding utf8` to prevent Windows ANSI / Windows-1252 corruption:
+### 3. Safe UTF-8 (No-BOM) File Writing & Reading
+> [!WARNING]
+> In Windows PowerShell 5.1, `Set-Content -Encoding utf8` and `Out-File -Encoding utf8` prepend a 3-byte Byte Order Mark (BOM: `EF BB BF`). Strict JSON parsers (`JSON.parse`), YAML frontmatter parsers, and Electron runtimes will crash with `Unexpected token` or fail to detect `---`.
+> **Always write UTF-8 without BOM** for machine-consumed configs, JSON, YAML, and source code:
+
 ```powershell
-# Reading:
+# Reading (safe in PS 5.1 & PS 7+):
 $content = Get-Content -Path "config.json" -Raw -Encoding utf8
 
-# Writing:
-$jsonString | Set-Content -Path "output.json" -Encoding utf8
+# Writing WITHOUT BOM (Universal .NET No-BOM UTF-8 standard):
+$noBomUtf8 = [System.Text.UTF8Encoding]::new($false)
+[System.IO.File]::WriteAllText($filePath, $content, $noBomUtf8)
 ```
 
+### 4. Cross-Platform ZIP Archiving (Forward Slash Invariant)
+> [!WARNING]
+> In Windows PowerShell 5.1, `Compress-Archive` stores directory separators as Windows backslashes (`\`), producing invalid ZIP entries like `agents\Data Engineer.md` instead of standard `agents/Data Engineer.md`. Package loaders (e.g. Qoder, VS Code extensions, npm tarballs) fail to resolve root manifests like `.qoder-plugin/plugin.json`.
+> **Always normalize ZIP entry paths to forward slashes (`/`)** using .NET `ZipFile` or Python:
 
+```powershell
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::CreateFromDirectory($sourceDir, $zipPath)
+```
+
+### 5. High-Performance Text & Code Search (ripgrep / rg)
 ### 4. High-Performance Text & Code Search (ripgrep / rg)
 For rapid codebase scanning across directories, use the native Rust binary `rg.exe` (globally available in `C:/Users/Luthfi/.gemini/antigravity/bin`):
 ```powershell

@@ -70,3 +70,23 @@ Instead of installing intrusive kernel drivers (eBPF / WinDivert), capture real 
 3. **Replay Phase**: Point unit and integration tests (Vitest, Pytest, Jest) to the recorded fixture catalog.
    - External dependencies return recorded responses with zero network overhead.
    - Tests execute 100% offline in sub-seconds with guaranteed determinism.
+
+---
+
+## 5. Jira Context Tracing & Automated Slack Dispatch Pipeline
+
+### 1. Jira Acceptance Criteria Ingestion (via Atlassian TWG CLI)
+1. **Query**: Fetch issue details directly via terminal CLI (`twg jira issue view <ISSUE-KEY>`).
+2. **Derive Test Matrix**: Extract acceptance criteria into BVA and Equivalence Partitioning test cases.
+3. **Execution**: Execute Playwright E2E suites (`playwright-cli`) or native API contract runners.
+
+### 2. Automated Slack QA Alerting (Zero-Daemon Dispatch)
+Dispatch test outcomes directly to Slack via [`scripts/slack-qa-notify.ps1`](file:///C:/Users/Luthfi/.gemini/scripts/slack-qa-notify.ps1):
+```powershell
+powershell -File C:\Users\Luthfi\.gemini\scripts\slack-qa-notify.ps1 `
+    -Title "E2E Checkout Regression Run" `
+    -Status "PASSED" `
+    -Summary "18 passed, 0 failed in 4.2s" `
+    -JiraKey "PROJ-104"
+```
+Features zero background memory overhead, formatted color attachments, and automatic character truncation to prevent dropped payloads.

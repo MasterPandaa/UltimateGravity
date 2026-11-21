@@ -41,3 +41,19 @@ node C:\Users\Luthfi\.gemini\scripts\memory-trimmer.js status
 - Audit confirms all stores report `status: "CLEAN"`.
 - Total dead entries count === 0.
 - Token headroom preserved without impacting active session context.
+
+---
+
+## 4. MaxIM Dual-Bound Compaction Standard (Absorbed from `arXiv:2611.12825`)
+
+When compacting persistent memory stores and trajectory histories:
+1. **Predictive Sufficiency**: Retain high-utility forward-looking context (unresolved bugs, invariant rules, schema contracts).
+2. **Recursive Consistency**: Retain only factually verified records supported by deterministic tool executions. Prune repetitive intermediate trials and speculative reasoning.
+
+---
+
+## 5. Offline Sleep Consolidation & Rehearsal (Absorbed from `arXiv:2606.03979`)
+
+To prevent catastrophic forgetting across continuous system interactions:
+1. **Consolidate State**: Run `memory-trimmer.js trim` to purge dead telemetry and deduplicate failure trajectories.
+2. **Execute Rehearsal Gate**: Run `bench-runner.js run` to assert 100% pass rate across baseline system invariants before closing memory updates.

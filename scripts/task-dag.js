@@ -22,7 +22,8 @@ const TASKS_ROOT = 'C:\\Users\\Luthfi\\.gemini\\antigravity\\tasks';
 
 function resolveSessionDir(conversationId) {
   if (conversationId) {
-    const custom = path.join(TASKS_ROOT, conversationId);
+    const cleanId = String(conversationId).replace(/[^a-zA-Z0-9_-]/g, '') || 'default-session';
+    const custom = path.join(TASKS_ROOT, cleanId);
     if (!fs.existsSync(custom)) fs.mkdirSync(custom, { recursive: true });
     return custom;
   }

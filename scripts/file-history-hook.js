@@ -72,7 +72,8 @@ function processFileBackup(filePath, toolName, conversationId, stepIdx) {
     }
 
     const historyRoot = 'C:\\Users\\Luthfi\\.gemini\\antigravity\\file-history';
-    const sessionDir = path.join(historyRoot, conversationId);
+    const cleanConvId = String(conversationId || 'default-session').replace(/[^a-zA-Z0-9_-]/g, '') || 'default-session';
+    const sessionDir = path.join(historyRoot, cleanConvId);
     const snapshotsDir = path.join(sessionDir, 'snapshots');
 
     if (!fs.existsSync(snapshotsDir)) {

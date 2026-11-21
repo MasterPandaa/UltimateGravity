@@ -334,15 +334,35 @@ function auditInstructions(targetPath) {
     checkFile(target);
   }
 
-  // Audit Skill Frontmatter Descriptions (> 400 chars)
+  // Audit Skill Frontmatter Descriptions (> 400 chars) & Structure (Krusty84 SKILL.md-Inspector & NVIDIA Tier 1)
   const skills = measureSkillsCatalog();
   skills.forEach(s => {
+    // 1. Frontmatter length audit
     if (s.descLength > 400) {
       issues.push({
         severity: 'MEDIUM',
         file: `Skill: ${s.name} (${s.path})`,
         msg: `YAML frontmatter description is ${s.descLength} characters (> 400 chars). Inflates system prompt on every turn!`
       });
+    }
+
+    // 2. SKILL.md-Inspector & NVIDIA Tier 1: Relative link and reference integrity
+    if (fs.existsSync(s.path)) {
+      const skillDir = path.dirname(s.path);
+      const rawContent = fs.readFileSync(s.path, 'utf8');
+      
+      // Match markdown links: [text](references/file.md)
+      const refMatches = rawContent.matchAll(/\[(?:[^\]]+)\]\((references\/[^)#\s]+)(?:#[^)]*)?\)/g);
+      for (const m of refMatches) {
+        const refPath = path.join(skillDir, m[1]);
+        if (!fs.existsSync(refPath)) {
+          issues.push({
+            severity: 'HIGH',
+            file: `Skill: ${s.name} (${s.path})`,
+            msg: `Broken reference link detected: '${m[1]}' does not exist on disk!`
+          });
+        }
+      }
     }
   });
 

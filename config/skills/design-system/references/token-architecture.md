@@ -250,3 +250,79 @@ Fragility: Zero | Theme-Safe: 100% (Light/Dark/High-Contrast) | Compliance: Stri
    - Component templates must be 100% agnostic to light or dark mode. The semantic CSS variable layer (`.dark { --background: ... }`) resolves color adaptation automatically.
 3. **Closed Vocabulary Verification**:
    - If a design requirement appears to require a non-existent token, do not invent one inline. Flag the missing design token or map it to the closest approved semantic token.
+
+---
+
+## 📐 Rad Spacing: Gestalt Proximity & The ~40% Rule
+
+> Absorbed from `nolanperk/rad-spacing`. Enforces visual hierarchy through mathematical spacing ratios based on container nesting depth.
+
+### 1. Hierarchy Nesting Depth
+Map spacing from outermost containers to innermost elements:
+$$\text{Page Container} \longrightarrow \text{Section} \longrightarrow \text{Card} \longrightarrow \text{Card Content} \longrightarrow \text{Inline Grouping}$$
+
+### 2. The ~40% Ratio Rule
+- Each parent level receives approximately **$1.4\times$** the spacing of its child level (or conversely, child spacing is $\approx 0.6\times$ parent).
+- Snap results to the nearest **8px increment**. If the $0.6$ ratio lands closer to a 4px increment, snap to 4px instead.
+- **Base Anchor**: 8px (`spacing/sm`) for tightest grouping (e.g. label-to-input or icon-to-text).
+
+### 3. Semantic Spacing Token Scale
+| Token | Pixel Value | Hierarchy Role | Example Mapping |
+|---|---|---|---|
+| `spacing/xs` | 4px | Micro-alignment | Icon padding, tag internal gap, inline badges |
+| `spacing/sm` | 8px | Tight grouping | Label to input, icon to text, tightly coupled pairs |
+| `spacing/md` | 12px | Sibling separation | Form fields within one section, button group gap |
+| `spacing/lg` | 16px | Component separation | Card content padding, distinct form sections |
+| `spacing/xl` | 24px | Container framing | Card padding, modal internal margins |
+| `spacing/2xl` | 32px | Section boundary | Section gap, grid spacing, sidebar padding |
+| `spacing/3xl` | 48px | Page-level framing | Page hero spacing, major layout block margins |
+
+---
+
+## 🔍 Design System Drift Audit Protocol
+
+> Absorbed from `edenspiekermann/Skills`. Eliminates design-system integration drift across Figma and code implementations.
+
+### 1. Core Drift Types & Detection Checks
+| Drift Category | Anomaly Signature | Agent Remediation Protocol |
+|---|---|---|
+| **Unbound Colors** | Raw hex values (`#3B82F6`, `rgb(...)`) used in fills/strokes instead of semantic color variables. | Replace with semantic variable (`--color-primary`, `bg-primary`). |
+| **Arbitrary Spacing** | Hardcoded padding/margins (`p-[13px]`, `gap-5`) violating the 4px/8px scale. | Re-align using the ~40% rule to nearest semantic token (`spacing/md` or `spacing/lg`). |
+| **Local Overrides** | Detached component instances or rogue inline CSS overrides breaking parent variants. | Re-attach to canonical component variant or define approved props/slots. |
+| **Unlinked Typography** | Inline `font-size` or `line-height` not mapped to typographic scales (`--font-size-*`). | Re-bind to semantic text tokens (`text-sm`, `text-base`, `text-lg`). |
+
+### 2. Execution Gate
+Before shipping any UI component or Figma frame:
+1. Run static audit: Assert zero raw hex codes outside primitive definitions.
+2. Assert zero arbitrary Tailwind bracket notation (`-[...]`).
+3. Assert all container hierarchy levels follow the ~40% spacing progression.
+
+---
+
+## 🛡️ Agent-Prescriptive Lint Diagnostics (Absorbed from `@shadcn/lint`)
+
+> Inspired by `@shadcn/lint`. Converts design system violations from cryptic compiler warnings into actionable, agent-prescriptive replacement recipes.
+
+### 1. The Prescriptive Diagnostic Pattern
+Instead of generic ESLint warnings (e.g. *"Unexpected arbitrary value"*), diagnostics for coding agents must provide the exact reason and the prescribed token:
+
+```text
+❌ CRYPTIC LINT ERROR (HUMAN-ORIENTED):
+warning: Avoid arbitrary Tailwind values 'p-[14px]'  tailwindcss/no-arbitrary-value
+
+✅ AGENT-PRESCRIPTIVE DIAGNOSTIC (@shadcn/lint PATTERN):
+[DESIGN SYSTEM VIOLATION] file: src/components/SettingsCard.tsx#L24
+- Offending Class : p-[14px]
+- Rule Violated   : Arbitrary spacing brackets break the 4px/8px design scale (~40% rule).
+- Prescribed Token: Use 'p-3' (12px - spacing/md) or 'p-4' (16px - spacing/lg).
+- Quick-Fix Recipe: Replace className="p-[14px]" with className="p-4"
+```
+
+### 2. The 3 Prescriptive Invariants for Frontend Tooling
+1. **Component Contract Preservation**:
+   - Standard components (`Button`, `Badge`, `Input`) define their own internal padding and height variants (`size="sm"`, `size="default"`, `size="lg"`).
+   - Prohibit external padding overrides (e.g. `<Button className="p-6">`). Diagnostic must prescribe: *"Remove external padding; pass size prop or customize component variant in components/ui/button.tsx"*.
+2. **Color Token Enforcement**:
+   - Catch raw hex patterns (`bg-[#111827]`, `text-[#3B82F6]`) and prescribe semantic CSS variable mappings (`bg-background`, `text-primary`).
+3. **Typography Scale Enforcement**:
+   - Catch arbitrary text sizes (`text-[15px]`, `leading-[22px]`) and prescribe standard typographic tokens (`text-sm`, `text-base`).

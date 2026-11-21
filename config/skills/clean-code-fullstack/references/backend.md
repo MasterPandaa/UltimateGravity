@@ -8,9 +8,13 @@
 5. Error Handling & Structured Logging
 6. Concurrency & Reliability
 7. Environment Configuration
-8. Testing Strategy
-9. Canonical Architecture Example
+8. Testing Strategy & Tooling
+9. Canonical Architecture Example (TypeScript)
 10. Data Pipeline & Scraping Ingestion Standards (Declarative Schemas & Supply-Chain Defense)
+11. Filesystem-First API Contracts & Zero-Cloud Mocking
+12. Production Container Hardening Invariants (Dockerfile & Compose)
+13. RAG & Multimodal Ingestion Architecture (-> [rag-architecture.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/rag-architecture.md))
+14. Agentic Systems & LLM Observability (-> [agentic-systems.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/agentic-systems.md))
 
 ---
 
@@ -130,3 +134,90 @@ Scraper repositories and utility packages on Windows are primary lure vectors fo
 3. **Execution Context & Credential Isolation**:
    - Scraping pipelines must run in isolated sub-processes.
    - Never expose active browser session profiles, developer SSH keys, JWT tokens, or environment credentials to the runtime scope of external scraping scripts.
+
+### C. Anti-Bot Network Hardening & TLS Fingerprint Impersonation (Absorbed from `curl-impersonate`)
+Standard HTTP clients (`requests`, basic `fetch`, bare `curl`) emit non-browser JA3/JA4 TLS fingerprints and HTTP/2 settings that modern WAFs (Cloudflare, Akamai, Datadome) block with 403 Forbidden:
+1. **The TLS Impersonation Rule**:
+   - For direct HTTP extraction on Cloudflare-protected endpoints without full headless browser overhead, use `curl_cffi` (Python) or `curl-impersonate` bindings:
+     ```python
+     from curl_cffi import requests
+     # Mimics real Chrome/Edge TLS ciphers, extension ordering, and HTTP/2 settings
+     response = requests.get(url, impersonate="chrome124")
+     ```
+2. **Extraction Tier Hierarchy**:
+   - **Tier-0 (Fastest / Lowest RAM)**: Direct `curl_cffi` impersonation (sub-100ms, minimal CPU/memory).
+   - **Tier-1 (Advanced Stealth)**: `Scrapling` MCP / `Firecrawl` MCP (built-in stealth bypass with dynamic header and proxy rotation).
+   - **Tier-2 (Headless Browser)**: Full headless browser (`Playwright` / `browser` subagent) only when client JavaScript rendering, complex DOM hydration, or manual interaction is strictly required.
+
+---
+
+## 11. Filesystem-First API Contracts & Zero-Cloud Mocking
+
+> Grounded in the architectural absorption of the `postman` plugin methodology into local, offline-first development.
+
+1. **OpenAPI / JSON Schema as Single Source of Truth**:
+   - Store API definitions as version-controlled artifacts (`api/openapi.yaml` or `contracts/*.ts`) directly in the repository filesystem.
+   - Prohibit managing API contracts solely within remote proprietary cloud dashboards.
+2. **Local Schema-Driven Mock Handlers**:
+   - Synthesize offline test mock handlers (via MSW / Vitest / lightweight HTTP handlers) directly from OpenAPI schemas and TypeScript types.
+   - Test suites must execute completely offline in sub-seconds without relying on external cloud mock servers.
+3. **The 4 Invariant Assertions on Every API Endpoint**:
+   - *Status Contract*: Assert exact HTTP status codes (200 OK vs 201 Created vs 204 No Content).
+   - *Strict Response Envelope*: Assert that response payload conforms strictly to the schema (rejecting unexpected extra properties).
+   - *Latency SLA*: Local test assertions must fail if synthetic execution exceeds bounded SLA (< 300ms for unit mocks, < 1000ms for local integration).
+   - *Idempotency Guarantee*: Repeating `POST` or `PUT` operations with identical `Idempotency-Key` or payload must yield identical database state and deterministic responses.
+
+---
+
+## 12. Production Container Hardening Invariants (Dockerfile & Compose)
+
+> Absorbed from `inbharatai/claude-skills` (`dockerfile-builder` & `compose-creator`). Enforces production-grade security, deterministic caching, and minimal attack surface.
+
+### A. The 5 Dockerfile Production Invariants
+1. **Multi-Stage Build Isolation**:
+   - Separate build-time tooling (`builder` stage) from runtime execution (`runner` stage).
+   - The final runner stage must strictly use minimal base images (`alpine`, `distroless`, or `-slim`), copying only compiled artifacts (`dist/`, `.next/standalone`) and production dependencies (`node_modules --omit=dev`).
+2. **Deterministic Layer Ordering (Cache Optimization)**:
+   - Copy dependency manifests (`package.json`, `pnpm-lock.yaml`, `requirements.txt`, `go.mod`) and install dependencies *before* copying application source code (`COPY . .`).
+   - Ensures routine code edits do not invalidate heavy dependency download layers.
+3. **Non-Root Execution Guard (CWE-250)**:
+   - Containers must never run as root (`UID 0`). Explicitly create and switch to a dedicated unprivileged user before starting the application:
+     ```dockerfile
+     RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+     USER appuser
+     ```
+4. **Active Liveness & Healthcheck Probes**:
+   - Always declare explicit healthcheck directives for orchestrator monitoring:
+     ```dockerfile
+     HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+       CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+     ```
+5. **Zero-Secret Invariant in Build Context**:
+   - Never copy `.env` files, production credentials, or SSH keys into image layers. Pass build-time secrets exclusively via Docker BuildKit secret mounts (`RUN --mount=type=secret...`) or runtime environment variables.
+
+### B. Compose Hardening
+- Specify resource limits (`cpus`, `memory`) on every service to prevent host exhaustion.
+- Store state strictly in named volumes, never unanchored host root mounts.
+- Bind internal services (Postgres, Redis) to private container networks without exposing ports to `0.0.0.0` unless external access is explicitly required.
+
+---
+
+## 13. RAG, Retrieval & Multimodal Ingestion Architecture
+
+> Full architectural standards for production RAG pipelines, hybrid search, hierarchical auto-merging chunking, and multimodal document decomposition are maintained in dedicated reference:  
+> 📖 **[rag-architecture.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/rag-architecture.md)**
+>
+> - **4-Stage Pipeline**: Semantic chunking with 10–15% overlap, dense/sparse Reciprocal Rank Fusion (RRF), cross-encoder reranking, and Recall@5 $\ge 0.85$ gates.
+> - **Advanced Retrieval (LlamaIndex)**: Sentence Window Retrieval (focal-context decoupling) and Auto-Merging Hierarchical Retriever (child-to-parent quorum thresholding).
+> - **Multimodal Ingestion (RAG-Anything)**: 4-stream modality decomposition (Text AST, Table HTML/Markdown, LaTeX equations, VLM image captions) with cross-modal co-reference binding.
+
+---
+
+## 14. Agentic Systems, Memory Graphs & Observability
+
+> Production engineering standards for choosing agent frameworks, dynamic temporal memory graphs, and non-blocking OpenTelemetry tracing are maintained in dedicated reference:  
+> 📖 **[agentic-systems.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/agentic-systems.md)**
+>
+> - **Framework Archetypes**: PydanticAI (type-safe Python), Google ADK (Gemini enterprise), LangGraph (cyclical state machines), OpenAI Agents (handoffs).
+> - **Dynamic Knowledge Graph Memory (Graphiti + Cognee)**: Deterministic Pydantic ontology blueprinting, Bi-temporal modeling (`valid_time` vs `transaction_time`), causal edge invalidation, and zero-daemon embedded profile (NetworkX/SQLite/LanceDB) for host RAM conservation.
+> - **Production Observability (Langfuse + Opik)**: Hierarchical OTel span trees (Trace $\rightarrow$ Turn $\rightarrow$ LLM $\rightarrow$ Tool), token & USD cost accounting, and non-blocking asynchronous export ($< 5$ms overhead).

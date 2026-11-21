@@ -34,3 +34,19 @@ Every finding during a Windows Security Audit must be graded into one of three c
    - Legitimate software exhibiting risky configuration (e.g., development server binding to `0.0.0.0`).
 3. **Informational (`Informasi`)**:
    - Hardening gap without evidence of active exploitation (e.g., UAC enabled at default instead of Always Notify, Controlled Folder Access in Audit mode).
+
+---
+
+## 3. Wazuh XDR / SIEM Behavioral Heuristics: File Integrity Monitoring (FIM) & Telemetry
+
+Absorbed from Wazuh Open-Source XDR/SIEM behavioral rules for Windows endpoints:
+
+1. **File Integrity Monitoring (FIM) for Developer & Agent Assets**:
+   - **Target Paths**: `%USERPROFILE%\.ssh`, `%USERPROFILE%\.gemini`, `%APPDATA%\antigravity\mcp`, `.git\hooks`.
+   - **Behavioral Invariants**: Cryptographic hash mismatches, unexpected file creation, or unauthorized ACL/permission changes (`icacls`) on private keys and MCP configurations indicate credential tampering or token exfiltration attempts.
+   - **Audit Strategy**: Cross-reference file modification timestamps against active agent sessions and known developer git operations.
+
+2. **Sysmon & Windows Event Correlation**:
+   - **Process Creation Anomalies (Event ID 1)**: Inspect parent-child relationships where development runtimes (`node.exe`, `python.exe`, `npm`) spawn unexpected interactive shells (`cmd.exe`, `powershell.exe`) with base64 encoded parameters (`-enc`) or download cradles (`iwr`, `curl`, `certutil`).
+   - **Network Beaconing (Event ID 3)**: Correlate processes running from `%TEMP%` or `%APPDATA%` initiating outbound TCP handshakes to non-standard ports or unregistered external IP addresses.
+   - **Rule Alignment**: Direct mapping to MITRE ATT&CK T1059 (Command and Scripting Interpreter) and T1562 (Impair Defenses).

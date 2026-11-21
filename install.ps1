@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# UltimateGravity v6.0.0 One-Click Installer
+# UltimateGravity v6.3.0 One-Click Installer
 # Quad-Role Autonomous Engineering System for Google Antigravity (AGY)
 # ==============================================================================
 
@@ -10,7 +10,7 @@ $targetRoot = Join-Path $env:USERPROFILE ".gemini"
 $timestamp  = Get-Date -Format "yyyyMMdd-HHmmss"
 
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host "   UltimateGravity v6.0.0 — One-Click Master Installer          " -ForegroundColor Cyan
+Write-Host "   UltimateGravity v6.3.0 — One-Click Master Installer          " -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
 Write-Host "Target Installation : $targetRoot" -ForegroundColor Yellow
 
@@ -54,6 +54,7 @@ Write-Host "`n[3/7] Menyiapkan struktur direktori .gemini..." -ForegroundColor G
 $directoriesToEnsure = @(
     $targetRoot,
     (Join-Path $targetRoot "bin"),
+    (Join-Path $targetRoot "benchmarks"),
     (Join-Path $targetRoot "config"),
     (Join-Path $targetRoot "config\agents"),
     (Join-Path $targetRoot "config\skills"),
@@ -74,12 +75,18 @@ foreach ($dir in $directoriesToEnsure) {
     }
 }
 
-# 4. Salin Seluruh Aset Arsitektur (bin, agents, skills, plugins, tools, scripts)
-Write-Host "`n[4/7] Menyalin aset arsitektur (bin, agents, skills, plugins, tools, scripts)..." -ForegroundColor Green
+# 4. Salin Seluruh Aset Arsitektur (bin, benchmarks, agents, skills, plugins, tools, scripts)
+Write-Host "`n[4/7] Menyalin aset arsitektur (bin, benchmarks, agents, skills, plugins, tools, scripts)..." -ForegroundColor Green
 
 # Salin bin/ (fd.exe dan 18 .bat CLI wrappers)
 Copy-Item -Path (Join-Path $currentDir "bin\*") -Destination (Join-Path $targetRoot "bin") -Recurse -Force
 Write-Host "[OK] 18 CLI Tools & wrappers tersalin ke bin/." -ForegroundColor Green
+
+# Salin benchmarks (Web-Bench, Core Rules, Browser Resilience, Skill Activation)
+if (Test-Path (Join-Path $currentDir "benchmarks")) {
+    Copy-Item -Path (Join-Path $currentDir "benchmarks\*") -Destination (Join-Path $targetRoot "benchmarks") -Recurse -Force
+    Write-Host "[OK] Benchmark suites tersalin ke benchmarks/." -ForegroundColor Green
+}
 
 # Salin CHANGELOG.md
 if (Test-Path (Join-Path $currentDir "CHANGELOG.md")) {
@@ -162,8 +169,8 @@ if (Test-Path $testIndexer) {
 }
 
 Write-Host "`n==================================================================" -ForegroundColor Cyan
-Write-Host "   🎉 [SUCCESS] ULTIMATE GRAVITY v4.6.0 TELAH AKTIF LENGKAP!     " -ForegroundColor Cyan
+Write-Host "   🎉 [SUCCESS] ULTIMATE GRAVITY v6.3.0 TELAH AKTIF LENGKAP!     " -ForegroundColor Cyan
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host "Semua aturan, 3 Agen Inti, 35 Skills kurasi, Hooks otomatis,"
-Write-Host "18 CLI Tools, serta Watermark Sanitizer kini terpasang dan siap digunakan."
+Write-Host "Semua aturan, 4 Agen Inti Quad-Role, 42 Skills kurasi, Hooks otomatis,"
+Write-Host "23 CLI Tools, Benchmark Suites, serta Watermark Sanitizer kini terpasang dan siap digunakan."
 Write-Host "Buka atau restart IDE Antigravity Anda untuk mulai bekerja!`n"

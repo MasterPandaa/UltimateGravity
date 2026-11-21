@@ -99,3 +99,59 @@ Verify prior to certifying code for production release:
   - HTTP 5xx error rate spikes $> 1\%$ above baseline.
   - P95 latency increases $> 2\times$ over previous release.
   - Core transactional failures (login, payment, checkout) occur $> 0$ times.
+
+---
+
+## H. Thinker-Executor Planning Protocol & Verification Mapping (Absorbed from `shadcn/improve`)
+
+Enforces a rigorous division of labor between architectural planning and code execution:
+
+1. **The Read-Only Thinker Invariant**:
+   - When conducting codebase audits, architectural refactoring, or multi-module bug investigations, the agent adopts a **strict Read-Only Thinker role**.
+   - Prohibit immediate code mutations before formulating a file-cited, step-by-step implementation plan.
+2. **Deterministic Verification Mapping**:
+   - The Thinker must inspect project manifests (`package.json`, `pyproject.toml`, `Cargo.toml`) and explicitly record the exact verification commands before planning code edits:
+     - **Build**: `pnpm build` / `npm run build`
+     - **Test**: `pnpm test` / `pytest`
+     - **Lint**: `pnpm lint` / `ruff check`
+     - **Typecheck**: `pnpm tsc --noEmit` / `mypy`
+3. **Bounded Plan Contract for the Executor**:
+   - The resulting plan acts as a closed, verifiable contract for execution turns:
+     - Lists target files and exact LOC boundaries.
+     - Outlines the 4 UI states (if frontend) or transaction boundaries (if backend).
+     - Mandates fresh execution of the mapped verification commands before declaring completion.
+4. **Structured Plan Annotation & State Gating (Absorbed from `Plannotator`)**:
+   - **Plan State Machine**:
+     $$\text{PROPOSED} \longrightarrow \text{CRITIQUED / ANNOTATED} \longrightarrow \text{REVISED} \longrightarrow \text{LOCKED}$$
+   - **Structured Review Feedback Schema**:
+     Any human-in-the-loop review feedback, user critique, or subagent plan review must resolve into atomic structured directives:
+     - `[REJECT: step_id, rationale]`: Step rejected; requires alternative approach.
+     - `[MODIFY: step_id, diff_spec]`: Targeted edit to a specific step's file scope or implementation detail.
+     - `[REPLACE: step_id, new_step_spec]`: Wholesale substitution of an execution step.
+   - **Execution Lock Invariant**:
+     - The Executor agent is **strictly prohibited** from performing write mutations (`edit_file`, `write_file`, destructive shell commands) while the plan is in `PROPOSED` or `CRITIQUED` state.
+     - Execution may commence **only** once the plan transitions to `LOCKED` (confirmed via explicit user approval or verified deterministic plan validation).
+
+
+---
+
+## I. PRD-to-Engineering Acceptance Criteria Matrix (Absorbed from `phuryn/pm-skills`)
+
+Bridges high-level product intent and user stories into deterministic engineering contracts and automated assertions:
+
+1. **The 3-Layer Decomposition Flow**:
+   - **Layer 1: Product Intent & User Story**:
+     - *Format*: `As a [user role], I want to [action], so that [business value].`
+     - Identifies the user persona, trigger event, and expected business outcome.
+   - **Layer 2: Deterministic Data Contract**:
+     - *Schema Definition*: Strict boundary validation (Zod, Pydantic, or JSON Schema) specifying exact input bounds, allowed enums, and required headers.
+     - *State & Response Codes*: Explicit HTTP status mapping (200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 429 Rate Limited).
+     - *State Machine Transitions*: Valid initial state $\to$ action $\to$ validated terminal state.
+   - **Layer 3: Falsifiable Acceptance Assertions**:
+     - *Automated Test Mapping*: Every acceptance criterion must map directly to an executable test suite (Vitest, Playwright, or pytest) with exit code 0.
+     - *Zero Ambiguity*: Prohibit subjective clauses ("Must be fast and responsive"); enforce quantified SLAs (e.g., $P95 < 250\text{ms}$, layout shift $\text{CLS} < 0.1$).
+
+2. **Non-Functional Invariant Gate**:
+   - **4 UI States**: Explicitly verify Loading, Empty, Error, and Success states before PR sign-off.
+   - **Idempotency**: Verify that network retries or double form submissions do not produce duplicate records or side effects.
+   - **Security Boundary**: Assert authentication, authorization per tenant/user, and absence of plaintext credential logging.

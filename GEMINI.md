@@ -53,6 +53,7 @@ Every subagent prompt must include: (1) `[STEP 0]` — list of `SKILL.md` paths 
 | Terminal output **50–200 lines** | Filter to FAIL/stack traces only. |
 | Terminal output **> 200 lines** | Write to scratch file; summarize errors in context. |
 | Subagent output **> 100 lines** | Summarize before presenting to user. |
+| Raw Dump **SNR < 20%** | Prune low-signal lines; retain only attributable problem tokens (Anti-Dump Gate). |
 
 ---
 
@@ -82,6 +83,12 @@ Use `ask_question` tool (1-click widget, curated options) when: private user dat
 ### G. Language Boundary (100% English for All Assets)
 All skills, rules, agents, references, changelogs, scripts, docstrings, comments, and source files must be in English. Auto-translate non-English user materials before writing to disk. Indonesian is reserved solely for chat responses (§6).
 
+### H. 4 Universal Operational Invariants (Frontier Absorptions)
+1. **Elephant-Goldfish Review**: Architecture/code reviews must pass dual gates: Elephant (historical context, cross-module blast radius) and Goldfish (outsider mental model, zero-bias clarity).
+2. **Minimal Verifiable Blast Radius (MVBR)**: Keep diffs bounded (< 50 lines/file). Invert 3 tacit assumptions (input bounds, network timeouts, idempotency) before code execution.
+3. **Call-Graph Reachability Triage**: On security CVEs, verify AST reachability from application roots before acting. Never break APIs for dormant/unreachable code.
+4. **Filesystem-First API Invariants**: Manage contracts via local OpenAPI SSoT. Assert 4 invariants on every endpoint: status code, strict schema, latency SLA < 300ms, and idempotency.
+
 ---
 
 ## 5. Hard Guardrails (Explicit User Confirmation Required)
@@ -109,7 +116,10 @@ Every response in **Professional Indonesian** (preserving English technical term
 ---
 
 ## 7. Changelog Protocol
-Log all system changes (skills, agents, hooks, MCP, rules) to [`CHANGELOG.md`](file:///C:/Users/Luthfi/.gemini/CHANGELOG.md). Consolidate same-date updates into one version entry following Keep a Changelog & SemVer.
+Log all system changes (skills, agents, hooks, MCP, rules) to [`CHANGELOG.md`](file:///C:/Users/Luthfi/.gemini/CHANGELOG.md).
+- **Mandatory Pre-Commit Verification Gate**: Before logging system changes, run `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js audit` AND `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js run` — must achieve 100% pass rate, 0 regressions, and 0 critical errors.
+- **Daily Version Escalation**: Consolidate same-date updates into one daily release (`YYYY-MM-DD`). Escalate version number to the highest impact change on that day: Patch (`x.y.z+1`) &rarr; Minor (`x.y+1.0`) &rarr; Major (`x+1.0.0`).
+- **Anti-Slop Standard**: 100% English, flat bullets, no narrative filler. Pattern: `- **Target**: [Verb] [exact change] [impact/link]`. Categorize by `Added`, `Changed`, `Fixed`, `Removed`, `Optimized`.
 
 ---
 
@@ -127,5 +137,5 @@ When user submits external links, repos, papers, or proposals to add skills/rule
 ### Phase 2: Implementation (Post-Approval)
 - Prefer enriching existing `references/*.md` over creating new standalone skills.
 - New standalone skills must pass RRSI / Harness-Zero L₀ ≤ 60 line budget.
-- Mandatory Linter Gate: Run `node C:\Users\Luthfi\.gemini\scripts\token-optimizer.js audit` — must yield 0 warnings before commit.
+- Mandatory Verification Gate: Run `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js audit` AND `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js run` — must yield 100% pass rate, 0 regressions, and 0 critical token errors before commit.
 - Sync to `CHANGELOG.md` under current date. Verify Turn-0 token payload stays lean.

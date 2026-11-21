@@ -265,3 +265,18 @@ Engineering guidelines for production-grade Technical SEO, rich snippets, and so
 - **Core Web Vitals & Search UX**:
   - Zero Cumulative Layout Shift (CLS): Explicit `width` and `height` attributes on all images and video embeds.
   - Preload primary LCP assets: `<link rel="preload" as="image" href="..." fetchpriority="high">`.
+
+### Deterministic Technical SEO Audit Checklist (Absorbed from `AgriciDaniel/jev-seo`)
+Deterministic, rule-based verification aligned with Google Search Central guidelines (substituting subjective SEO advice with falsifiable code checks):
+1. **Heading Tag Hierarchy Invariant**:
+   - Exactly one `<h1>` element per page.
+   - Strictly sequential heading progression: never skip heading depths (e.g., jumping directly from `<h1>` to `<h3>` without an intervening `<h2>` is prohibited).
+2. **Internal Link Hygiene**:
+   - Zero internal redirects: all internal `href` attributes must target final canonical URLs directly (avoid pointing to URLs that respond with 301, 302, 307, or 308).
+   - Zero internal broken links (404/410/500).
+3. **Image Accessibility & Metadata**:
+   - Every informational `<img>` element must supply a descriptive, context-grounded `alt` attribute.
+   - Purely decorative images must explicitly include empty `alt=""` and `aria-hidden="true"` to prevent assistive technology confusion.
+4. **Canonical & Viewport Conformance**:
+   - Mobile viewport meta tag must be declared with `width=device-width, initial-scale=1` without disabling user scaling (`user-scalable=no` is prohibited).
+   - Self-referencing canonical tag must match the exact served protocol (`https`), subdomain (`www` or non-`www`), and trailing slash convention. Never allow canonical chains or cross-domain canonical loops.

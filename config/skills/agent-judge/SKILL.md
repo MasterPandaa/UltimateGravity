@@ -107,5 +107,5 @@ Trigger an immediate HOLD if the agent:
 
 ## References
 - `references/templates.md`: Starter charters, brief templates, and challenging prompts.
-- `references/rubrics.md`: In-depth grading rubrics across frontend, backend, and security tasks.
+- `references/community-failure-modes-catalog.md`: In-depth grading rubrics and failure mode catalog across frontend, backend, and security tasks.
 - `references/calibrated-negative-rules-and-loop-gating.md`: Calibrated negative-rule distillation, Ralph verification-gated loops, and worktree isolation hygiene.

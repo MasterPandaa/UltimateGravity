@@ -20,8 +20,11 @@ const HISTORY_ROOT = 'C:\\Users\\Luthfi\\.gemini\\antigravity\\file-history';
 
 function resolveSessionDir(conversationId) {
   if (conversationId) {
-    const custom = path.join(HISTORY_ROOT, conversationId);
-    if (fs.existsSync(custom)) return custom;
+    const cleanId = String(conversationId).replace(/[^a-zA-Z0-9_-]/g, '');
+    if (cleanId) {
+      const custom = path.join(HISTORY_ROOT, cleanId);
+      if (fs.existsSync(custom)) return custom;
+    }
   }
 
   // Look for most recent session directory in HISTORY_ROOT

@@ -36,7 +36,7 @@ When running iterative experiment loops or self-improving prompt/harness cycles:
 | Mode | Domain | Primary Focus | Methodology |
 |---|---|---|---|
 | **Mode 1: Eval Spec Authoring** | Benchmark creation | Define test cases, input fixtures, target outputs, and grading rubrics. | JSON Lines dataset (`evals.jsonl`) |
-| **Mode 2: Deterministic Runner & Scoring** | Test suite execution | Run agent pipeline across $N$ trials, record traces, compute pass rates. | Automated batch runner script |
+| **Mode 2: Deterministic Runner & Scoring** | Test suite execution | Run agent pipeline across $N$ trials, record traces, compute pass rates ([`web-bench-absorption-framework.md`](references/web-bench-absorption-framework.md)). | Automated batch runner script (`bench-runner.js`) |
 | **Mode 3: LLM Judge Calibration** | Model-based evaluation | Evaluate semantic quality using structured 1–5 rubrics with rationale output. | Multi-dimensional scoring rubrics |
 | **Mode 4: Regression & Diff Analysis** | Performance change tracking | Compare baseline vs candidate model runs, flag degraded prompts or tools. | Scorecard diff & win/loss matrix |
 | **Mode 5: Autonomous Experiment & Hypothesis Loop** | Empirical research & optimization | Run multi-round automated experiment loops, record traces, refine hypotheses ([`autonomous-hypothesis-benchmarking.md`](references/autonomous-hypothesis-benchmarking.md)), and navigate the 12-lever trade-off frontier ([`agent-optimization-levers.md`](references/agent-optimization-levers.md)). | Prompt tuning sweeps, model regression benchmarking. |

@@ -83,3 +83,38 @@ When orchestrating across Antigravity roles (`fullstack-developer`, `qa-engineer
    task-dag packet 2 --out "temp/packet-2.md"
    # Subagent Step 1 receives temp/packet-2.md with zero upstream clutter
    ```
+
+
+---
+
+## 3. Deterministic Rework Routing Gate (Absorbed from `Tencent/LoopForge`)
+
+Prevents catastrophic pipeline resets when downstream verification fails:
+
+1. **State Preservation of Clean Upstream Nodes**:
+   - If downstream Task 3 (e.g., E2E Testing or Security Audit) fails, Task 1 (Database Migration) and other upstream nodes with verified exit codes remain `completed`. Do not invalidate clean upstream artifacts.
+2. **Targeted Rework Packet Routing**:
+   - The failed node transitions to `failed` and generates a structured **Rework Ticket Packet**:
+     - `failedTaskId`: ID of the failing node.
+     - `targetWorkerNode`: The exact authoring task that introduced the defect (e.g., Task 2: Backend API).
+     - `failingAssertions`: Exact stack trace, exit code, or failing test assertion.
+     - `reproduceCommand`: Verified CLI command to reproduce the failure locally.
+   - The rework ticket is routed directly back to the target worker without restarting intermediate stages.
+3. **Bounded Iteration Ceiling ($\le 3$ Cycles)**:
+   - Automated rework routing is hard-capped at 3 cycles. If the node fails 3 consecutive iterations, the DAG halts and escalates to human-in-the-loop review.
+
+---
+
+## 4. MaxIM Dual-Gate Context Packet Invariant (Absorbed from `arXiv:2611.12825`)
+
+Enforces information-theoretic capacity constraints ($|S_t| \le C$) on compiled Context Packets across subagent handoffs:
+
+1. **Forward Gate (Predictive Sufficiency)**:
+   - Packets must strictly contain tokens with positive predictive utility for the consumer:
+     - Exact schema contracts, types, and exported symbols.
+     - Target file paths and verified CLI verification commands.
+     - Unfulfilled acceptance criteria and downstream obligations.
+   - Narrative chatter, intermediate thinking, and discarded trial implementations must be purged.
+2. **Backward Gate (Recursive Consistency)**:
+   - Zero-hallucination grounding: Every assertion in a packet must be 100% entailed by verified disk artifacts and tool exit codes (`exitCode === 0`).
+   - Speculative completions or unverified promises are strictly prohibited.

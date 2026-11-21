@@ -69,3 +69,38 @@ flowchart TD
    - Before executing merge or git checkout operations, ensure child processes and watchers are cleanly terminated to prevent `EBUSY` or `EPERM` errors.
 4. **Clean Stash Hygiene**:
    - Subagents must never leave unstaged partial diffs across shared directories when marking a task complete. All changes must be cleanly committed or compiled into a Context Packet.
+
+---
+
+## 4. The Elephant-Goldfish Dual-Perspective Review Protocol
+
+> Grounded in the architectural absorption of the official Google Antigravity `egm` (Elephant-Goldfish Model) plugin into system verification.
+
+When reviewing complex architectural proposals, PRDs, or deep refactors, agents often succumb to **Context Anchoring Bias** (defending prior design choices because they were involved in authoring them). To guarantee ruthless objectivity, apply the dual-perspective review:
+
+```mermaid
+flowchart LR
+    A["Target Proposal / Diff"] --> B["Pass 1: Elephant Mode<br/>(Deep Context & Continuity)"]
+    A --> C["Pass 2: Goldfish Mode<br/>(Zero-Prior Fresh-Eyes Critic)"]
+    B --> D["Cross-Perspective Synthesis<br/>(Reconcile & Filter Blindspots)"]
+    C --> D
+```
+
+### 1. Elephant Mode (Long-Term Context Retention)
+- **Mental Posture**: The historian and systems architect.
+- **Invariants Audited**:
+  - *Historical Rationale*: Why was the code structured this way originally? (Check ADRs, commit history, issue context).
+  - *Dependency Blast Radius*: What subtle cross-service contracts or downstream consumers break if this changes?
+  - *Long-Term Alignment*: Does this change align with the platform's multi-month architectural roadmap?
+
+### 2. Goldfish Mode (Zero-Context Clean-Slate Critic)
+- **Mental Posture**: An adversarial outsider inspecting the diff for the first time with zero prior knowledge.
+- **Invariants Audited**:
+  - *Self-Documentation Test*: Can an engineer understand this change without reading the author's prior conversation?
+  - *Tacit Assumption Detection*: What invisible assumptions (network speed, payload format, non-empty arrays) does the code silently rely upon?
+  - *Cognitive Complexity*: Is the implementation over-engineered or unnecessarily clever? Would a junior developer introduce a bug when maintaining it?
+
+### 3. Synthesis Verdict Gate
+A change passes review **only when both perspectives align**:
+- Elephant confirms zero systemic regression and architectural alignment.
+- Goldfish confirms zero unnecessary cognitive friction and explicit self-contained clarity.

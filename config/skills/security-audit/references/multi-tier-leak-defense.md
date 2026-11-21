@@ -46,6 +46,29 @@ Never allow sensitive tokens, private keys, or credentials to enter source code,
 - **Generic Private Keys**: `-----BEGIN (RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----`
 - **Frontend Variable Exposure**: Verify that `service_role_key`, database passwords, or private signing secrets are **NEVER** prefixed with `NEXT_PUBLIC_` or `VITE_`.
 
+#### 1.1 Shannon Entropy Heuristic & Lockfile Masking (Absorbed from `GitShield`):
+1. **Mathematical Formula**:
+   Calculate Shannon Entropy $H(X)$ over candidate string tokens $X$ of length $L \ge 20$:
+   $$H(X) = -\sum_{i=1}^{n} P(x_i) \log_2 P(x_i)$$
+   - Base64 character sets: Flag any continuous un-prefixed token where $H \ge 4.5$.
+   - Hexadecimal sets: Flag any continuous token where $H \ge 3.0$.
+2. **Lockfile & Checksum Masking Filter**:
+   - To eliminate false alarms, automatically exclude file paths matching package lockfiles and integrity hashes:
+     `pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `go.sum`, `Cargo.lock`, `poetry.lock`, `composer.lock`.
+   - Never flag standard Git commit SHA-1/SHA-256 hashes or Subresource Integrity (SRI) hashes (`sha256-...`, `sha384-...`).
+
+#### 1.2 Passive Recon & Exposure Discovery Pipeline (Absorbed from `Claude-OSINT`):
+1. **Passive Repository Attack Surface Recon**:
+   Audit local repositories and staging branches for common sensitive exposure vectors before code publication:
+   - **Environment & Configuration Leaks**: `.env*`, `docker-compose.override.yml`, `wrangler.toml`, `serverless.yml`, `kubeconfig`, `helm-values.yaml`.
+   - **VCS & SSH Artifacts**: `.git/config` with embedded basic auth tokens, `id_rsa`, `id_ed25519`, `authorized_keys`.
+   - **Cloud Credential Stashes**: `~/.aws/credentials`, `~/.azure/azureProfile.json`, `~/.config/gcloud/credentials.db`.
+2. **Public Bundle vs Server Asset Triage**:
+   - Before raising high-severity alarms for client-facing files, verify reachability:
+     - **Critical / Exploitable**: Secrets embedded in publicly served client bundles (`dist/`, `build/`, `public/`, `out/`, `static/`).
+     - **Internal / High**: Secrets in backend server handlers (`src/api/`, `server/`, `services/`) that lack `.gitignore` or are tracked in VCS.
+   - Prohibit active network probing against discovered tokens (respect strict offline boundaries).
+
 #### 2. Offline Secret Scanning Protocol (Gitleaks Recipe):
 For comprehensive local audits without remote network exposure (strictly offline):
 ```powershell

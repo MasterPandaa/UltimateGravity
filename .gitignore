@@ -5,7 +5,8 @@ antigravity/file-history/
 antigravity/tasks/
 antigravity/workspace-index/
 antigravity/shell-snapshots/
-scripts/logs/*.log
+scripts/logs/
+benchmarks/history.json
 config/skill-usage.json
 config/mad-rsi-failures.json
 

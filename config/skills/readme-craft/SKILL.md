@@ -82,3 +82,21 @@ Before drafting a single line, the agent **MUST** directly audit the project fil
 2. **Standardized Badges**: Use consistent Shields.io formatting (`style=flat-square`), avoiding low-contrast color combinations.
 3. **Scannability First**: Use `<details>` tags for error codes, troubleshooting, or verbose logs to keep the document readable.
 4. **Non-Destructive Principle**: Always inspect whether an existing `README.md` exists; offer diffs or confirmation before overwriting critical documentation.
+
+
+---
+
+## 5. Log-to-Spec Ingestion & Peer-Review Refinement (Absorbed from Google PaperOrchestra, arXiv:2604.05018)
+
+When drafting technical reports, architecture RFCs, or benchmark sections:
+
+1. **Parser-Bound Log Ingestion**:
+   - Every performance metric, throughput figure, or benchmark comparison **MUST** be extracted directly from physical execution logs (`history.json`, test runner outputs, or benchmark traces).
+   - Prohibit hallucinated or ungrounded claims (e.g., asserting *"reduces latency by 50%"* without attributable run data).
+2. **Outline-First Spec Formulation**:
+   - Before generating long-form documentation, draft a structured outline defining section headers, evidence anchors, and mapped artifact paths.
+3. **Simulated Peer-Review Refinement**:
+   - Run an internal adversarial critique pass:
+     - Check: Are all quantitative statements backed by file or command references?
+     - Check: Are negative results, limitations, and scope boundaries explicitly stated?
+     - Action: Purge unevidenced marketing superlatives before declaring the document complete.
