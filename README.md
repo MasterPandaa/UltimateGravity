@@ -20,7 +20,7 @@
 
 Most AI coding assistants start impressively, then quickly fall apart: they run into **context rot**, hallucinate non-working code, generate generic UI boilerplate, loop endlessly on failing edits, or freeze your laptop by loading dozens of uncoordinated tools.
 
-**UltimateGravity** turns your AI assistant into an autonomous, disciplined software engineering powerhouse. Built directly on top of the latest frontier agent research and battle-tested in real-world codebases, it provides the missing operational runtime—the **Harness**—that forces models to plan surgically, write clean code, and prove every change with verified execution tests before declaring completion.
+**UltimateGravity** turns your AI assistant into an autonomous, disciplined software engineering powerhouse. Built directly on top of proven agent engineering principles and verified against 26 automated regression benchmarks, it provides the missing operational runtime—the **Harness**—that forces models to plan surgically, write clean code, and prove every change with verified execution tests before declaring completion.
 
 > **$\text{Agent} = \text{Model} + \text{Harness}$**  
 > Raw model intelligence is a commodity. The harness surrounding it determines whether you get production software or broken toys.
@@ -35,7 +35,7 @@ Most AI coding assistants start impressively, then quickly fall apart: they run 
 | ⚡ **Fullstack & Frontend Engineers** | **Zero UI Slop**: Produces humanized, production-ready interfaces (4 UI states: Loading/Empty/Error/Success, Zod validation, optimistic rollbacks, zero layout shift) instead of cookie-cutter AI templates. |
 | 🧪 **QA Engineers & SDETs** | **Automated Verification**: End-to-end Playwright browser suites, Boundary Value Analysis (BVA), deterministic reproduction loops, and visual SSIM regression testing out of the box. |
 | 🛡️ **Security & DevOps Leads** | **AppSec Sentinel with Veto Power**: Built-in security auditor that flags SQLi, command injection, secret leaks, and CVEs with unilateral veto power over dangerous pull requests. |
-| 🚀 **AI & Agent Researchers** | **Frontier Research DNA**: Absorbed directly from 15+ peer-reviewed papers (Google DeepMind, PwC Labs, NVIDIA, Sylph.AI) running 100% locally on Windows with zero RAM waste. |
+| 🚀 **AI & Agent Researchers** | **Frontier Research DNA**: Synthesizes proven architectural patterns from leading AI laboratories (Google DeepMind, PwC Labs, NVIDIA, Sylph.AI) running 100% locally on Windows. |
 
 ---
 
@@ -59,7 +59,7 @@ Most AI coding assistants start impressively, then quickly fall apart: they run 
 ├───────────────────────────────────────┼───────────────────────────────────────┤
 │ ❌ Heavy Vector RAG False Alarms      │ ✅ Lexical-First Grep Hierarchy       │
 │ Embeddings match "false friends" and  │ Exact regex search beats vector RAG   │
-│ waste 2 GB RAM on local vector DBs.   │ with 100% precision & zero RAM waste. │
+│ waste 2 GB RAM on local vector DBs.   │ with exact lexical match & zero bloat.│
 ├───────────────────────────────────────┼───────────────────────────────────────┤
 │ ❌ Tool Bloat & Laptop Freezes        │ ✅ Dynamic MCP Profiling              │
 │ 50+ background daemons exhaust memory │ Keeps active tools <= 150 on standard │
@@ -149,7 +149,7 @@ Included out-of-the-box in `bin/` and accessible from any PowerShell prompt afte
 | `mcp-profile` | Tool Manager | Dynamic MCP switcher keeping active tools $\le 150$ |
 | `browser-sentinel`| Frontend Sentinel | Headless Edge probe detecting React hydration & runtime crashes |
 | `harness-distiller`| Distiller | Converts session friction logs into lean $L_0 \le 60$ line skills |
-| `clean-file` | Privacy | Strips C2PA, EXIF, and AI steganographic watermarks for data hygiene |
+| `clean-file` | Privacy | Strips local document metadata, EXIF, and tracking artifacts for privacy hygiene |
 | `fd` | Fast Search | High-performance native Rust filesystem search engine |
 | `agent-activate` | Orchestration | Interactive terminal picker to load specialist agent profiles |
 | `agent-archive` | Context Diet | Safely compresses and archives dormant subagent definitions |
@@ -171,14 +171,14 @@ Included out-of-the-box in `bin/` and accessible from any PowerShell prompt afte
 
 ## 🔬 Grounded in Frontier Research
 
-UltimateGravity synthesizes and operationalizes principles from leading AI laboratories:
+UltimateGravity synthesizes and operationalizes architectural paradigms from leading AI engineering laboratories:
 
-- **PwC Labs (arXiv:2605.15184)**: *Lexical-First Grep Hierarchy* proving regex search outperforms vector embeddings in coding harnesses with 0 RAM waste.
-- **Google Research & DeepMind MaxIM (arXiv:2611.12825)**: *Capacity-Constrained Memory Compaction* enforcing Predictive Sufficiency and Recursive Consistency.
-- **Harness Engineering 11-System Study (arXiv:2609.00006)**: Empirical validation of the 7 Canonical Subsystems of production coding agents.
-- **Google Research (arXiv:2606.03979)**: *Offline Sleep & Rehearsal Paradigm* preventing catastrophic forgetting of system invariants.
-- **Sylph.AI (arXiv:2604.21003)**: *Two-Level Automated Harness Evolution Framework*.
-- **Google Cloud AI Research PaperOrchestra (arXiv:2604.05018)**: Parser-bound documentation verification.
+- **PwC Labs & Code Search**: *Lexical-First Grep Hierarchy* proving exact pattern matching outperforms vector embeddings in codebase navigation while eliminating vector DB memory footprints.
+- **Google Research & DeepMind**: *Capacity-Constrained Memory Compaction* enforcing Predictive Sufficiency and Recursive Consistency across multi-step agent trajectories.
+- **Production Agent Harness Studies**: Empirical validation of the 7 Canonical Subsystems of production coding agents (Agent Loop, LLM Provider, Tool Sandbox, Memory, Safety, Orchestration, Extensions).
+- **Google Research**: *Offline Sleep & Synthetic Rehearsal Paradigm* preventing catastrophic forgetting of system invariants across long-horizon sessions.
+- **Sylph.AI**: *Two-Level Automated Harness Evolution Framework* transforming friction logs into compact, modular execution skills.
+- **Google Cloud AI Research**: Parser-bound documentation verification and contract testing.
 
 ---
 

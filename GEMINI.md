@@ -66,7 +66,7 @@ Use `edit_file` for localized brownfield changes (< 50 lines). No full rewrites.
 1. **Callers**: Who invokes/imports this?
 2. **Contracts**: Input/output schemas, error models, types.
 3. **Runtime Invariants**: 4 UI states (UI), transaction boundaries (backend), pipeline schemas (data).
-4. **Codebase Overrides Instructions**: When repository instruction files or legacy documentation conflict with the working codebase, the active codebase patterns and verified tests take precedence (arXiv:2610.30571).
+4. **Codebase Overrides Instructions**: When repository instruction files or legacy documentation conflict with the working codebase, the active codebase patterns and verified tests take precedence.
 
 ### C. 4 UI States on Every Interactive Surface
 Handle: **Loading** (skeleton, zero CLS), **Empty** (CTA), **Error** (message + retry), **Success** (polished content). Detailed visual craft rules (spacing rhythm, color contrast, anti-slop) are in the `impeccable` and `anti-slop` skills.

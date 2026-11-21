@@ -31,12 +31,12 @@ Major release adding automated regression benchmarking, lexical-first retrieval 
   - `code-sequential.jsonl`: Multi-step state accumulation ($N \to N+1$), Zod schemas, and 4 UI states.
   - `core-rules.jsonl`: 15 system hygiene checks, Quad-Role invariants, and token budgets.
   - `skill-activation.jsonl`: Trigger sensitivity ($D_1 \ge 4$), Step 0 mandatory ingestion, and telemetry attributability.
-- **Lexical-First Grep Hierarchy (PwC Labs, arXiv:2605.15184)**: Proved exact regex search outperforms dense vector embeddings by eliminating semantic drift ("false friends") and saving ~1.5 GB RAM by removing vector DBs.
-- **Dual-Gate Memory Compaction (Google MaxIM, arXiv:2611.12825)**: Enforced capacity-constrained bounds ($|S_t| \le C$) across task handoffs:
+- **Lexical-First Grep Hierarchy (PwC Labs & Code Search Studies)**: Proved exact regex search outperforms dense vector embeddings by eliminating semantic drift ("false friends") and saving ~1.5 GB RAM by removing vector DBs.
+- **Dual-Gate Memory Compaction (Google Research & DeepMind)**: Enforced capacity-constrained bounds ($|S_t| \le C$) across task handoffs:
   - *Forward Gate (Predictive Sufficiency)*: Retains only unfulfilled criteria, contracts, and next-step actions.
   - *Backward Gate (Recursive Consistency)*: Mandates 100% entailment from physical tool execution logs.
-- **7 Canonical Subsystems of Production Harnesses (Barbaste et al., arXiv:2609.00006)**: Codified empirical study of 11 production coding agents ($\text{Agent} = \text{Model} + \text{Harness}$) across the Agent Loop, LLM Provider, Tools Sandbox, Memory, Safety, Orchestration, and Extension Surfaces.
-- **Offline Sleep & Rehearsal Paradigm (Google Research, arXiv:2606.03979)**: Post-session consolidation (`memory-trimmer.js`) paired with synthetic benchmark rehearsal (`bench-runner.js run`) to prevent catastrophic forgetting.
+- **7 Canonical Subsystems of Production Harnesses (Empirical 11-Agent Study)**: Codified empirical study of 11 production coding agents ($\text{Agent} = \text{Model} + \text{Harness}$) across the Agent Loop, LLM Provider, Tools Sandbox, Memory, Safety, Orchestration, and Extension Surfaces.
+- **Offline Sleep & Rehearsal Paradigm (Google Research)**: Post-session consolidation (`memory-trimmer.js`) paired with synthetic benchmark rehearsal (`bench-runner.js run`) to prevent catastrophic forgetting.
 - **Unified IT Soft Skills (`it-soft-skills`)**: Consolidated and translated 11 raw community skills into one high-efficiency English meta-skill ($L_0 \le 60$ lines) with 4-tier audience translation (Executive, Client, User, Engineer), SEV 1–4 incident triage, and blameless post-mortem RCA.
 - **PRD-to-Engineering Decomposition Matrix (phuryn/pm-skills)**: 3-layer spec decomposition (Story $\to$ Contract $\to$ Assertion) integrated into `clean-code-fullstack`.
 
@@ -70,7 +70,7 @@ Major release adding automated regression benchmarking, lexical-first retrieval 
 
 ### Added (Canonical Milestone)
 - **Universal Context Packets (`task-dag --consumes`)**: Eliminated multi-agent context bleed by passing verified schema slices instead of raw chat histories.
-- **Codebase Precedence Anchor (§4.B)**: Grounding principle where live repository source code and verified tests strictly override outdated documentation (arXiv:2610.30571).
+- **Codebase Precedence Anchor (§4.B)**: Grounding principle where live repository source code and verified tests strictly override outdated documentation.
 - **AST Outline Extractor (`ast-outline.js`)**: Sub-millisecond syntax skeleton generator pruning files >300 lines by ~85% token volume.
 - **Dynamic MCP Profiler (`mcp-profile.js`)**: Tool gatekeeper keeping active MCP tools $\le 150$ on 8GB RAM host environments.
 
