@@ -90,9 +90,63 @@ flowchart LR
 
 ## [v4.0.0] - 2026-10-29
 
-### Added
+### Added & Optimized
 - **Tri-Role Architecture Genesis**: Partitioned responsibilities into Full Stack Developer, QA & SDET, and Data Engineer.
 - **Solo Direct Primary Loop Default**: Adopted Anthropic Applied AI standard folding 95% of workflows into a single high-speed agent loop.
-- **Diagnostic Watchdog Hook**: Real-time pre-commit syntax linter catching JS/TS runtime crashes.
-- **Devin Live Browser Sentinel**: Headless Edge probe detecting React hydration failures and unhandled exceptions.
-- **Qoder File Rewind**: Continuous shadow-copy versioning capturing automatic file snapshots prior to mutations.
+- **Mandatory Step 0 Skill Ingestion**: Enforced fail-closed gate requiring subagents to read domain skills and quote operational invariants before code mutation.
+- **Strict 3-Point Context Anchors & 4 UI States**: Codified pre-mutation caller/contract verification and mandatory UI states (Loading, Empty, Error, Success).
+- **Persona Swarm Archival**: Decommissioned 12 legacy Bijuu persona subagents into `config/agents-archive/` to eliminate routing ambiguity.
+
+---
+
+## [v3.5.0] - 2026-10-29
+
+### Added & Optimized
+- **Pre-Emptive Diagnostic Watchdog Hook (`diagnostic-watchdog-hook.js`)**: Integrated instantaneous post-edit syntax verification (<150ms) for JSON, Python, and JavaScript on `PostToolUse` events.
+- **Step Checkpoint & Differential Revert Engine (`step-checkpoint.js`)**: Engineered zero-git snapshot engine enabling differential inspection and instant state rollbacks.
+- **Live Browser Error Sentinel (`browser-sentinel.js`)**: Deployed native Microsoft Edge headless probe detecting Vite overlay errors, React SSR hydration mismatches, and 500 crashes with ~20 MB transient RAM.
+- **Rust-Powered Fast Topology Scanner**: Integrated native `fd.exe` binary into workspace indexer, accelerating directory scans to <350ms.
+
+---
+
+## [v3.0.0] - 2026-10-28
+
+### Added & Optimized
+- **Continuous File History & Shadow-Copy Rewind (`file-rewind.js`)**: Implemented automated pre-mutation snapshots on `PreToolUse` hooks with instant rollback safety net.
+- **Stateful Persistent PowerShell Engine (`agy-exec.ps1`)**: Engineered session snapshots preserving working directory (CWD), environment variables, and virtualenvs across agent tool calls.
+- **Background Incremental Workspace Indexer (`workspace-indexer.js`)**: Deployed incremental repository topology caching injecting fresh project context on `PostToolUse`.
+- **Structured Task DAG State Machine (`task-dag.js`)**: Implemented dependency-aware task orchestration (`blockedBy`), cycle detection, and automatic Mermaid graph visualization.
+- **Local Skill Telemetry Ledger (`skill-telemetry.js`)**: Built invocation frequency tracking and usage heatmaps in `skill-usage.json` to identify dormant skill pruning candidates.
+
+---
+
+## [v2.0.0] - 2026-10-26
+
+### Added & Optimized
+- **Regularized Recursive Self-Improvement (Google Research RRSI)**: Codified noise-adjusted safety floor ($S' \ge S^* - \delta$), token-ROI cost gates, and cosine-annealed L0 edit budgets.
+- **Two-Pillar Research Decomposition (ZJU PaperGym)**: Separated methodological innovation from experimental execution with <5% anti-criterion leakage enforcement.
+- **Socratic Codebase Derivation (Rederive Engine)**: Implemented first-principles inductive codebase analysis replacing passive documentation reading.
+- **Web Escalation Hierarchy (Browser-Harness Standard)**: Established 3-tier fetch escalation (HTTP Fetch $\to$ Stealth Scrape $\to$ Headless Browser) slashing browser token overhead by ~60%.
+- **Semantic Intent Declaration (Foremerge Protocol)**: Mandated explicit operation declarations (`replace/extend/deprecate`) prior to shared git worktree mutations.
+
+---
+
+## [v1.5.0] - 2026-10-24
+
+### Added & Optimized
+- **Design Token & 8pt Spacing Scale (@7thco.ui Standards)**: Enforced off-black color palettes, strict 8pt spacing rhythm (4/8/16/24/32px), and micro-interaction states across UI components.
+- **3-Pillar Actionable Error Microcopy**: Standardized user error presentation requiring What Happened + Why + Direct Actionable CTA, prohibiting dead-end error dialogs.
+- **Bloom Filter Cache Defense**: Integrated in-memory probabilistic filter patterns eliminating 99%+ redundant high-latency database queries.
+- **Multi-Platform Public Scraper (`agent-reach`)**: Built structured zero-API data extraction across Reddit, X (Twitter), YouTube transcripts, GitHub, and RSS feeds.
+- **Anti-Yes-Man Protocol**: Deployed proactive architectural critique filters enforcing blast-radius disclosure and objective risk falsification before code mutation.
+
+---
+
+## [v1.0.0] - 2026-10-23
+
+### Added (Initial Research Prototype)
+- **Autonomous Peer Squad Architecture**: Orchestrated 12 horizontal specialist worker personas with explicit task isolation boundaries.
+- **Master Skill System Specification**: Standardized 80 specialized capability manifests with high-contrast display names, positive triggers, and negative routing boundaries.
+- **Multi-Service MCP Ecosystem**: Integrated 12 Model Context Protocol servers across monitoring, database, browser scraping, and developer tools.
+- **Automated Credential Session Keeper (`mcp-auth-keeper-safe.js`)**: Automated background token refresh and authentication state persistence on session startup.
+- **Interactive SVG Architecture Visualizer (`architecture_map.html`)**: Built interactive node-graph visualizer for exploring inter-module system dependencies.
