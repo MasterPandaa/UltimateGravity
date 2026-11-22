@@ -10,8 +10,8 @@ All notable changes to the UltimateGravity system architecture are documented in
 flowchart LR
     v1["v1.0 - v2.0<br/>Foundations<br/>Swarm & Socratic"]
     --> v3["v3.0 - v4.0<br/>Tri-Role Genesis<br/>Qoder & Devin Sentinel"]
-    --> v5["v5.0 - v6.0<br/>Quad-Role Sentinel<br/>AppSec Veto & Context Packets"]
-    --> v63["v6.3.1 (Latest)<br/>Unified GitHub Craft<br/>Community & Multi-AI Hardening"]
+    --> v5["v5.0 - v6.2<br/>Quad-Role Sentinel<br/>AppSec Veto & Invariants"]
+    --> v63["v6.3+ (Latest)<br/>Canonical Public Release<br/>Web-Bench & GitHub Craft"]
 ```
 
 > [!NOTE]
