@@ -67,3 +67,18 @@ flowchart LR
     --> v5["v5.0 - v6.0<br/>Production Hardening"]
     --> v63["v6.3.0 (Latest)<br/>Verified Benchmarks"]
 ```
+
+### E. The Zero Sub-Bullet Invariant (Flat-Bullet Strictness)
+Never introduce nested sub-bullets (e.g. `*` or `-` nested under an existing bullet). Sub-bullets degrade scan velocity, break vertical rhythm, and invite verbose narrative sprawl. If a feature contains multiple sub-components:
+1. **Synthesize** them into a single high-density flat bullet with precise technical qualifiers.
+2. **Shard** distinct milestones into separate top-level flat bullets under `Added & Optimized` or `Fixed & Cleaned`.
+- *Strictly Forbidden*:
+  ```markdown
+  - **Component**: Major overhaul of the engine
+    * Sub-feature A: Did something here
+    * Sub-feature B: Also changed this other thing
+  ```
+- *Required Pattern*:
+  ```markdown
+  - **Component**: Overhauled execution engine, integrating Sub-feature A and Sub-feature B to achieve zero-latency dispatch.
+  ```

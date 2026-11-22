@@ -21,46 +21,31 @@ flowchart LR
 
 ## [v6.3.1] - 2026-11-22
 
-### 🚀 Highlights
-Patch release unifying `readme-craft` into `github-craft`, hardening launch playbooks against multi-AI audit findings, establishing the 100% Community Health standard, and adding Googlebot search indexing protocols.
-
 ### Added & Optimized
-- **Unified GitHub Craft & Launch Engine (`github-craft`)**: Absorbed `readme-craft` into `github-craft` ($L_0 \le 60$ lines) to eliminate skill redundancy while preserving all 5 Signatures of Mastery (Karpathy Codebase Maps, Matt Pocock Before/After Diffs, Anthropic Runnable MWEs, DeepSeek Grounded Metrics), 3 Adaptive Archetypes, and PaperOrchestra's Log-to-Spec Ingestion.
-- **Multi-AI Audit Hardening**: Codified 6 operational invariants directly into launch references:
-  - *Dynamic CI Invariant*: Machine verification claims strictly mandate an active GitHub Actions workflow with live status badge.
-  - *100% Numerical Consistency*: Verified test counts, tool inventories, and version numbers must match identically across all surfaces.
-  - *Superlative Ban*: Prohibited unprovable claims (`zero hallucinations`, `100% precision`) and synthetic arXiv numbers.
-  - *Notes-File Invariant*: Mandated drafting release notes in isolated markdown files to prevent PowerShell code fence escaping bugs.
-  - *Community & Security Governance*: Enforced 100% GitHub Community Health standard (`SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, issue/PR templates).
-  - *Googlebot Indexing Accelerator*: Codified profile pinning, profile README linkage, and backlink seeding protocols to bypass search engine crawl lag.
-- **Skill Redundancy Consolidation**: Converted `readme-craft` into a lightweight redirect to `github-craft`, preserving full backward compatibility.
+- **Unified Launch Engine (`github-craft`)**: Absorbed `readme-craft` into `github-craft` ($L_0 \le 60$ lines), unifying all 5 Signatures of Mastery and PaperOrchestra ingestion while eliminating skill sprawl.
+- **GitHub Actions CI Automation**: Deployed Windows runner pipeline (`.github/workflows/bench.yml`) executing 26 deterministic regression tests on push with dynamic status badge.
+- **Community Governance Suite**: Established 100% GitHub Community Health score with root `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and YAML issue forms.
+- **Multi-AI Audit Hardening**: Enforced 100% numerical consistency across all docs, banned unprovable superlatives, and mandated isolated notes-file release drafting.
+- **Search Indexing Accelerator**: Codified profile pinning and backlink discovery protocols to bypass Googlebot search engine crawl lag.
+- **Skill Redundancy Purge**: Converted `readme-craft` into a backward-compatible 19-line redirect to `github-craft`.
 
 ---
 
 ## [v6.3.0] - 2026-11-21
 
-### 🚀 Highlights
-Major release adding automated regression benchmarking, lexical-first retrieval hierarchy, information-theoretic memory compaction, unified IT operational resilience, and the `github-craft` repository launch engine.
-
 ### Added & Optimized
-- **GitHub Launch & Conversion Engine (`github-craft`)**: Authored comprehensive repository launch skill ($L_0 \le 60$ lines) and 5 modular reference guides codifying high-conversion README architecture, evergreen transformation About descriptions, 18-topic algorithmic discovery, scannable milestone changelogs, automated GitHub releases via `gh` CLI, and 21:9 banner/badge specifications.
-- **Automated Regression Suite (`bench-runner.js`)**: Standalone, zero-dependency test runner executing 26 deterministic regression test cases across 4 suites:
-  - `browser-resilience.jsonl`: Visual SSIM $\ge 0.98$, DOM accessibility, and anti-bot challenge boundaries.
-  - `code-sequential.jsonl`: Multi-step state accumulation ($N \to N+1$), Zod schemas, and 4 UI states.
-  - `core-rules.jsonl`: 15 system hygiene checks, Quad-Role invariants, and token budgets.
-  - `skill-activation.jsonl`: Trigger sensitivity ($D_1 \ge 4$), Step 0 mandatory ingestion, and telemetry attributability.
-- **Lexical-First Grep Hierarchy (PwC Labs & Code Search Studies)**: Proved exact regex search outperforms dense vector embeddings by eliminating semantic drift ("false friends") and saving ~1.5 GB RAM by removing vector DBs.
-- **Dual-Gate Memory Compaction (Google Research & DeepMind)**: Enforced capacity-constrained bounds ($|S_t| \le C$) across task handoffs:
-  - *Forward Gate (Predictive Sufficiency)*: Retains only unfulfilled criteria, contracts, and next-step actions.
-  - *Backward Gate (Recursive Consistency)*: Mandates 100% entailment from physical tool execution logs.
-- **7 Canonical Subsystems of Production Harnesses (Empirical 11-Agent Study)**: Codified empirical study of 11 production coding agents ($\text{Agent} = \text{Model} + \text{Harness}$) across the Agent Loop, LLM Provider, Tools Sandbox, Memory, Safety, Orchestration, and Extension Surfaces.
-- **Offline Sleep & Rehearsal Paradigm (Google Research)**: Post-session consolidation (`memory-trimmer.js`) paired with synthetic benchmark rehearsal (`bench-runner.js run`) to prevent catastrophic forgetting.
-- **Unified IT Soft Skills (`it-soft-skills`)**: Consolidated and translated 11 raw community skills into one high-efficiency English meta-skill ($L_0 \le 60$ lines) with 4-tier audience translation (Executive, Client, User, Engineer), SEV 1–4 incident triage, and blameless post-mortem RCA.
-- **PRD-to-Engineering Decomposition Matrix (phuryn/pm-skills)**: 3-layer spec decomposition (Story $\to$ Contract $\to$ Assertion) integrated into `clean-code-fullstack`.
+- **Automated Regression Suite (`bench-runner.js`)**: Standalone zero-dependency test runner validating 26 regression test cases across Browser, Sequential Code, Core Rules, and Skill Activation suites.
+- **Lexical-First Grep Hierarchy**: Replaced heavy vector embeddings with exact regex codebase search, eliminating semantic drift and saving ~1.5 GB RAM.
+- **Dual-Gate Memory Compaction (MaxIM)**: Enforced capacity-constrained memory bounds ($|S_t| \le C$) via Predictive Sufficiency and Recursive Consistency gates.
+- **Production Harness Subsystems**: Codified empirical 7-subsystem architecture across the Agent Loop, LLM Provider, Tools Sandbox, Memory, Safety, Orchestration, and Extension surfaces.
+- **Offline Sleep & Synthetic Rehearsal**: Integrated post-session consolidation (`memory-trimmer.js`) with benchmark rehearsal to prevent invariant forgetting.
+- **Unified IT Operational Resilience (`it-soft-skills`)**: Consolidated 11 community skills into one lean meta-skill ($L_0 \le 60$ lines) for 4-tier audience translation and incident triage.
+- **PRD-to-Engineering Matrix**: Integrated 3-layer spec decomposition (Story $\to$ Contract $\to$ Assertion) into `clean-code-fullstack`.
+- **GitHub Launch Architect (`github-craft`)**: Authored 7-pillar repository launch playbook with 21:9 banner specs, evergreen About descriptions, and 18 trending SEO topics.
 
 ### Fixed & Cleaned
 - **Reference Integrity**: Repaired broken link in `agent-judge/SKILL.md` pointing to missing `references/rubrics.md`.
-- **Telemetry Hygiene**: Purged 8 stale ghost telemetry records from `skill-usage.json`.
+- **Telemetry Ledger Hygiene**: Purged 8 stale ghost telemetry records from `skill-usage.json`.
 
 ---
 
