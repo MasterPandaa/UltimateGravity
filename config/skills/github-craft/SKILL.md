@@ -1,34 +1,38 @@
 ---
 name: github-craft
-description: "[GitHub Repository Launch & Growth Architect] Standardized framework for high-converting README, evergreen About, trending Topics, scannable Changelog, and GitHub Releases."
+description: "[Unified GitHub Launch & Conversion Architect] Standardized framework for high-converting READMEs, 100% community health, dynamic CI gates, evergreen About, SEO topics, scannable Changelog, and automated Releases."
 allowed-tools: run_command, read_file, edit_file
-tags: [github, branding, readme, changelog, releases, seo, marketing]
+tags: [github, branding, readme, changelog, releases, seo, marketing, ci]
 ---
 
-# GitHub Craft: Repository Launch & Conversion Engine
+# GitHub Craft: Unified Repository Launch & Conversion Engine
 
-Standardized playbook for transforming developer repositories into high-credibility, trending, and reproducible open-source assets.
+Standardized playbook for transforming developer repositories into high-credibility, trending, and reproducible open-source assets with verified machine proof.
 
-## 1. The 6 Repository Pillars
-Every public repository must align these six surfaces before launch:
+## 1. The 7 Repository Pillars
+Every public repository must align these seven surfaces before launch:
 1. **About**: Evergreen transformation hook, curiosity-sparking, zero volatile features (`references/about-and-topics.md`).
-2. **Topics / Tags**: Curated 15–20 trending, high-intent tags for GitHub Explore & SEO (`references/about-and-topics.md`).
-3. **README.md**: Author craft identity, 5-Pains comparison, audience matrix, and verified benchmarks (`references/readme-conversion-architecture.md`).
-4. **CHANGELOG.md**: Dense, scannable milestone evolution with clean Mermaid timelines (`references/changelog-distillation.md`).
-5. **Releases & Tags**: Semver tagging and automated GitHub release notes via `gh` CLI (`references/release-and-tagging.md`).
-6. **Visuals & Badges**: 21:9 banner hierarchy and flat-square Shields.io status indicators (`references/visuals-and-badges.md`).
+2. **Topics / Tags**: Curated 15–18 high-intent developer tags for GitHub Explore & Googlebot SEO (`references/about-and-topics.md`).
+3. **README.md**: 7-layer conversion anatomy, 5 Signatures of Mastery, 3 archetypes, and Log-to-Spec Ingestion (`references/readme-conversion-architecture.md`).
+4. **CHANGELOG.md**: Dense milestone evolution, flat-bullet impact rules, and pre-release lineage notes (`references/changelog-distillation.md`).
+5. **Releases & Tags**: Semver tagging, clean notes-file generation, and automated GitHub releases (`references/release-and-tagging.md`).
+6. **Visuals & Badges**: 21:9 banner specifications, 1280x640 social preview, and dynamic CI indicators (`references/visuals-and-badges.md`).
+7. **Community & CI**: 100% Health Profile (`SECURITY.md`, `CONTRIBUTING.md`), issue forms, and CI workflows (`references/community-and-ci.md`).
 
 ## 2. Standard Launch Sequence
 ```
-Audit Codebase ──> Craft Readme ──> Write Changelog ──> Set About/Topics ──> Tag & Release
+Audit Codebase ──> Craft README & Community ──> Run CI & Invariants ──> Sync Metadata ──> Tag & Release
 ```
-1. **Audit & Ground**: Scan repo via `git status`, test scripts, and benchmarks.
-2. **Author Core Docs**: Draft `README.md` and `CHANGELOG.md` adhering to anti-slop standards.
-3. **Sync Metadata**: Apply description and trending topics via `gh repo edit` and `gh api`.
-4. **Publish Release**: Tag commit and publish formal GitHub release via `gh release create`.
+1. **Audit & Log-to-Spec Ingestion**: Inspect manifests, code trees, and physical benchmark execution logs.
+2. **Author Core Docs & Community**: Draft `README.md`, `CHANGELOG.md`, `SECURITY.md`, and `.github/` templates.
+3. **Simulated Peer-Review Refinement**: Adversarially audit internal consistency (numbers, tool counts, test cases).
+4. **Sync Metadata & Indexing**: Configure description, topics, Discussions, and profile pinning via `gh`.
+5. **Publish Verifiable Release**: Verify green CI status and cut official release via `gh release create --notes-file`.
 
 ## 3. Universal Launch Invariants
-- **Author Identity**: Explicitly credit the engineer (`Engineered by @username`) to establish craft credibility.
-- **The Iron Law of Documentation**: No unsubstantiated performance claims; every benchmark must tie to physical logs.
-- **Zero Volatility in About**: Never put version numbers, temporary counts, or volatile features in the GitHub About text.
+- **Machine Proof Invariant**: Claiming verification strictly mandates an active GitHub Actions CI workflow with dynamic badge.
+- **100% Numerical Consistency**: Test counts, tool inventory, and version numbers must match across all surfaces.
+- **Superlative Ban**: Prohibit unprovable claims (`zero hallucinations`, `100% precision`) and synthetic arXiv IDs.
+- **Notes File Invariant**: Always publish releases using `--notes-file` to prevent PowerShell code fence escaping bugs.
+- **Author Identity**: Explicitly credit the engineer (`Engineered by @username`) to establish human craft.
 - **100% English Standard**: All repository assets (docs, releases, changelogs, comments) must be in English.

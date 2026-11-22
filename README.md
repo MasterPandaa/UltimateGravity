@@ -9,7 +9,7 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
   [![Platform: Google Antigravity](https://img.shields.io/badge/Platform-Google%20Antigravity-4285F4.svg?style=flat-square)](https://deepmind.google)
   [![Architecture: Quad--Role](https://img.shields.io/badge/Architecture-Quad--Role%20Autonomous-00C853.svg?style=flat-square)](GEMINI.md)
-  [![Release: v6.3.0](https://img.shields.io/badge/Release-v6.3.0%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
+  [![Release: v6.3.1](https://img.shields.io/badge/Release-v6.3.1%20Canonical-FF6D00.svg?style=flat-square)](CHANGELOG.md)
   [![Benchmarks: 26/26 Passing](https://img.shields.io/badge/Benchmarks-26%2F26%20Passed%20(100%25)-success?style=flat-square)](benchmarks/)
   [![Environment: Windows Native](https://img.shields.io/badge/OS-Windows%2010%2F11%20Native-0078D6.svg?style=flat-square)](install.ps1)
 </div>

@@ -11,11 +11,29 @@ flowchart LR
     v1["v1.0 - v2.0<br/>Foundations<br/>Swarm & Socratic"]
     --> v3["v3.0 - v4.0<br/>Tri-Role Genesis<br/>Qoder & Devin Sentinel"]
     --> v5["v5.0 - v6.0<br/>Quad-Role Sentinel<br/>AppSec Veto & Context Packets"]
-    --> v63["v6.3.0 (Latest)<br/>Web-Bench Regression<br/>MaxIM & GitHub Craft"]
+    --> v63["v6.3.1 (Latest)<br/>Unified GitHub Craft<br/>Community & Multi-AI Hardening"]
 ```
 
 > [!NOTE]
 > **Lineage & Versioning Note**: Versions `v1.0.0` through `v6.2.0` document the pre-release architectural research iterations and private laboratory prototypes engineered by [@MasterPandaa](https://github.com/MasterPandaa). Version `v6.3.0` marks the initial canonical public open-source release on GitHub.
+
+---
+
+## [v6.3.1] - 2026-11-22
+
+### 🚀 Highlights
+Patch release unifying `readme-craft` into `github-craft`, hardening launch playbooks against multi-AI audit findings, establishing the 100% Community Health standard, and adding Googlebot search indexing protocols.
+
+### Added & Optimized
+- **Unified GitHub Craft & Launch Engine (`github-craft`)**: Absorbed `readme-craft` into `github-craft` ($L_0 \le 60$ lines) to eliminate skill redundancy while preserving all 5 Signatures of Mastery (Karpathy Codebase Maps, Matt Pocock Before/After Diffs, Anthropic Runnable MWEs, DeepSeek Grounded Metrics), 3 Adaptive Archetypes, and PaperOrchestra's Log-to-Spec Ingestion.
+- **Multi-AI Audit Hardening**: Codified 6 operational invariants directly into launch references:
+  - *Dynamic CI Invariant*: Machine verification claims strictly mandate an active GitHub Actions workflow with live status badge.
+  - *100% Numerical Consistency*: Verified test counts, tool inventories, and version numbers must match identically across all surfaces.
+  - *Superlative Ban*: Prohibited unprovable claims (`zero hallucinations`, `100% precision`) and synthetic arXiv numbers.
+  - *Notes-File Invariant*: Mandated drafting release notes in isolated markdown files to prevent PowerShell code fence escaping bugs.
+  - *Community & Security Governance*: Enforced 100% GitHub Community Health standard (`SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, issue/PR templates).
+  - *Googlebot Indexing Accelerator*: Codified profile pinning, profile README linkage, and backlink seeding protocols to bypass search engine crawl lag.
+- **Skill Redundancy Consolidation**: Converted `readme-craft` into a lightweight redirect to `github-craft`, preserving full backward compatibility.
 
 ---
 
