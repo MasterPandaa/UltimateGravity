@@ -69,11 +69,31 @@ Every data view must explicitly handle 4 states:
 - Avoid rigid pixel widths and heights for content surfaces.
 - Theming managed through CSS custom properties, avoiding duplicate style trees.
 
-## 7. Performance & Optimization
+## 7. Performance & Optimization (Core Web Vitals Remediation Protocol)
 - Measure before optimizing. Baseline optimizations: route-based code splitting, responsive lazy-loaded images, virtualized long lists.
 - Avoid expensive re-renders: stable keys for lists, `memo`/`useMemo` applied only upon measured profiling need.
 - Animate only GPU-composited properties (`transform` and `opacity`).
 - Debounce search inputs; abort stale HTTP requests via `AbortController`.
+
+### The 3 Core Web Vitals Invariants (Absorbed from `marthesselink/pagespeed-optimizer`)
+When optimizing production web performance, execute a measured, regression-safe loop targeting real user vitals:
+
+1. **LCP (Largest Contentful Paint $\le 2.5$s)**:
+   - *Hero Media Priority*: The above-the-fold hero image or video poster must specify `fetchpriority="high"` and be preloaded in `<head>`: `<link rel="preload" as="image" href="..." fetchpriority="high">`.
+   - *Ban Lazy Loading on Hero*: Never attach `loading="lazy"` to LCP candidate images; lazy-loading delays hero fetch until JS parses the layout.
+   - *Web Font FOIT Prevention*: Enforce `font-display: swap` in `@font-face` and preload primary critical web fonts (`<link rel="preload" as="font" type="font/woff2" crossorigin>`).
+2. **INP (Interaction to Next Paint $\le 200$ms)**:
+   - *Yielding the Main Thread*: Break synchronous tasks exceeding $> 50$ms (*Long Tasks*) using `await scheduler.yield()` or `requestIdleCallback()` to allow user input dispatches to paint without frame drops.
+   - *Debounce & Request Abort*: Debounce high-frequency inputs (typing, sliders, filtering) and connect an `AbortController` to cancel in-flight HTTP requests immediately when subsequent inputs trigger.
+   - *Zero Layout Thrashing*: Batch DOM reads (`getBoundingClientRect()`, `offsetHeight`) prior to DOM mutations; never interleave reads and writes within loop iterations.
+3. **CLS (Cumulative Layout Shift $\le 0.1$)**:
+   - *Explicit Dimensional Reservation*: Always specify explicit `width` and `height` attributes or CSS `aspect-ratio` on images, videos, iframes, embeds, and dynamic widgets.
+   - *Layout-Mirroring Skeletons*: Loading skeleton components must mirror the exact dimensions, padding, and geometric aspect ratio of the loaded content (zero layout jump when resolved).
+   - *Below-the-Fold Containment*: Apply `content-visibility: auto` paired with `contain-intrinsic-size` on long content feeds to defer rendering of offscreen DOM trees.
+
+### Anti-Vanity Performance Gate
+- **Strictly Prohibited**: Manipulative score-gaming tactics such as wrapping critical application scripts in arbitrary `setTimeout(..., 5000)` delays to fool Lighthouse bot audits while breaking user interactivity.
+- Verify optimizations in real browser sessions under CPU and network throttling (3G/4G emulation). Performance gains must represent authentic user experience acceleration.
 
 ## 8. Design Tokens
 Centralize tokens for: semantic colors (`--color-bg`, `--color-text`, `--color-accent`, `--color-danger`), 8pt spacing scales (4/8/12/16/24/32px...), typography (scales, weights, line heights), radii, shadows, and animation easing. Components consume tokens, never raw hex/pixel literals.

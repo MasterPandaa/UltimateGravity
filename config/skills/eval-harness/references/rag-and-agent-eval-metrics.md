@@ -138,3 +138,31 @@ To guarantee optimal sequential decision-making without narrative hallucination,
 Rather than evaluating summarization quality only at the end of an episode (sparse reward), the agent asserts retention quality at **every turn transition**:
 - Retain exact error traces, exit codes, and contract signatures until resolved.
 - Once a contract is fulfilled and verified, prune intermediate trial-and-error reasoning while preserving the resulting immutable state hash.
+
+---
+
+## 6. Relative Preference & Policy Alignment Metrics (TRL / DPO & GRPO Heuristics)
+
+> **Pattern Origin**: Absorbed comparative evaluation heuristics from `huggingface/trl` (§8 External Proposal Protocol).
+
+Evaluation metrics for ranking multi-candidate agent rollouts, code generation variants ($k \ge 2$), and multi-agent debate outputs:
+
+### A. Direct Preference Optimization (DPO) Scoring Margin
+When comparing two candidate agent outputs $y_w$ (preferred/winner) and $y_l$ (dispreferred/loser) for a prompt $x$, the implicit reward differential under DPO is modeled as:
+$$\Delta r(x, y_w, y_l) = \beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)}$$
+
+In an inference-time evaluation harness without a reference model, this translates to the **Deterministic Bradley-Terry Margin**:
+$$P(y_w \succ y_l \mid x) = \sigma\left(\text{Score}(y_w) - \text{Score}(y_l)\right) = \frac{1}{1 + e^{-(\text{Score}(y_w) - \text{Score}(y_l))}}$$
+- **Production Assertion**: A code candidate $y_w$ is declared superior only if $\text{Score}(y_w) - \text{Score}(y_l) \ge \delta_{\text{margin}}$ across $\ge 2$ orthogonal rubrics (correctness, efficiency, safety). Tie scores default to the shorter diff (MVBR invariant).
+
+### B. Group Relative Policy Optimization (GRPO) Candidate Evaluation
+Instead of relying on absolute point-scores from LLM judges (which suffer from prompt calibration drift), GRPO normalizes reward values across a group of $G$ sampled completions $\{y_1, y_2, \dots, y_G\}$ for prompt $x$:
+$$A_i = \frac{R(y_i) - \mu_R}{\sigma_R + \epsilon}$$
+Where:
+- $\mu_R = \frac{1}{G} \sum_{j=1}^{G} R(y_j)$ is the empirical group mean.
+- $\sigma_R = \sqrt{\frac{1}{G} \sum_{j=1}^{G} (R(y_j) - \mu_R)^2}$ is the standard deviation.
+- $\epsilon = 10^{-6}$ prevents division by zero.
+
+### C. Harness Integration Protocol for Pass@k Trials
+1. **Zero-Baseline Elimination**: When $k > 1$ candidate solutions pass basic syntax checks, compute group advantage $A_i$ across test execution speed, cyclomatic complexity, and diff size.
+2. **Selection Invariant**: Automatically promote the candidate with $A_i \ge +1.0\sigma$. Discard candidates with $A_i < 0$ without presenting intermediate trials to user context.

@@ -47,3 +47,6 @@ node C:\Users\Luthfi\.gemini\scripts\step-checkpoint.js revert <checkpointId>
 - **Transient**: Runs in < 150ms per command.
 - **RAM Footprint**: ~0 MB idle, < 25 MB during execution.
 - **Safety**: Never performs destructive deletions without creating an automated backup first.
+
+## Deep Execution Heuristics
+For counterfactual branching when steps fail, read: **[references/counterfactual-replay-and-branch-repair.md](references/counterfactual-replay-and-branch-repair.md)**.

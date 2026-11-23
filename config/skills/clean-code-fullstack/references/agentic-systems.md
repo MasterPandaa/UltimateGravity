@@ -87,3 +87,65 @@ Every LLM and Tool span emitted by backend services must record 4 orthogonal met
 - Tracing and telemetry dispatching must **never** block the primary user-facing request path.
 - Dispatch telemetry exclusively through in-memory non-blocking ring buffers or background queues (e.g., OpenTelemetry BatchSpanProcessor).
 - Telemetry instrumentation overhead must not exceed $5\text{ms}$ on critical application paths.
+
+---
+
+## 4. Multi-Session Long-Running Agent Harness & Shift-Change Architecture (Absorbed from `anthropics/cwc-long-running-agents`)
+
+When autonomous agents tackle complex multi-hour projects across multiple turns and context windows, they encounter the **Shift-Change Problem**: context rot, loss of working memory across restarts, and premature declaration of victory.
+
+### A. The Two-Agent Lifecycle Pattern
+Decompose long-running projects into two distinct agent roles:
+
+1. **Initializer Agent (Session 1 Only)**:
+   - *Scope Assessment*: Reads the master PRD/specification and maps external dependencies.
+   - *Scaffolding & Baseline*: Creates directory structures, basic boilerplate, and initial deterministic scripts (`init.sh` / `init.ps1`).
+   - *Granular Feature Decomposition*: Decomposes requirements into an exhaustive, checkable feature list (`feature-checklist.json` or Markdown checklist) with 100% testable acceptance criteria.
+   - *Base Commit*: Takes an initial git commit establishing the verified starting baseline.
+2. **Coding Agent (Sessions 2..N)**:
+   - *Context Priming*: At the start of each new session, reads only the durable state artifacts (`progress.md`, git log, feature checklist) rather than re-reading the entire codebase.
+   - *Environment Verification*: Runs the initialization script to ensure local daemons, test suites, and compilers are ready.
+   - *Incremental Feature Implementation*: Picks the next uncompleted feature from the checklist, executes surgical edits (< 50 LOC/step), verifies via live test suites, and captures a clean atomic git commit.
+   - *Anti-Premature-Completion Gate*: Prohibited from claiming completion until 100% of checklist items pass automated verification.
+
+### B. Durable State Artifact Invariants
+To preserve state across context resets without token bloating:
+1. **`progress.md`**:
+   - Updated at the end of every agent turn/session. Contains: (1) what was completed, (2) current blockers or error traces, (3) immediate next target task.
+2. **`feature-checklist.json`**:
+   - Machine-readable status of every functional requirement (`status: pending | in_progress | completed`, `testCommand`, `verifiedExitCode`).
+3. **Atomic Git Commit Cadence**:
+   - Every successfully verified feature produces exactly one atomic git commit. If a coding agent gets stuck or introduces regressions, rollback to the previous commit is instantaneous.
+
+### C. Single-Feature Bounding & Automated Rollback Protocol (Anthropic March 2026 Research)
+1. **Strict Single-Feature Bounding**:
+   - Each coding agent session is hard-capped to implementing and verifying **exactly one feature** from the checklist.
+   - Batching multiple features in a single session is strictly prohibited: it inflates git diff size, obscures root-cause attribution when tests fail, and accelerates context rot.
+2. **Automated Rollback on Verification Failure**:
+   - If unit, integration, or visual tests fail, forward-patching on the corrupted workspace is strictly prohibited.
+   - The agent must immediately execute git checkout / revert to the pre-turn commit, formulate an inverted counterfactual hypothesis, and retry clean from the baseline.
+3. **Visual Playwright Assertion Gate**:
+   - For UI-facing features, running compilers (`tsc`) is insufficient. The evaluator agent must spin up a headless browser, execute user interaction steps via Playwright, and capture screenshot evidence to guarantee visual and functional correctness before taking the atomic git commit.
+
+---
+
+## 4. Multi-Agent Deliberation: Blind Cross-Examination Protocol
+
+> **Pattern Origin**: Absorbed from `gaidar/agent-committee` (§8 External Proposal Protocol).
+
+When complex architectural, trade-off, or high-blast-radius decisions require consensus among multiple agent perspectives or subagents:
+
+### A. The 3-Round Deliberation Sequence
+1. **Round 1: Blind Independent Proposals (Turn 1)**:
+   - Each specialist or reviewer agent evaluates the problem statement independently in parallel isolation.
+   - Outputs a structured position: `PROPOSAL`, `RATIONALE`, `CONFIDENCE` (0-100), and `RISKS`.
+   - No agent sees the thoughts or arguments of the others during this round.
+2. **Round 2: Anonymized Cross-Examination (Turn 2)**:
+   - Proposals are aggregated and shuffled into anonymized labels (`Perspective A`, `Perspective B`, etc.), stripping vendor names, model identities, or agent roles to eliminate halo and authority biases.
+   - Each agent reviews the anonymized pool and must explicitly:
+     - **Attack**: Challenge tacit assumptions, unhandled edge cases, or cost/latency bottlenecks in competing proposals.
+     - **Revise / Hold**: Update confidence score and defend or modify their initial stance based on new counterarguments.
+3. **Round 3: Synthesized Decision Memo & Veto Gate (Turn 3)**:
+   - The coordinator synthesizes points of consensus and divergent trade-offs into a single decision memo.
+   - **Veto Gate**: Security and AppSec roles evaluate irreversible risks (data loss, auth bypass, legal exposure). A veto with a named failure mechanism halts execution and forces safer alternatives.
+

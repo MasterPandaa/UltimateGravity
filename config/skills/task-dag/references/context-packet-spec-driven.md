@@ -118,3 +118,21 @@ Enforces information-theoretic capacity constraints ($|S_t| \le C$) on compiled 
 2. **Backward Gate (Recursive Consistency)**:
    - Zero-hallucination grounding: Every assertion in a packet must be 100% entailed by verified disk artifacts and tool exit codes (`exitCode === 0`).
    - Speculative completions or unverified promises are strictly prohibited.
+
+---
+
+## 5. Temporal Fact Invalidation & Ephemeral State Boundaries (Absorbed from `melandlabs/opencontext`)
+
+In multi-turn DAG execution and long refactoring sessions, environmental assertions (e.g. port allocations, missing files, dependency installations) are **temporally bounded facts**:
+
+### A. The Bounded Validity Window
+Every factual assertion in a task blackboard or context packet carries an implicit validity window:
+$$F = (f_{\text{content}}, [t_{\text{valid}}, t_{\text{expire}}))$$
+- **Rule**: When downstream task $T_{k}$ mutates the system state (e.g. runs an npm install, alters a schema, or kills a running process), any upstream assertion $F_{i}$ depending on that prior state is immediately marked **EXPIRED** ($t_{\text{expire}} \le \text{turn}_k$).
+- Downstream subagents must never treat expired facts as active ground truth.
+
+### B. Anti-Stale-Context Assertion Gate
+1. **Never Assume Cached State Across Step Boundaries**:
+   - Before executing code that depends on environment availability (e.g., database connection, available port, process status), query the live environment fresh rather than trusting turn-0 context.
+2. **Ephemeral Context Invalidation on DAG Rework**:
+   - When a task fails and triggers rework routing, all transient debugging facts generated during that failing iteration are purged from memory, retaining only the immutable failure signature and repro command.

@@ -171,3 +171,91 @@ When a long-running session concludes or persistent rules are mutated:
 2. **Synthetic Rehearsal Gate (Anti-Catastrophic Forgetting)**:
    - Before promoting new skills or committing system rule updates, run the automated benchmark runner (`bench-runner.js run`).
    - Mathematically verifies that newly consolidated knowledge does not regress or break existing system invariants (100% pass rate requirement).
+
+---
+
+## 🏛️ The Enterprise Harness Paradigm for Knowledge Work (Absorbed from George Juraj Salapa, arXiv:2608.20622)
+
+Standardizes the shift away from fragmented, bespoke graph frameworks toward a unified, persistent agent harness backbone across enterprise deployments:
+
+### 1. Single Unmodified Harness Backbone over Bespoke Graphs
+- **The Pitfall**: Building custom orchestration code (bespoke LangChain, CrewAI, or AutoGen graphs) for every niche departmental task creates compounding technical debt, unreviewable orchestration drift, and fragile maintenance.
+- **The Harness Invariant**: Standardize on a single, persistent, and unmodified ReAct coding-agent harness as standard enterprise infrastructure.
+- **Text-First Specialization**: Shift 100% of domain specialization, behavioral constraints, and business logic into version-controlled markdown instruction files (`GEMINI.md`, `SKILL.md`, rules) rather than rewriting orchestration code.
+
+### 2. Credential-Scoped Generic Tooling (Anti-Tool-Sprawl)
+- **The Pitfall**: Implementing custom Python/TypeScript tool integrations for every internal API endpoint causes tool sprawl (>150 tools), increases system prompt token overhead, and creates security attack surfaces.
+- **The Invariant**: Equip agents with a minimal set of generic execution primitives (CLI runner, HTTP client, filesystem operations) coupled with strictly scoped, isolated credentials. Tool count remains bounded ($\le 150$) regardless of task variety.
+
+### 3. Git-Driven Registration & Compliance Auditability
+- **The Governance Invariant**: Agent capabilities, security policies, and domain procedures are registered and updated as a natural side-effect of `git push` on human-readable markdown instruction files.
+- **Audit Simplicity**: Enterprise compliance, risk assessment, and legal review reduce to evaluating transparent `git diff` reviews of markdown text rather than decompiling opaque Python orchestration codebases.
+
+---
+
+## 🔄 The 4-Component Self-Improving Runtime Framework (Absorbed from Google, arXiv:2611.22299)
+
+Codifies the runtime software decomposition and continuous optimization loop for self-improving agent architectures:
+
+### 1. The 4 Editable Runtime Components
+Rather than treating an agent harness as a monolithic prompt blob, decompose the runtime into 4 orthogonal, mutable components:
+1. **Context and State Management**: Disk-backed state, bounded sliding windows, progressive disclosure, and lexical grep search delivery.
+2. **Agent Control**: Multi-turn execution loop, deterministic stop conditions, cycle detection, and loop breakers ($\le 3$ retries without forward state progression).
+3. **Action Interfaces**: Strict tool schemas (Zod/Pydantic), parameter type validation, directory confinement, and credential isolation.
+4. **Verification and Recovery**: Pre-stop verification gates, automated git rollbacks on test failure, and fresh command exit code assertions (`exitCode === 0`).
+
+### 2. The 4-Stage Continuous Improvement Loop
+Self-improvement operates as an empirical feedback cycle tracing errors across multi-turn trajectories:
+$$\text{1. Diagnosing Failures} \longrightarrow \text{2. Proposing Patches} \longrightarrow \text{3. Validating Candidates} \longrightarrow \text{4. Deploying Updates}$$
+- **Invariant**: Every proposed patch must be validated against regression benchmarks (`bench-runner.js`) before promotion. Speculative or unverified modifications are discarded immediately.
+
+---
+
+## 📚 Wiki-Mediated Skill Evolution Architecture (Absorbed from Google Research, arXiv:2608.27454)
+
+Empirical framework proving that compiling agent execution experience into an intermediate structured knowledge base yields superior, highly transferable skills:
+
+### 1. The Raw Trajectory Noise Penalty
+- **The Problem**: Synthesizing reusable skills directly from raw execution transcripts produces noisy, model-brittle instructions overfitted to ephemeral trial-and-error chatter.
+- **The Ablation Discovery**: Agents equipped with directly linked raw transcripts suffer from context pollution and degrade in reasoning accuracy.
+
+### 2. The Two-Stage Wiki Synthesis Protocol
+1. **Wiki Maintainer Agent (`harness-distiller scan`)**:
+   - Ingests raw session trajectories and transcripts.
+   - Extracts recurring failure signatures, successful command invocations, and environmental workarounds.
+   - Compiles findings into persistent, structured knowledge documents (`references/*.md`).
+2. **Skill Proposer Agent (`harness-distiller distill`)**:
+   - Ingests only the compiled, verified reference documents—never raw conversation noise.
+   - Synthesizes lean, procedural, $L_0 \le 60$-line skill specifications (`SKILL.md`) with explicit anti-trigger boundaries.
+3. **Model Scaling Synergy**:
+   - Skills evolved through intermediate compiled knowledge generalize cleanly across different foundation model families (e.g. Gemini, Claude) and amplify the capabilities of smaller models without prompt bloat.
+
+---
+
+## ⚙️ Antigravity CLI Runtime Architecture & Permissions Matrix
+
+> **Pattern Origin**: Absorbed from `jqueryscript/antigravity-cli-cheatsheet` and `esrakadah/agy-setup-audit` (§8 External Proposal Protocol).
+
+Codifies official Google Antigravity CLI (`agy` v1.5.12+) execution modes, runtime flags, and permission schema patterns:
+
+### 1. Headless Execution & Automation Flags
+| Flag / Variable | Operational Specification |
+|---|---|
+| `-p "<prompt>"` | Executes once in non-interactive print mode. Emits `AGY_ERROR` JSON on stderr with exit code `3` on API/model timeout. |
+| `--output-format json \| stream-json` | Returns machine-readable structured JSON; includes `finished_reason` (`complete`, `interrupted`, `print_timeout`, `error`). |
+| `--print-timeout <duration>` | Caps maximum headless execution duration (e.g. `14m`). Partial output is returned on timeout with exit code `3`. |
+| `--dangerously-skip-permissions` | Bypasses routine tool prompts. **Invariants**: Explicit denylists, system safety policies, and artifact reviews remain strictly enforced. |
+| `AGY_CLI_CMD_OUTPUT_PERCENTAGE` | Limits large command terminal buffer rendering to prevent TUI memory exhaustion. |
+
+### 2. Execution Mode Hierarchy (`settings.json` / `Shift+Tab`)
+- **`default`**: Requires explicit user confirmation before executing any file write, edit, or shell command.
+- **`accept-edits`**: Automatically applies workspace file modifications; prompts for external commands.
+- **`auto`**: Automatically executes workspace edits and sandboxed terminal commands (Windows 11 24H2+ / macOS). Prompts for non-sandboxed or high-blast-radius operations.
+- **`plan`**: Read-only design mode. Produces implementation plans without touching workspace files or executing stateful commands.
+
+### 3. Granular Permission Allow-List Schema
+Under `~/.gemini/antigravity-cli/settings.json` -> `permissions.allow`:
+- `command(<binary>)`: e.g. `command(git)`, `command(node)`.
+- `write_file(<path-glob>)`: e.g. `write_file(src/**)`.
+- `read_url(<domain>)`: e.g. `read_url(github.com)`. Sensitive domains (`mail.google.com`, `console.cloud.google.com`) require isolated domain-level grants.
+- `mcp(<server>/<tool>)`: Approves specific tool execution within named MCP servers.

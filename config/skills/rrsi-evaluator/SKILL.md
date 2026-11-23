@@ -53,3 +53,4 @@ node C:\Users\Luthfi\.gemini\scripts\rrsi-evaluator.js recuris-status
 ## 4. Skill Internalization & Multi-Objective Evolution
 - **Skill Withdrawal & Causal Contrast**: For dynamic skill pruning and causal marginal benefit evaluation ($\Delta_k = \bar{y}_{\mathcal{V}} - \bar{y}_{\mathcal{H}}$), consult [`references/r2orch-skill-withdrawal.md`](references/r2orch-skill-withdrawal.md).
 - **GEPA Pareto Frontier**: For balancing accuracy lift against token cost ($\Delta C \le \beta_0 + \beta_1 \Delta S$) to eliminate self-assessment bias, consult [`references/gepa-pareto-frontier.md`](references/gepa-pareto-frontier.md).
+- **Self-Improvement Memory (SIM)**: For continual recursive self-improvement without negative transfer across models, consult [`references/self-improvement-memory.md`](references/self-improvement-memory.md).

@@ -45,6 +45,63 @@ When multiple states apply, priority (highest to lowest):
 | Opacity | 150ms | ease |
 | Shadow | 200ms | ease-out |
 
+### Micro-Interaction Motion Tokens & Origin-Aware Transitions (Absorbed from `Jakubantalik/transitions.dev`)
+
+Standardized CSS custom property motion tokens for fluid, tactile component interactions:
+
+#### 1. Micro-Interaction Token Scale
+```css
+:root {
+  /* Durations */
+  --motion-duration-instant: 100ms;   /* Toggle active states, icon clicks */
+  --motion-duration-fast: 150ms;      /* Tooltips, dropdown items, badge pops */
+  --motion-duration-normal: 250ms;    /* Modal reveals, dialog scales, sliding tabs */
+  --motion-duration-deliberate: 350ms;/* Drawers, accordion expansions */
+
+  /* Easing Curves */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);       /* General UI transitions */
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);     /* Incoming elements (popover/dialog) */
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);     /* Outgoing elements (dismissals) */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* Micro-bounces (badges, toggles) */
+}
+```
+
+#### 2. Origin-Aware Component Transitions
+- **Dropdowns & Popovers**:
+  ```css
+  .dropdown-menu {
+    transform-origin: top left;
+    transition: transform var(--motion-duration-fast) var(--ease-decelerate),
+                opacity var(--motion-duration-fast) var(--ease-standard);
+  }
+  .dropdown-menu[data-state="closed"] {
+    transform: scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+  }
+  ```
+- **Notification Badges & Counters**:
+  ```css
+  .badge-pop {
+    transform-origin: center;
+    transition: transform var(--motion-duration-fast) var(--ease-spring);
+  }
+  .badge-pop[data-animating="true"] {
+    transform: scale(1.2);
+  }
+  ```
+- **Input Error Shakes**:
+  ```css
+  @keyframes error-shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-4px); }
+    40%, 80% { transform: translateX(4px); }
+  }
+  .input-error {
+    animation: error-shake 200ms var(--ease-standard);
+  }
+  ```
+
 ## Focus States
 
 ### Focus Ring Spec

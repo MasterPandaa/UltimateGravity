@@ -11,11 +11,27 @@ flowchart LR
     v1["v1.0 - v2.0<br/>Foundations<br/>Swarm & Socratic"]
     --> v3["v3.0 - v4.0<br/>Tri-Role Genesis<br/>Qoder & Devin Sentinel"]
     --> v5["v5.0 - v6.2<br/>Quad-Role Sentinel<br/>AppSec Veto & Invariants"]
-    --> v63["v6.3+ (Latest)<br/>Canonical Public Release<br/>Web-Bench & GitHub Craft"]
+    --> v63["v6.3 - v6.4 (Latest)<br/>Canonical Public Release<br/>Web-Bench & Frontier Absorptions"]
 ```
 
 > [!NOTE]
 > **Lineage & Versioning Note**: Versions `v1.0.0` through `v6.2.0` document the pre-release architectural research iterations and private laboratory prototypes engineered by [@MasterPandaa](https://github.com/MasterPandaa). Version `v6.3.0` marks the initial canonical public open-source release on GitHub.
+
+---
+
+## [v6.4.0] - 2026-11-23
+
+### Added & Optimized
+- **Antigravity Runtime Hardening & Setup Defenses (`security-audit` & `harness-distiller`)**: Codified 5 silent setup failure invariants (24KB rule truncation cap, 20K token aggregate budget, reviewer tool isolation, schema identifier hygiene, AST protected-branch guard) and official CLI runtime flags and permission allow schemas into [hardening-guidelines.md](file:///C:/Users/Luthfi/.gemini/config/skills/security-audit/references/hardening-guidelines.md) and [harness-engineering-pillars.md](file:///C:/Users/Luthfi/.gemini/config/skills/harness-distiller/references/harness-engineering-pillars.md).
+- **Self-Improving Memory & Agent Runtime (`rrsi-evaluator` & `harness-distiller`)**: Codified Self-Improvement Memory (SIM, arXiv:2611.18856), Self-Improving Runtime Framework (SIRF, arXiv:2611.22299), and Wiki-Mediated Skill Evolution (WikiSkill, arXiv:2608.27454) into [self-improvement-memory.md](file:///C:/Users/Luthfi/.gemini/config/skills/rrsi-evaluator/references/self-improvement-memory.md) and [harness-engineering-pillars.md](file:///C:/Users/Luthfi/.gemini/config/skills/harness-distiller/references/harness-engineering-pillars.md).
+- **Long-Running Agent Lifecycles & Deliberation (`clean-code-fullstack`)**: Codified Two-Agent Lifecycle (Initializer & Coding Agent), shift-change state artifacts, single-feature bounding with automated rollback (Anthropic Research), and Blind Cross-Examination Protocol into [agentic-systems.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/agentic-systems.md).
+- **Context Guardian & Handoff Pakem (`memory-trimmer`)**: Codified "Never Compact Mid-Task" invariant, 2-zone context threshold advisory, and dual handoff prompts into [context-guardian-pakem.md](file:///C:/Users/Luthfi/.gemini/config/skills/memory-trimmer/references/context-guardian-pakem.md).
+- **Counterfactual Branch Repair (`step-checkpoint`)**: Codified tree search rollback, counterfactual branch repair, and branch-comparison invariants into [counterfactual-replay-and-branch-repair.md](file:///C:/Users/Luthfi/.gemini/config/skills/step-checkpoint/references/counterfactual-replay-and-branch-repair.md).
+- **Temporal Fact Invalidation (`task-dag`)**: Integrated explicit validity horizons and dependency graph invalidation into [context-packet-spec-driven.md](file:///C:/Users/Luthfi/.gemini/config/skills/task-dag/references/context-packet-spec-driven.md).
+- **Frontend Anti-Slop & Micro-Interaction Tokens (`anti-slop`, `clean-code-fullstack`, `design-system`)**: Absorbed 6 frontend anti-slop visual signatures into [anti-ai-slop-guide.md](file:///C:/Users/Luthfi/.gemini/config/skills/anti-slop/references/anti-ai-slop-guide.md), official GreenSock motion rules into [gsap-motion.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/gsap-motion.md), micro-interaction token scale into [states-and-variants.md](file:///C:/Users/Luthfi/.gemini/config/skills/design-system/references/states-and-variants.md), and DOM computed style extraction into [token-architecture.md](file:///C:/Users/Luthfi/.gemini/config/skills/design-system/references/token-architecture.md).
+- **Core Web Vitals Remediation Protocol (`clean-code-fullstack`)**: Codified measured remediation SOP for LCP, INP, and CLS into [frontend.md](file:///C:/Users/Luthfi/.gemini/config/skills/clean-code-fullstack/references/frontend.md).
+- **Security & IaC Hardening (`security-audit`)**: Absorbed AST-level shell bypass payloads, IaC static validation rules (AWS S3 block public access, K8s securityContext non-root), and AST PreToolUse protected branch git push defenses into [owasp-top10-cheatsheet.md](file:///C:/Users/Luthfi/.gemini/config/skills/security-audit/references/owasp-top10-cheatsheet.md) and [hardening-guidelines.md](file:///C:/Users/Luthfi/.gemini/config/skills/security-audit/references/hardening-guidelines.md).
+- **Evaluation Ranking Metrics (`eval-harness`)**: Absorbed DPO/GRPO reward modeling ranking metrics into [rag-and-agent-eval-metrics.md](file:///C:/Users/Luthfi/.gemini/config/skills/eval-harness/references/rag-and-agent-eval-metrics.md).
 
 ---
 

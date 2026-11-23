@@ -74,3 +74,39 @@ Absorbed from `ksimback/tech-debt-skill`:
 2. **Acyclic Imports**: Zero circular dependencies between packages or modules.
 3. **Unbroken Contracts**: All public APIs and caller contracts remain backwards-compatible.
 4. **Verified Green State**: Existing test suites execute cleanly with zero regression failures.
+
+---
+
+## 4. Multi-Phase Legacy Modernization & Behavioral Equivalence Gate (Absorbed from `claude-plugins-official/code-modernization`)
+
+Systematic pipeline for migrating legacy modules, monolith subsystems, or cross-stack translations with mathematically and behaviorally proven equivalence:
+
+### A. The 6-Phase Modernization Lifecycle
+1. **Assess (Preflight & Baseline)**:
+   - Quantify legacy module scope (LOC, cyclomatic complexity, incoming caller fan-in).
+   - Establish current automated test coverage baseline before touching code.
+2. **Map (Architecture & Call Graphs)**:
+   - Map external dependencies, global side-effects, and database/IO touchpoints.
+   - Extract the public contract and invariants of the subsystem.
+3. **Extract-Rules (Domain Logic Distillation)**:
+   - Separate pure business rules (validation logic, calculation formulas, state transitions) from legacy runtime mechanics (framework-specific boilerplate, obsolete ORM calls).
+4. **Plan & Brief (Approval Gate)**:
+   - Author a surgical modernization plan detailing: target interfaces, deprecation strategy, and incremental migration slices (< 50 LOC/step). Requires user approval.
+5. **Transform (Surgical Rewrite)**:
+   - Implement the modernized equivalent using modern, typed idioms (TypeScript strict mode, Pydantic v2, clean service layers).
+6. **Harden & Equivalence Verification**:
+   - Run the Behavioral Equivalence Protocol below before retiring legacy paths.
+
+### B. Behavioral Equivalence Verification Protocol
+To prove that the modernized implementation functions identically to the legacy version:
+
+1. **Dual-Input Execution (Shadow Testing)**:
+   - Execute both legacy and modernized implementations against an identical battery of test fixtures, boundary conditions, and recorded production inputs.
+   - Assert zero divergence on all outputs, return schemas, error codes, and side-effects.
+2. **Mutation Testing Gate (Regression Catch Guarantee)**:
+   - Deliberately inject 2–3 synthetic mutations (e.g. flipping comparison operators, altering return values) into the modernized code.
+   - Verify that the test suite fails immediately and points precisely to the injected mutant. If tests remain green despite mutations, the test suite is inadequate.
+3. **3-Tier Equivalence Status Rubric**:
+   - **`PROVEN`**: 100% output equivalence across all test matrices, and test suite successfully catches 100% of injected mutants. Safe for production promotion.
+   - **`PARTLY PROVEN`**: Happy path verified identical, but edge-case exceptions or boundary behaviors unasserted. Requires additional test coverage.
+   - **`NOT PROVEN`**: Discrepancies detected, unhandled side-effects, or tests fail to detect mutations. Revert immediately via `step-checkpoint`.

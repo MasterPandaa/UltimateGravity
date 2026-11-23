@@ -134,3 +134,56 @@ useGSAP(() => {
   });
 });
 ```
+
+---
+
+## 6. Official GreenSock Engine Invariants (Absorbed from `greensock/gsap-skills`)
+
+Authoritative patterns codified from the official GreenSock engineering guidelines:
+
+### A. The ImmediateRender Invariant in Timelines
+- **The Pitfall**: When chaining `.from()` or `.fromTo()` tweens inside a timeline sequence, GSAP renders the starting properties (`from` values) immediately on timeline compilation. If a `.from()` tween is scheduled 2 seconds into a sequence, its starting state will flash immediately on page load, disrupting earlier animations.
+- **The Invariant**: Always set `immediateRender: false` on any non-initial `.from()` or `.fromTo()` call in a sequenced timeline:
+  ```typescript
+  const tl = gsap.timeline();
+  tl.to(".intro", { autoAlpha: 1, duration: 0.5 })
+    .from(".card", { y: 30, autoAlpha: 0, duration: 0.4, immediateRender: false }, "+=0.2");
+  ```
+
+### B. Flip Plugin (Seamless DOM Layout & Hierarchy Transitions)
+- When animating elements across DOM parent changes, flex-direction switches, or dynamic grid filtering, never calculate manual pixel offsets:
+  ```typescript
+  import { Flip } from "gsap/Flip";
+  gsap.registerPlugin(Flip);
+
+  // 1. Capture initial bounding boxes
+  const state = Flip.getState(".grid-item");
+
+  // 2. Perform DOM / class mutations
+  container.classList.toggle("grid-expanded");
+
+  // 3. Animate layout transition at 60 FPS without layout thrashing
+  Flip.from(state, {
+    duration: 0.5,
+    ease: "power2.inOut",
+    stagger: 0.05,
+    absolute: true, // Prevents document reflow collision
+  });
+  ```
+
+### C. Observer Plugin (High-Frequency Gesture & Event Throttling)
+- For gesture detection (wheel, touch, swipe, pointer velocity), avoid binding raw `window.addEventListener('wheel')` which overloads the event loop.
+- Use `Observer.create()` with built-in debouncing and hardware event normalization:
+  ```typescript
+  import { Observer } from "gsap/Observer";
+  gsap.registerPlugin(Observer);
+
+  Observer.create({
+    target: window,
+    type: "wheel,touch,pointer",
+    onUp: () => goToPrevSection(),
+    onDown: () => goToNextSection(),
+    tolerance: 15,
+    preventDefault: true,
+  });
+  ```

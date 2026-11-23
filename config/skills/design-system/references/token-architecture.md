@@ -326,3 +326,57 @@ warning: Avoid arbitrary Tailwind values 'p-[14px]'  tailwindcss/no-arbitrary-va
    - Catch raw hex patterns (`bg-[#111827]`, `text-[#3B82F6]`) and prescribe semantic CSS variable mappings (`bg-background`, `text-primary`).
 3. **Typography Scale Enforcement**:
    - Catch arbitrary text sizes (`text-[15px]`, `leading-[22px]`) and prescribe standard typographic tokens (`text-sm`, `text-base`).
+
+---
+
+## 🌐 DOM Design Token Extraction & Shadcn Theme Mapping Protocol (Absorbed from `Manavarya09/design-extract`)
+
+When reverse-engineering a live reference website's design system or replicating visual aesthetics from web inspections:
+
+### 1. Computed Style Extraction via Browser Engine
+Extract computed CSS properties directly from rendered DOM nodes via Playwright or Chrome DevTools:
+
+```javascript
+// Browser evaluation snippet for token harvesting
+const extractElementTokens = () => {
+  const styles = window.getComputedStyle(document.body);
+  const elements = Array.from(document.querySelectorAll('*'));
+  
+  // 1. Color Palette Extraction: Collect background, text, and border colors
+  const colors = elements.map(el => {
+    const cs = window.getComputedStyle(el);
+    return [cs.backgroundColor, cs.color, cs.borderColor];
+  }).flat().filter(c => c && c !== 'rgba(0, 0, 0, 0)');
+
+  // 2. Font Ramps: Collect font-family, sizes, and weights from headings & body
+  const fontSizes = [...new Set(elements.map(el => window.getComputedStyle(el).fontSize))];
+  const borderRadii = [...new Set(elements.map(el => window.getComputedStyle(el).borderRadius))];
+
+  return { colors, fontSizes, borderRadii };
+};
+```
+
+### 2. Clustering & Normalization Rules
+1. **Delta-E Color Clustering**:
+   - Convert extracted RGB/Hex strings to HSL.
+   - Cluster near-duplicate shades within perceptual distance ($\Delta E < 3.0$). Map the dominant dark surface to `--background` and the dominant brand saturation to `--primary`.
+2. **Modular Typography Scale Alignment**:
+   - Sort extracted font sizes ascending. Align sizes to the closest standard Tailwind/Design-System step (`12px` &rarr; `text-xs`, `14px` &rarr; `text-sm`, `16px` &rarr; `text-base`, `24px` &rarr; `text-2xl`, `32px` &rarr; `text-4xl`).
+3. **Corner Radius Normalization**:
+   - Map prevailing corner curves: $\le 4\text{px} \to \text{rounded-sm}$, $6\text{–}8\text{px} \to \text{rounded-md}$, $\ge 12\text{px} \to \text{rounded-lg}$.
+
+### 3. Direct Shadcn Theme Variable Generator
+Map the normalized clusters directly to standard `shadcn/ui` CSS variables in `globals.css`:
+
+```css
+:root {
+  --background: <extracted-surface-hsl>;
+  --foreground: <extracted-body-text-hsl>;
+  --primary: <extracted-brand-accent-hsl>;
+  --primary-foreground: <high-contrast-text-hsl>;
+  --muted: <extracted-subtle-surface-hsl>;
+  --muted-foreground: <extracted-secondary-text-hsl>;
+  --border: <extracted-divider-hsl>;
+  --radius: <extracted-dominant-radius>;
+}
+```

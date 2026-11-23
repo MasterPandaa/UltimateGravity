@@ -271,3 +271,29 @@ AI models converge on the top-1 statistically average output (e.g., generic purp
 Counter-slop can easily degenerate into its own cliché (e.g., overusing brutalism, dark mode, or monospace fonts everywhere once learned).
 - Maintain an implicit or explicit "Moves Ledger": track the core creative technique applied in the current screen.
 - Do not blindly repeat the same creative move across unrelated screens or deliverables.
+
+---
+
+## 11. Frontend Surface Anti-Slop Signatures (Absorbed from `felipebasurto/unslop-ui`)
+
+Specific visual and copy markers characteristic of raw AI-generated interfaces that must be ruthlessly stripped during UI refactoring:
+
+### 11.1 The 6 Frontend Slop Signatures
+1. **Eyebrow Label Purge**:
+   - *Slop Pattern*: Tiny uppercase tags hovering directly above headings (`FEATURES // 01`, `INTRODUCING PLATFORM`).
+   - *Fix*: Delete the eyebrow label. Let semantic typography scale and deliberate optical spacing create visual hierarchy naturally.
+2. **Decorative Numbering Elimination**:
+   - *Slop Pattern*: Meaningless sequential markers next to feature cards (`01 // Realtime`, `02 // Scalable`, `[03] Analytics`).
+   - *Fix*: Strip arbitrary numbers. Reserve numbers exclusively for true chronological step-by-step procedures or rank orders.
+3. **Subtitle Reflex Elimination**:
+   - *Slop Pattern*: Subtitles that immediately restate the title in passive words (*"Audit Logs: View, inspect, and manage your audit logs"*).
+   - *Fix*: Omit the subtitle when the title is self-explanatory, or provide a single concrete domain statement (e.g., *"Immutable record of all tenant mutations over the last 90 days"*).
+4. **Botsplaining Captions & AI Adjective Purge**:
+   - *Slop Pattern*: Instructional micro-copy telling users how to click basic UI (*"Click the button above to get started"*, *"Enter your email in the field below"*), and hollow buzzwords (*seamless, robust, effortlessly, empower, streamlined, revolutionize*).
+   - *Fix*: Delete instructional filler. Use direct action verbs and measurable performance statements.
+5. **Fake Status Badges**:
+   - *Slop Pattern*: Unwired green pulsing dots or decorative badges labeled `"LIVE"` or `"SYNCED"` that do not map to an active WebSocket, SSE stream, or polling cycle.
+   - *Fix*: Ban decorative status badges. Every badge must be bound to a real verified healthcheck or telemetry state.
+6. **Chart Clutter & Metric Over-Explanation**:
+   - *Slop Pattern*: Excessive explanatory captions above data visualizations (*"Hover over bars to inspect values"*, *"This chart shows your monthly revenue over time"*), redundant legends that echo visible axis labels, and cluttered decorative borders.
+   - *Fix*: Strip reading instructions. Let clean axis scales, tabular figures (`tabular-nums`), and direct data point tooltips deliver clarity.
