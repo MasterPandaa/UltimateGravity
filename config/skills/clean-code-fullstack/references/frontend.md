@@ -300,3 +300,18 @@ Deterministic, rule-based verification aligned with Google Search Central guidel
 4. **Canonical & Viewport Conformance**:
    - Mobile viewport meta tag must be declared with `width=device-width, initial-scale=1` without disabling user scaling (`user-scalable=no` is prohibited).
    - Self-referencing canonical tag must match the exact served protocol (`https`), subdomain (`www` or non-`www`), and trailing slash convention. Never allow canonical chains or cross-domain canonical loops.
+
+---
+
+## 18. Micro-Interactions & GPU Animation Invariants (Absorbed from `emilkowalski/skills`)
+
+- **Compositor-Only Animations**:
+  - Restrict transitions and keyframe animations to GPU-composited properties: `transform` (translate, scale, rotate) and `opacity`.
+  - Never animate layout-triggering properties (`width`, `height`, `top`, `left`, `margin`, `padding`). Use CSS Grid fraction transitions (`grid-template-rows: 0fr -> 1fr`) or FLIP / scale techniques instead.
+- **Bypass State for Per-Frame Animation**:
+  - In React animation loops (mouse tracking, inertial drag, physics springs), mutate `ref.current.style.transform` directly rather than invoking `setState` per frame.
+- **Micro-Craft Standards**:
+  - Tactile press feedback: `active:scale-[0.97]` with immediate transition (`duration-100 ease-out`).
+  - Optical headline tracking: apply negative letter-spacing (`tracking-[-0.02em]`) to large display headings.
+  - Number stability: enforce `tabular-nums` (`font-variant-numeric: tabular-nums`) on all fluctuating values and counters.
+  - Prose line measure: cap text width at `65ch` (`max-w-[65ch]`) for optimal reading rhythm.

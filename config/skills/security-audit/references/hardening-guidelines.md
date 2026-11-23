@@ -102,3 +102,17 @@ Mitigates silent agent configuration vulnerabilities and prevents unverified run
      - Blanket pushes: `git push --all`, `git push --mirror`.
      - Direct protected pushes: `git push origin main`, `git push origin master`.
      - Force pushes: `-f`, `--force`, `--force-with-lease` without explicit double-confirmation.
+
+### B. AI Agent Setup & CI/CD Pipeline Hardening
+
+> **Pattern Origin**: Absorbed from `erkamyaman/safe-anything` (§8 External Proposal Protocol).
+
+1. **Agent Permission Hardening (`LLM06: Excessive Agency / CWE-250`)**:
+   - Never run agents with unrestricted tool permission (`always-proceed` / `bypass-permissions`) without sandboxing.
+   - Enforce explicit command allowlists; pre-approving all shell commands (`bash`, `cmd`, `powershell`) without parameter constraints grants arbitrary code execution.
+2. **Hook Supply-Chain Defense (`LLM03: Supply Chain / CWE-494`)**:
+   - Strictly prohibit downloading remote shell scripts via `curl | sh` or `irm | iex` inside agent lifecycle hooks (`SessionStart`, `PreInvocation`, `PostToolUse`).
+   - All hook utilities must be pinned locally to immutable, audited scripts with explicit integrity hashes.
+3. **GitHub Actions `pull_request_target` Takeover Defense (`CWE-829`)**:
+   - Workflows triggered on `pull_request_target` run with write permissions and access to repository secrets.
+   - Strictly forbid checking out the pull request head (`ref: ${{ github.event.pull_request.head.sha }}`) within a `pull_request_target` workflow. Use `pull_request` for untrusted fork evaluation.

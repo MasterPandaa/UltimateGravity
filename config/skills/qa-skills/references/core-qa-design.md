@@ -65,3 +65,37 @@ When an application has multiple configuration parameters or filter options, ful
 - **Core Principle:** Most software defects are triggered by either a single input parameter or an interaction between at most two parameters.
 - **Approach:** Generate test suites that cover every pair of parameter values at least once.
 - **Example:** Browser (Chrome, Safari, Firefox) × OS (Windows, macOS, Linux, Android) × Screen (Mobile, Desktop) × Auth (Guest, Member, Admin) -> Full combinations = $3 \times 4 \times 2 \times 3 = 72$ tests; Pairwise reduces this to ~12-14 tests while retaining >90% defect detection capability.
+
+---
+
+## 6. The 8-Trap Deep Browser Inspection Matrix
+
+> **Pattern Origin**: Absorbed from `avivgerz-hue/ghost-qa` (§8 External Proposal Protocol).
+
+For comprehensive headless browser and live UI verification, evaluate the interface across 3 viewports (Desktop $1440 \times 900$, Tablet $768 \times 1024$, Mobile $375 \times 812$) under Light and Dark color schemes against 8 empirical failure traps:
+
+1. **Console & Framework Runtime Trap**:
+   - Detect uncaught `pageerror` exceptions, unhandled promise rejections, and CSP violations.
+   - Assert zero React hydration mismatches (*"Text content did not match"*, *"Hydration failed"*).
+2. **Network & Asset Integrity Trap**:
+   - Zero HTTP 5xx crashes and 4xx API failures.
+   - Detect broken images (`naturalWidth === 0`), 0x0 inline SVGs, CORS preflight rejections, and unoptimized payloads (> 500KB).
+3. **Layout, Geometry & Collision Trap**:
+   - Zero horizontal overflow: assert `scrollWidth <= innerWidth` across all viewports.
+   - Bounding-box collision math: ensure interactive elements never overlap or clip.
+   - Touch targets $\ge 44 \times 44\text{px}$ on mobile/tablet viewports (WCAG 2.5.5 / Apple HIG).
+4. **Accessibility (WCAG 2.1 AA) & Focus Trap**:
+   - Every interactive control must have an accessible name (`aria-label` or visible text).
+   - Real computed contrast ratios ($\ge 4.5:1$ text-to-background via `getComputedStyle`).
+   - Automated Tab-order verification: assert focus-visible rings appear and follow logical DOM sequence without trap loops.
+5. **Performance & Core Web Vitals Trap**:
+   - Verify LCP $\le 2.5\text{s}$, CLS $\le 0.1$, and INP $\le 200\text{ms}$.
+6. **Interaction & Form Semantics Trap**:
+   - Ensure `<button>` inside `<form>` has explicit `type="button"` or `type="submit"`.
+   - Ensure inputs have associated `<label>` (placeholders do not substitute for labels).
+7. **Live DOM & SEO Metadata Trap**:
+   - Zero duplicate `id` attributes in the rendered, post-hydration DOM.
+   - Verify `<title>`, `<meta name="viewport">`, `<html lang>`, and OpenGraph tags.
+8. **Theme Parity Trap**:
+   - Emulate `colorScheme: dark` and `light`. Assert no dark-on-dark invisible text or unstyled inverted controls.
+

@@ -296,3 +296,32 @@ Standardized CSS custom property motion tokens for fluid, tactile component inte
 <input aria-invalid="true" aria-describedby="error-msg">
 <span id="error-msg" role="alert">Error message</span>
 ```
+
+---
+
+## ⚡ High-Craft Micro-Interactions & GPU Animation Invariants
+
+> **Pattern Origin**: Absorbed from `emilkowalski/skills` (§8 External Proposal Protocol).
+
+Craft-driven micro-interactions and GPU-optimized animation invariants for zero-jank UI:
+
+### 1. GPU Compositor Exclusivity
+- Animate **strictly** compositor-friendly properties: `transform` and `opacity`.
+- **Prohibited in animations/transitions**: `width`, `height`, `top`, `left`, `margin`, `padding`, `border-width`. These trigger expensive CPU reflow/layout recalculations and cause frame drops.
+- When expanding containers or sliding accordions, use scale transforms or CSS Grid `grid-template-rows: 0fr -> 1fr` rather than animating height directly.
+
+### 2. Direct DOM Mutations for Frame Loops
+- For continuous gesture tracking, pointer-follow, drag-and-drop, or spring physics, mutate `ref.current.style.transform` directly instead of triggering React state updates on every animation frame. React component re-rendering at 60/120Hz creates unnecessary garbage collection pauses.
+
+### 3. Tactile Physicality
+- **Active State Feedback**: Apply subtle tactile compression on click/press:
+  ```css
+  .button-tactile:active {
+    transform: scale(0.97);
+    transition-duration: 100ms;
+  }
+  ```
+- **Optical Typography Tuning**:
+  - Tighten letter spacing on large display headings (`tracking-[-0.02em]` / `-0.015em`) for cohesive visual density.
+  - Constrain body line length to a maximum measure of 65 characters (`max-w-[65ch]`).
+  - Mandate `tabular-nums` (`font-variant-numeric: tabular-nums`) for all countdowns, stock tickers, metrics, and timestamps to eliminate horizontal layout jitter as digits change.

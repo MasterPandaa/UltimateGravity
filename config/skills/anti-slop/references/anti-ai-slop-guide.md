@@ -297,3 +297,92 @@ Specific visual and copy markers characteristic of raw AI-generated interfaces t
 6. **Chart Clutter & Metric Over-Explanation**:
    - *Slop Pattern*: Excessive explanatory captions above data visualizations (*"Hover over bars to inspect values"*, *"This chart shows your monthly revenue over time"*), redundant legends that echo visible axis labels, and cluttered decorative borders.
    - *Fix*: Strip reading instructions. Let clean axis scales, tabular figures (`tabular-nums`), and direct data point tooltips deliver clarity.
+
+---
+
+## 🏛️ The 7 Design Craft Pillars & Anti-Slop Heuristics
+
+> **Pattern Origin**: Absorbed from `avivgerz-hue/unslop` (§8 External Proposal Protocol).
+
+Transforms subjective visual critique into measurable, deterministic engineering gates across 7 pillars:
+
+1. **Color & Contrast (`SLOP-COLOR-*`)**:
+   - Ban muddy gray-on-gray text. Maintain $\ge 4.5:1$ contrast for standard text and $\ge 3:1$ for large text/icons (WCAG AA).
+   - Eliminate harsh 100% black on white; use optical darks (`zinc-900`, `slate-950`).
+   - Never exchange hardcoded hexes for another hardcoded hex; enforce semantic token abstraction.
+2. **Typography & Measure (`SLOP-TYPE-*`)**:
+   - Enforce line-length limits: 45–75 characters per measure (`max-w-prose` / `65ch`).
+   - Mandate tabular figures (`tnum` / `font-mono`) for all tabular data, prices, and metrics to prevent horizontal jitter.
+   - Purposeful hierarchy: limit to 3 font sizes and 2 font weights per view.
+3. **Layout & Rhythm (`SLOP-LAYOUT-*`)**:
+   - Ban generic three-card clones and nested cards-inside-cards.
+   - Stick strictly to an 8px or 4px spacing rhythm (never arbitrary values like `13px`, `19px`).
+   - Structure before surface: solve content grouping, reading flow, and grid alignment before tweaking colors or shadows.
+4. **Surface & Elevation (`SLOP-SURFACE-*`)**:
+   - Ban decorative blurred background blobs and frosted glass overuse (`backdrop-blur-md` without purpose).
+   - Dark mode elevation: lighter surface luminance replaces shadows (`bg-zinc-900` elevated to `bg-zinc-800`), since shadows are invisible against dark canvas.
+5. **Copy & Microcopy (`SLOP-COPY-*`)**:
+   - Ban AI marketing clichés (*"supercharge"*, *"unleash"*, *"effortless"*, *"seamless"*).
+   - Require real product facts and domain-specific verbs.
+6. **Interaction & Motion (`SLOP-UX-*`)**:
+   - Explicit focus rings (`focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none`) on all interactive controls.
+   - Mandatory `prefers-reduced-motion` fallbacks for all transitions and animations.
+7. **Theme & Token Parity (`SLOP-TOKEN-*`)**:
+   - Dark theme parity: every UI view must be verified in both light and dark modes. Never leave dark-mode contrast untested.
+
+---
+
+## 🧹 Code Comment Hygiene & AI-Slop Purge
+
+> **Pattern Origin**: Absorbed from `miqdadbadjuber/anti-slop` (§8 External Proposal Protocol).
+
+AI agents frequently generate excessive, performative, and distracting comments that clutter production codebases. Enforce surgical comment hygiene across all generated and edited files:
+
+### 1. Forbidden Comment Anti-Patterns (`SLOP-COMMENT-*`)
+- **Banner / Separator Lines (`SLOP-COMMENT-BANNER`)**:
+  - Prohibit decorative comment ASCII lines (`// ==========================================`, `/* ----------------- */`, `// ####################`).
+  - Use modular file separation, whitespace, or clean function scoping instead of decorative dividers.
+- **Obvious Restatements (`SLOP-COMMENT-ECHO`)**:
+  - Prohibit restating what the code syntax already says:
+    - *Anti-pattern*: `const user = fetchUser(); // Fetch user from database`
+    - *Anti-pattern*: `if (!isValid) return; // If not valid, return early`
+    - *Anti-pattern*: `let total = 0; // Initialize total to zero`
+  - Let self-documenting variable and function names express intent.
+- **Workflow & Step Numbering (`SLOP-COMMENT-STEPS`)**:
+  - Prohibit step-by-step procedural numbering in code (`// Step 1: Validate payload`, `// Step 2: Query DB`, `// Step 3: Transform response`).
+  - Decompose linear procedures into clean helper functions or idiomatic pipelines.
+- **Generic Section Labels (`SLOP-COMMENT-LABELS`)**:
+  - Prohibit empty categorical headers (`// Variables`, `// Main logic`, `// Helper functions`, `// Event listeners`, `// Imports`).
+- **Vague Placeholders & Fake TODOs (`SLOP-COMMENT-VAGUE`)**:
+  - Prohibit lazy AI placeholders (`// TODO: Handle this properly`, `// TODO: Add more validation here`, `// Logic goes here`).
+  - Either implement the production-grade handling or define an explicit, typed error contract.
+- **JSDoc / TSDoc Signature Echoes (`SLOP-COMMENT-TYPEDUP`)**:
+  - Prohibit duplicating TypeScript types in JSDoc comments (`@param {string} id - The id of the user`).
+  - Document only: units of measurement (e.g., milliseconds), boundary conditions, invariant requirements, or non-obvious failure modes.
+- **Decorative Emojis in Code (`SLOP-COMMENT-EMOJI`)**:
+  - Prohibit decorative emojis in production source comments (`// 🚀 Launch rocket!`, `// ⚠️ Be careful here`). Emojis are reserved exclusively for structured user-facing CLI logs if explicitly configured.
+
+### 2. Permitted & Mandated Comments
+- **The "Why", Not the "What"**: Document non-obvious architectural choices, upstream bug workarounds, mathematical formulas, or business rule constraints.
+- **Safety & Invariants**: Document preconditions, thread-safety boundaries, or database lock ordering.
+- **External Citations**: Link to specific issue tickets, RFC numbers, or CVE advisories explaining why a pattern was chosen.
+
+---
+
+## ✍️ Copywriting De-Slop & Human Prose Standard
+
+> **Pattern Origin**: Absorbed from `miqdadbadjuber/anti-slop` (§8 External Proposal Protocol).
+
+Transforms generic AI copy into high-signal, human-crafted product prose:
+
+1. **Purge AI Cliché Vocabulary**:
+   - Prohibit tired AI vocabulary: *"supercharge"*, *"seamless"*, *"effortless"*, *"unleash"*, *"dive into"*, *"delve"*, *"testament"*, *"tapestry"*, *"game-changer"*, *"in today's fast-paced world"*, *"beacon"*, *"plethora"*.
+   - Replace with plain, domain-specific verbs: *"build"*, *"run"*, *"deploy"*, *"filter"*, *"export"*, *"connect"*.
+2. **Eliminate False Urgency & Marketing Fluff**:
+   - Ban manufactured urgency badges and empty promotional chips (*"Action required!"*, *"Limited availability"*, *"Exclusive offer"*) unless tied to genuine transactional domain state.
+3. **Eliminate Botsplaining & Instructional Over-Explanation**:
+   - Never explain standard UI affordances to users (e.g., *"Click here to submit the form"*, *"Enter your text in the box above"*).
+   - Use concise placeholder text and clear semantic button labels (`"Save Changes"`, `"Delete Workspace"`).
+4. **Concrete Over Abstract**:
+   - Replace vague claims (*"High-performance database caching"*) with concrete technical metrics or outcomes (*"Sub-millisecond Redis response caching"*).
+

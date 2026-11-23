@@ -73,3 +73,28 @@ This reference details the core vulnerability vectors, code-level indicators, an
 ### D. CRLF & Header Injection (Response Splitting)
 - **Vector**: User input concatenated into response headers (`Set-Cookie`, `Location`) without stripping `%0d%0a` (`\r\n`).
 - **Remediation**: Strip all CR (`\r`) and LF (`\n`) characters from header values; use modern HTTP frameworks that reject control characters in header setters.
+
+---
+
+## 4. Common AI-Generated Code Vulnerability Signatures
+
+> **Pattern Origin**: Absorbed from `avivgerz-hue/vibe-shield` (§8 External Proposal Protocol).
+
+Audits 4 high-frequency architectural blindspots produced by LLM code generation:
+
+### A. Unauthenticated Mutating Endpoints (CWE-306)
+- **Vector**: Coding agents frequently generate `DELETE`, `PUT`, or `POST` API handlers (e.g. Next.js `app/api/.../route.ts`) that parse JSON and mutate database rows without session verification.
+- **Remediation**: Mandate authentication middleware and tenant ownership verification (`WHERE id = :id AND tenant_id = :session.tenant_id`) before any mutating query.
+
+### B. Missing Database Row Level Security (RLS / CWE-284)
+- **Vector**: Migration scripts generated for Supabase, PostgreSQL, or SQLite create new tables but omit RLS policies.
+- **Remediation**: Always append `ALTER TABLE <table_name> ENABLE ROW LEVEL SECURITY;` and define explicit `CREATE POLICY` statements for select, insert, update, and delete operations.
+
+### C. Client-Side Secret Leakage via Framework Prefixes (CWE-200)
+- **Vector**: Storing private tokens in `.env` with public framework prefixes (`NEXT_PUBLIC_STRIPE_SECRET`, `VITE_ADMIN_KEY`), causing build bundlers to embed plaintext credentials into client JavaScript bundles.
+- **Remediation**: Strictly enforce server-only access for credentials; restrict public prefixes solely to non-sensitive publishable IDs.
+
+### D. Production Source Map & Debug Exposure (CWE-548)
+- **Vector**: Build configurations with `productionSourceMap: true` or `sourcemap: true` in `vite.config.ts` / `next.config.js` shipping raw TypeScript source code, backend route logic, and internal API contracts to public production assets.
+- **Remediation**: Disable source maps in production builds (`sourcemap: false` or `hidden-source-map` for private Sentry upload only).
+

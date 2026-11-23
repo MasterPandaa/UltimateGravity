@@ -22,13 +22,16 @@ flowchart LR
 ## [v6.4.0] - 2026-11-23
 
 ### Added & Optimized
-- **Runtime Defenses & Setup Guardrails**: Codified 5 silent Antigravity failure defenses (24KB truncation cap, 20K token budget, reviewer isolation, schema hygiene) and AST-level protected branch push prevention.
+- **Runtime Defenses & Setup Guardrails**: Codified 5 silent Antigravity failure defenses (24KB truncation cap, 20K token budget, reviewer isolation) and AST-level protected branch push prevention.
 - **Self-Improving Memory & Lifecycles**: Integrated Google SIM, SIRF runtime framework, and Wiki-Mediated Skill Evolution for experience compilation without context noise.
 - **Long-Running Lifecycle & Deliberation**: Added Two-Agent shift lifecycle, single-feature bounding with automated rollback, and vendor-blind multi-agent cross-examination.
 - **Context Guardian & Handoff Protocols**: Enforced "Never Compact Mid-Task" invariant and two-zone context advisories to eliminate in-flight task amnesia.
 - **Counterfactual Branch Repair**: Added tree-search rollback and counterfactual branch comparison in step checkpoints for non-destructive state recovery.
-- **Frontend Craft & Anti-Slop Standards**: Codified 6 frontend anti-slop visual signatures, GreenSock animation rules, micro-interaction timing tokens, and Core Web Vitals remediation protocols.
-- **Security Audit & Infrastructure Hardening**: Expanded OWASP Top 10 cheatsheets with AST payload bypasses, IaC container securityContext hardening, and DPO/GRPO evaluation metrics.
+- **Design System & Semantic Contracts**: Codified semantic DESIGN.md specifications and token scales for deterministic cross-agent UI consistency.
+- **Code & Copy Anti-Slop Purge**: Purged decorative comment banners, obvious syntax restatements, and marketing buzzwords to enforce human-grade engineering prose.
+- **Micro-Interactions & GPU Animation**: Enforced GPU compositor exclusivity, direct frame-loop DOM style mutations, and tabular-num stability for jank-free 60fps UI.
+- **Deep Browser QA Inspection**: Absorbed the 8-trap layout inspection matrix, detecting hidden element collisions, scroll clipping, and responsive viewport failures.
+- **Security Audit & Pipeline Hardening**: Codified AI vulnerability signatures, container security profiles, and AST-level payload checks across agent CI/CD workflows.
 - **CLI Runtime & Permissions Spec**: Documented official Antigravity CLI flags (`-p`, `--output-format`, `--print-timeout`), sandbox execution boundaries, and granular permission allow schemas.
 
 ---

@@ -380,3 +380,26 @@ Map the normalized clusters directly to standard `shadcn/ui` CSS variables in `g
   --radius: <extracted-dominant-radius>;
 }
 ```
+
+---
+
+## 🎨 Semantic DESIGN.md Specification Contract
+
+> **Pattern Origin**: Absorbed from `google-labs-code/stitch-skills` and `arumwu/design-md-skill` (§8 External Proposal Protocol).
+
+To prevent agents from hallucinating arbitrary palettes, random spacing, and disjointed components, frontend projects should declare a root `DESIGN.md` establishing a single source of design truth before code generation.
+
+### 1. The 5 Core Contract Surfaces
+1. **Brand Character & Mood**: 1-sentence brand anchor (e.g. *"Technical minimalism with high information density, like Linear"* or *"Editorial typography with warm paper textures, like Stripe"*).
+2. **Semantic Color Roles**:
+   - Explicit mappings for Canvas, Foreground, Primary, Subtle/Muted, Borders, and Accent.
+   - Separate definitions for Light and Dark modes guaranteeing WCAG AA/AAA compliance.
+3. **Typography & Readability Hierarchy**:
+   - Display font vs Body font declaration.
+   - Standard reading measure: 45–75 characters per line (`max-w-prose`).
+   - Tabular numerals (`font-mono` or `font-feature-settings: 'tnum'`) mandated for currency, timestamps, and metric tables.
+4. **Elevation & Depth Scale**:
+   - Levels 0–3 defined: Flat (borders only, 0 shadow), Raised (hairline border + subtle shadow), Floating (modals/popovers with scrim).
+5. **Component Density & Radii**:
+   - Compact (8px base padding, 4–6px radius) vs Spacious (16px base padding, 8–12px radius).
+
