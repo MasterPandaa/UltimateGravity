@@ -119,7 +119,7 @@ Every response in **Professional Indonesian** (preserving English technical term
 Log all system changes (skills, agents, hooks, MCP, rules) to [`CHANGELOG.md`](file:///C:/Users/Luthfi/.gemini/CHANGELOG.md).
 - **Mandatory Pre-Commit Verification Gate**: Before logging system changes, run `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js audit` AND `node C:\Users\Luthfi\.gemini\scripts\bench-runner.js run` — must achieve 100% pass rate, 0 regressions, and 0 critical errors.
 - **Daily Version Escalation**: Consolidate same-date updates into one daily release (`YYYY-MM-DD`). Escalate version number to the highest impact change on that day: Patch (`x.y.z+1`) &rarr; Minor (`x.y+1.0`) &rarr; Major (`x+1.0.0`).
-- **Anti-Slop Standard**: 100% English, flat bullets, no narrative filler. Pattern: `- **Target**: [Verb] [exact change] [impact/link]`. Categorize by `Added`, `Changed`, `Fixed`, `Removed`, `Optimized`.
+- **Anti-Slop & Core-Essence Standard**: 100% English, flat bullets, strictly core essence only (concise, compact, punchy, zero run-on sentences, zero internal file paths/links). Pattern: `- **Target**: [Verb] [exact change] [developer/user impact]`. Categorize by `Added`, `Changed`, `Fixed`, `Removed`, `Optimized`.
 
 ---
 

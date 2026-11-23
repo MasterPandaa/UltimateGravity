@@ -82,3 +82,10 @@ Never introduce nested sub-bullets (e.g. `*` or `-` nested under an existing bul
   ```markdown
   - **Component**: Overhauled execution engine, integrating Sub-feature A and Sub-feature B to achieve zero-latency dispatch.
   ```
+
+### F. The Core-Essence & User-First Density Filter
+Changelogs are consumed by human developers and users. Entries must strictly deliver the **core essence**—compact, punchy, and to the point:
+1. **The Scan Velocity Test**: A reader must be able to scan the entire release in under 10 seconds. Each bullet must be 1 concise sentence (maximum 2 clauses).
+2. **Anti-Verbose Rule**: Banish run-on sentences, narrative filler, and dense cataloging of internal minutiae or intermediate research steps. Highlight the user-facing capability or defensive guarantee directly.
+3. **Zero Local/Internal Links**: Never embed `file:///` URLs or internal workspace paths in changelogs. They break when rendered on GitHub and clutter developer reading flow. Use clean technical names instead.
+4. **Pattern**: `- **Target**: [Action Verb] [exact core change] [clear developer/user impact].`

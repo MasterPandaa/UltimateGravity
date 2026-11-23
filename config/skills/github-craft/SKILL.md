@@ -14,7 +14,7 @@ Every public repository must align these seven surfaces before launch:
 1. **About**: Evergreen transformation hook, curiosity-sparking, zero volatile features (`references/about-and-topics.md`).
 2. **Topics / Tags**: Curated 15–18 high-intent developer tags for GitHub Explore & Googlebot SEO (`references/about-and-topics.md`).
 3. **README.md**: 7-layer conversion anatomy, 5 Signatures of Mastery, 3 archetypes, and Log-to-Spec Ingestion (`references/readme-conversion-architecture.md`).
-4. **CHANGELOG.md**: Dense milestone evolution, flat-bullet impact rules, and pre-release lineage notes (`references/changelog-distillation.md`).
+4. **CHANGELOG.md**: Core essence only, compact flat-bullet impact rules, and zero internal links (`references/changelog-distillation.md`).
 5. **Releases & Tags**: Semver tagging, clean notes-file generation, and automated GitHub releases (`references/release-and-tagging.md`).
 6. **Visuals & Badges**: 21:9 banner specifications, 1280x640 social preview, and dynamic CI indicators (`references/visuals-and-badges.md`).
 7. **Community & CI**: 100% Health Profile (`SECURITY.md`, `CONTRIBUTING.md`), issue forms, and CI workflows (`references/community-and-ci.md`).
